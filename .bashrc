@@ -1,3 +1,4 @@
+#      __    _          _             __               __
 #     / | / (_) /_____ ( )_____      / /_  ____ ______/ /_  __________
 #    /  |/ / / __/ __ \|// ___/     / __ \/ __ `/ ___/ __ \/ ___/ ___/
 #   / /|  / / /_/ /_/ / (__  )   _ / /_/ / /_/ (__  ) / / / /  / /__  
@@ -125,14 +126,14 @@ ex ()
 {
   if [ -f $1 ] ; then
     case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
+      *.tar.bz2)   tar xvjf $1   ;;
+      *.tar.gz)    tar xzvf $1   ;;
       *.bz2)       bunzip2 $1   ;;
       *.rar)       unrar x $1     ;;
       *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
+      *.tar)       tar xvf $1    ;;
       *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
+      *.tgz)       tar xvzf $1   ;;
       *.zip)       unzip $1     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
@@ -159,6 +160,7 @@ alias nvidia="sudo primusrun glxgears"
 #export GOPATH=/home/$USER/gopath/
 #export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
+# path repo dotfiles
 export dotfiles=$HOME/dotfiles/
 alias dotfiles='cd "$dotfiles"'
 
@@ -221,32 +223,3 @@ function codevim() {
 
 # disable Ctrl+s freeze terminal
 stty -ixon
-
-#_gen_fzf_default_opts() {
-
-# local color00='#32302f'
-# local color01='#3c3836'
-# local color02='#504945'
-# local color03='#665c54'
-# local color04='#bdae93'
-# local color05='#d5c4a1'
-# local color06='#ebdbb2'
-# local color07='#fbf1c7'
-# local color08='#fb4934'
-# local color09='#fe8019'
-# local color0A='#fabd2f'
-# local color0B='#b8bb26'
-# local color0C='#8ec07c'
-# local color0D='#83a598'
-# local color0E='#d3869b'
-# local color0F='#d65d0e'
-
-# export FZF_DEFAULT_OPTS="
-#   --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
-#   --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
-#   --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
-# "
-
-# }
-
-# _gen_fzf_default_opts
