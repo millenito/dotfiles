@@ -72,8 +72,12 @@ set encoding=UTF-8
 set hidden " Pindah ke buffer lain tanpa perlu save
 set noesckeys  "Fast escape (no delay) from insert mode
 " Fast escape from command & visual mode
-"cnoremap <Esc> <C-c>
+" cnoremap <Esc> <C-c>
 vnoremap <Esc> <C-c>
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
 " Map leader to space/spasi"
 let mapleader = " "
@@ -102,7 +106,7 @@ syntax on "Memastikan syntax untuk color theme selalu nyala
 set backup 
 set undodir=~/.vim/undodir " Persistent undo (bisa undo walaupun vim sudah di close)
 set wildmenu " turn on command line completion wild style
-set wildmode=full
+set wildmode=list,full " tab completion di command mode sama seperti di terminal
 
 " # Clipboard & Saving"
 set clipboard=unnamed " Mengubah register default vim (saat p) menjadi dari primary register
@@ -122,15 +126,10 @@ inoremap <C-s> <Esc>:update<CR>
 " - Ctrl+w+j -> Ctrl+j
 " - Ctrl+w+k -> Ctrl+k
 " - Ctrl+w+l -> Ctrl+l
-noremap <C-w>v :vsplit<CR>
 noremap <C-k> <C-w>k
 noremap <C-j> <C-w>j
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
-inoremap <C-k> <Esc><C-w>k
-inoremap <C-j> <Esc><C-w>j
-inoremap <C-h> <Esc><C-w>h
-inoremap <C-l> <Esc><C-w>l
 set splitbelow "split dari :sp muncul di bawah
 set splitright "split dari :vsp muncul di kanan
 
@@ -152,20 +151,15 @@ noremap <silent> <leader>p :call NerdTreeSync(":tabprev")<cr>
 
 " leader+a pindah ke recent tab (tab terakhir) pada normal mode & visual mode
 au TabLeave * let g:lasttab = tabpagenr()
-nnoremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
-vnoremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
+noremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
 
 " # Buffers
-map  <Esc>[; <C-Semicolon>
-map! <Esc>[; <C-Semicolon>
-nnoremap <silent> ;n :call NerdTreeSync(":bn")<cr>
-vnoremap <silent> ;n :call NerdTreeSync(":bn")<cr>
-nnoremap <silent> ;p :call NerdTreeSync(":bp")<cr>
-vnoremap <silent> ;p :call NerdTreeSync(":bp")<cr>
-nnoremap <silent> ;d :bd<cr>
-vnoremap <silent> ;d :bd<cr>
-nnoremap <silent> ;# :call NerdTreeSync(":b#")<cr>
-vnoremap <silent> ;# :call NerdTreeSync(":b#")<cr>
+map  [; <C-Semicolon>
+map! [; <C-Semicolon>
+noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
+noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
+noremap <silent> ;d :bd<cr>
+noremap <silent> ;# :call NerdTreeSync(":b#")<cr>
 
 " # Functions & Scripts
 " open plugins cheatsheet (invoke with :call Ch())
@@ -336,20 +330,13 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 " fzf mapping (<C-_> = Ctrl /)
-nnoremap <silent> <C-p> :Files<cr>
-vnoremap <silent> <C-p> :Files<cr>
-nnoremap <silent> <C-_> :Rg<cr>
-vnoremap <silent> <C-_> :Rg<cr>
-nnoremap <silent> <C-Semicolon> :Buffers<cr>
-vnoremap <silent> <C-Semicolon> :Buffers<cr>
-nnoremap <silent> ;l :BLines<cr>
-vnoremap <silent> ;l :BLines<cr>
-nnoremap <silent> ;t :BTags<cr>
-vnoremap <silent> ;t :BTags<cr>
-nnoremap <silent> <leader>l :Lines<cr>
-vnoremap <silent> <leader>l :Lines<cr>
-nnoremap <silent> <leader>t :Tags<cr>
-vnoremap <silent> <leader>t :Tags<cr>
+noremap <silent> <C-p> :Files<cr>
+noremap <silent> <C-_> :Rg<cr>
+noremap <silent> <C-Semicolon> :Buffers<cr>
+noremap <silent> ;l :BLines<cr>
+noremap <silent> ;t :BTags<cr>
+noremap <silent> <leader>l :Lines<cr>
+noremap <silent> <leader>t :Tags<cr>
 
 " fzf set warna sesuai colorscheme
 let g:fzf_colors =
@@ -386,7 +373,7 @@ let g:startify_session_before_save = [
 " Urutan menu yang muncul di startify
 let g:startify_lists = [
       \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'files',     'header': ['   Recent Files']            },
+      \ { 'type': 'files',     'header': ['   Recent Files']   },
       \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
