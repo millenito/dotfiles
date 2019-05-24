@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "/opt/onivim-git/resources/app/node_modules"
+  }
+}
