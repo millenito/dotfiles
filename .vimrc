@@ -16,6 +16,7 @@ Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 " Git
 Plug 'airblade/vim-gitgutter' " untuk melihat baris yang diubah (changes git) seperti di IDE
 Plug 'tpope/vim-fugitive' " Git commands in vim (commit, push, status, blame, etc)
+Plug 'tpope/vim-rhubarb' " :Gbrowse dari vim-fugitive ke github
 Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
 
 " Syntax & Code Check
@@ -28,12 +29,13 @@ Plug 'simeji/winresizer' " Easy resize split windows dengan resize mode seperti 
 Plug 'tpope/vim-commentary' " Comment baris dengan 'gcc' atau gc<motion> (ex: gcap, 2gcj)
 Plug 'tpope/vim-surround' " manipulasi text dengan kurung (){}[]''<>
 Plug 'ervandew/supertab' " auto completion with <TAB> in insert mode
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Remove this if already install fzf
 Plug 'junegunn/fzf.vim'
+Plug 'moll/vim-bbye' " Hapus buffer tanpa menhilangkan window/layout
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim' " bar dibawah
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'taohexxx/lightline-buffer'
+Plug 'mengelbrecht/lightline-bufferline' " bar buffer di atas pengganti bar tab
 Plug 'ayu-theme/ayu-vim' " Color theme ayu pada vim
 Plug 'drewtempelmeyer/palenight.vim' " Color theme palenight
 Plug 'morhetz/gruvbox' 
@@ -43,8 +45,8 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " # Color and bling
-set termguicolors   
-set t_Co=256 
+set termguicolors  " Enable color in gui vim 
+set t_Co=256 " Enable 256 True color in terminal vim
 set laststatus=2 " for vim lightline
 set showtabline=2  " Show tabline for lightline bufferline
 set noshowmode " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
@@ -68,53 +70,59 @@ let g:gruvbox_undercurl = 1
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
 
-set encoding=UTF-8
-set hidden " Pindah ke buffer lain tanpa perlu save
-set noesckeys  "Fast escape (no delay) from insert mode
-" Fast escape from command & visual mode
-" cnoremap <Esc> <C-c>
-vnoremap <Esc> <C-c>
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
 " Map leader to space/spasi"
 let mapleader = " "
-"
-" # Finding text (/ | ?)
-set incsearch "Highlight text yg matching sambil di search (seperti IDE)
-set ignorecase "Tidak memandang uppercase/lowercase saat searht
-set completeopt=longest,menuone " better autocompletion
-" Enter to chose auto completion
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" # General
+set encoding=UTF-8
+set hidden " Pindah ke buffer lain tanpa perlu save
 set number "Membuat baris nomor di sebelah kiri seperti IDE
 set relativenumber "Membuat baris nomor relatif dari baris cursor
 set cursorline " Highlight baris cursor berada
 set nowrap " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
-"set lazyredraw
 syntax on "Memastikan syntax untuk color theme selalu nyala
+"set lazyredraw
 
-" " # Tabs & Indent
-" set smartindent
-" set expandtab "Mengubah tombol <TAB> menjadi kumpulan spasi
-" set tabstop=4 "Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
-" set shiftwidth=4 "Set jumlah spasi saat di indent
-" set autoindent
- 
 set backup 
 set undodir=~/.vim/undodir " Persistent undo (bisa undo walaupun vim sudah di close)
 set wildmenu " turn on command line completion wild style
 set wildmode=list,full " tab completion di command mode sama seperti di terminal
 
-" # Clipboard & Saving"
+" # Finding text (/ | ?)
+set incsearch "Highlight text while search
+set ignorecase 
+set completeopt=longest,menuone " better autocompletion
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" |" <Enter> to chose auto completion
+
+" arrow keys disable & UP/DOWN in Command mode
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+cnoremap <C-k> <UP>
+cnoremap <C-j> <Down>
+
+" Fast escape (no delay)
+set noesckeys  " insert mode
+vnoremap <Esc> <C-c> | " Visual mode
+cnoremap <Esc> <C-c> | " Command mode
+
+" x permanent delete
+nnoremap x "_x
+vnoremap x "_x
+nnoremap X "_X
+vnoremap X "_X
+
+" Insert and delete line above & below cursor
+nnoremap <silent>]O m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
+nnoremap <silent>[O m`:silent -g/\m^\s*$/d<CR>``:noh<CR> |" delete above cursor
+nnoremap <silent>]o :set paste<CR>m`o<Esc>``:set nopaste<CR> |" insert below cursor
+nnoremap <silent>[o :set paste<CR>m`O<Esc>``:set nopaste<CR> |" insert above cursor
+
+" # Clipboard (primary) & Saving
 set clipboard=unnamed " Mengubah register default vim (saat p) menjadi dari primary register
-" Akses primary register
 noremap <C-c> "+
-" Paste dari register bekas yank (0) pada insert mode
-inoremap <C-v> <C-r>0 
-" Save with Ctrl+s
+inoremap <C-v> <C-r>+
 noremap <C-s> :update<CR>
 vnoremap <C-s> <Esc>:update<CR>
 inoremap <C-s> <Esc>:update<CR>
@@ -135,19 +143,19 @@ set splitright "split dari :vsp muncul di kanan
 
 " # Tabs
 " map <NUMBER> +leaderuntuk pindah tab sesuai nomornya
-noremap <silent> <leader>1 1gt
-noremap <silent> <leader>2 2gt
-noremap <silent> <leader>3 3gt
-noremap <silent> <leader>4 4gt
-noremap <silent> <leader>5 5gt
-noremap <silent> <leader>6 6gt
-noremap <silent> <leader>7 7gt
-noremap <silent> <leader>8 8gt
-noremap <silent> <leader>9 9gt
-noremap <silent> tt :tabs<cr>
+noremap <silent> 1<leader> 1gt
+noremap <silent> 2<leader> 2gt
+noremap <silent> 3<leader> 3gt
+noremap <silent> 4<leader> 4gt
+noremap <silent> 5<leader> 5gt
+noremap <silent> 6<leader> 6gt
+noremap <silent> 7<leader> 7gt
+noremap <silent> 8<leader> 8gt
+noremap <silent> 9<leader> 9gt
 noremap <silent> <leader>0 :call NerdTreeSync(":tablast")<cr>
 noremap <silent> <leader>n :call NerdTreeSync(":tabnext")<cr>
 noremap <silent> <leader>p :call NerdTreeSync(":tabprev")<cr>
+noremap <silent> <leader>t :tabs<cr>
 
 " leader+a pindah ke recent tab (tab terakhir) pada normal mode & visual mode
 au TabLeave * let g:lasttab = tabpagenr()
@@ -158,8 +166,18 @@ map  [; <C-Semicolon>
 map! [; <C-Semicolon>
 noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
-noremap <silent> ;d :bd<cr>
+noremap <silent> ;d :Bdelete<cr>
 noremap <silent> ;# :call NerdTreeSync(":b#")<cr>
+nmap <silent> 1; :b1<cr>
+nmap <silent> 2; :b2<cr>
+nmap <silent> 3; :b3<cr>
+nmap <silent> 4; :b4<cr>
+nmap <silent> 5; :b5<cr>
+nmap <silent> 6; :b6<cr>
+nmap <silent> 7; :b7<cr>
+nmap <silent> 8; :b8<cr>
+nmap <silent> 9; :b9<cr>
+nmap <silent> 0; :b10<cr>
 
 " # Functions & Scripts
 " open plugins cheatsheet (invoke with :call Ch())
@@ -213,7 +231,8 @@ let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
 let g:lightline#bufferline#filename_modifier = ':t'
-let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#show_number = 1
+let g:lightline#bufferline#modified = ' ' 
 
 let g:lightline.separator = {
 \   'left': '', 'right': ''
@@ -235,24 +254,29 @@ function! LightlineFullFilename_MergeModified()
     endif
     return filename . modified
 endfunction
+
 " Hilangkan file format saat window mengecil
 function! LightlineFileformat()
   return winwidth(0) > 115 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
+
 " Hilangkan file type saat window mengecil
 function! LightlineFiletype()
   return winwidth(0) > 115 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
+
 " Hilangkan file encoding saat window mengecil
 function! LightlineFileencoding()
   return winwidth(0) > 115 ? &fileencoding : ''
 endfunction
+
 " Hilangkan nama branch saat window mengecil
 function! LightlineGitBranch()
   let symbol = ' '
   let branch = fugitive#head() !=# '' ? symbol . fugitive#head() : ''
   return winwidth(0) > 107 ? branch : ''
 endfunction
+
 " Informasi tab ke berapa dan berapa jumlah total tab
 function! TabStatusInfo()
     return ' Tabs: ' . tabpagenr() . '/' . tabpagenr('$')
@@ -331,12 +355,13 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 " fzf mapping (<C-_> = Ctrl /)
 noremap <silent> <C-p> :Files<cr>
+noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
 noremap <silent> <C-_> :Rg<cr>
 noremap <silent> <C-Semicolon> :Buffers<cr>
 noremap <silent> ;l :BLines<cr>
-noremap <silent> ;t :BTags<cr>
+noremap <silent> ;] :BTags<cr>
 noremap <silent> <leader>l :Lines<cr>
-noremap <silent> <leader>t :Tags<cr>
+noremap <silent> <leader>] :Tags<cr>
 
 " fzf set warna sesuai colorscheme
 let g:fzf_colors =
@@ -353,10 +378,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-
-" Find files with preview
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " Git log format
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
