@@ -38,8 +38,11 @@ Plug 'itchyny/lightline.vim' " bar dibawah
 Plug 'mengelbrecht/lightline-bufferline' " bar buffer di atas pengganti bar tab
 Plug 'ayu-theme/ayu-vim' " Color theme ayu pada vim
 Plug 'drewtempelmeyer/palenight.vim' " Color theme palenight
-Plug 'morhetz/gruvbox' 
+Plug 'morhetz/gruvbox' " Color theme gruvbox
 Plug 'mhinz/vim-startify' " Start menu saat buka vim tanpa argument
+Plug 'chrisbra/Colorizer' " Memberi warna pada rgb/hex
+Plug 'terryma/vim-smooth-scroll' " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
+Plug 'RRethy/vim-illuminate' " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -101,6 +104,9 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 cnoremap <C-k> <UP>
 cnoremap <C-j> <Down>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+cnoremap <A-k> <UP>
 
 " Fast escape (no delay)
 set noesckeys  " insert mode
@@ -183,6 +189,17 @@ nmap <silent> 0; :b10<cr>
 " open plugins cheatsheet (invoke with :call Ch())
 function! Ch()
     :sp ~/cheatsheet-vim-pluggins
+endfunction
+
+function! Log(status)
+    if a:status == "start"
+        :profile start profile1.log
+        :profile func *
+        :profile file *
+    else
+        :profile pause
+        :qa!
+    endif
 endfunction
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
@@ -381,6 +398,15 @@ let g:fzf_colors =
 
 " Git log format
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
+
+" Vim smooth scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+" Set filetype untuk colorhighlighting
+let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini'
 
 " Bookmark buat plugin vim-startify
 let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'x': '~/.Xresources'}]
