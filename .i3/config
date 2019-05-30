@@ -186,11 +186,13 @@ bindsym $mod+t focus mode_toggle
 
 # toggle tiling / floating
 bindsym $mod+Shift+t floating toggle
-bindsym $mod+Ctrl+t floating toggle; sticky toggle
 
-# toggle sticky
+# toggle sticky & floating sticky
 bindsym $mod+y sticky toggle
-bindsym $mod+Shift+w sticky toggle; resize set 700 400; exec "notify-send 'watch mode'" # mpv
+bindsym $mod+Shift+y floating enable; sticky enable; resize set 900 800
+
+# watch mode for mpv
+bindsym $mod+Shift+w sticky enable; resize set 700 400;move right 280px,move down 151px exec "notify-send 'mpv watch mode'"
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -261,7 +263,7 @@ assign [class="Google-chrome"] $ws4
 assign [class="VirtualBox Manager"] $ws5
 assign [class="VirtualBox Machine"] $ws5
 assign [class="TelegramDesktop"] $ws9
-assign [class="whatsie"] $ws9 # whatsapp
+assign [class="Whatsie"] $ws9 # whatsapp
 # Spotify workaround
 for_window [class="Spotify"] move to workspace 10
 
@@ -354,7 +356,7 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym Mod1+l exec --no-startup-id blurlock
+# bindsym Mod1+l exec --no-startup-id blurlock
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
