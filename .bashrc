@@ -148,7 +148,7 @@ ex ()
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
 # biar kalo masuk ssh bisa di clear
-# export TERM=xterm-256color
+export TERM=xterm-256color
 
 alias pacman="sudo pacman"
 
@@ -177,15 +177,23 @@ alias p7halt='cd "$p7" && vagrant halt'
 # vim mode (pencet ESC untuk masuk normal mode vim)
 set -o vi
 
-# vim
-alias v='vim'
-alias vi='vim'
+# use neovim if available
+if type nvim > /dev/null 2>&1; then
+  alias rvim='vim' # real vim
+  alias v='nvim'
+  alias vi='nvim'
+  alias vim='nvim'
+else
+  alias v='vim'
+  alias vi='vim'
+fi
 
 alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty'
 
+# alias ls='exa'
+
 export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-# export FZF_DEFAULT_OPTS="--no-mouse --ansi --height 50% -1 --reverse --multi --inline-info --preview-window 'right:50%' --preview 'bat --color=always -m tpl:html --style=header,grid --line-range :300 {}'"
 export FZF_ALT_C_COMMAND="fd -H -E=*Cache* -E=*cache* -E=*.cargo* -E=*.git* --follow -t d ."
 export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
@@ -207,24 +215,22 @@ function fcda() {
 }
 
 # Buka fzf dan otomatis buka file yg dipilih oleh fzf dengan vim
-vf() {
+fv() {
   local files
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-
 fcd() {
   local dir
   dir="$(
-  $FZF_ALT_C_COMMAND | fzf --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'
+  $FZF_ALT_C_COMMAND $@ | fzf --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'
   )" || return
   cd "$dir" || return
 }
 
-
 # git log with fzf and preview
-fzf_git_log() {
+fgl() {
     local commits=$(
     git log --graph --format="%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)" --color=always "$@" |
         fzf --ansi --no-sort --height 100% \
@@ -237,9 +243,8 @@ fzf_git_log() {
     fi
 }
 
-alias fv=vf # Alias kalau salah
 alias fhi='__fzf_history__' # list history dengan fzf (key: Ctrl+r)
-alias fgl='fzf_git_log'
+alias vf=fv # Alias kalau salah
 
 # disable Ctrl+s freeze terminal
 stty -ixon
