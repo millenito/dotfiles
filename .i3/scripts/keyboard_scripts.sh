@@ -12,4 +12,4 @@ xmodmap -e 'keycode 135 = Super_L' && xset -r 135
 
 # alt menjadi modifier key untuk hjkl = kiri,bawah,atas,kanan (ALT KIRI TIDAK BISA DIGUNAKAN LAGI,
 #GUNAKAN ALT KANAN)
-xmodmap ~/.i3/scripts/.xmodmap
+# xmodmap ~/.i3/scripts/.xmodmap
