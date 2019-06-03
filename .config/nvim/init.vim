@@ -19,9 +19,18 @@ Plug 'tpope/vim-fugitive' " Git commands in vim (commit, push, status, blame, et
 Plug 'tpope/vim-rhubarb' " :Gbrowse dari vim-fugitive ke github
 Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
 
-" Syntax & Code Check
+" Syntax & Code
 Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
 Plug 'neomake/neomake' " Error checking (harus install runner/maker yang sesuai dengan filetype yg digunakan)
+Plug 'majutsushi/tagbar' " Sebuah bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+
+" Markdown & Note taking
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " Preview file markdown secara real-time
+Plug 'godlygeek/tabular' " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
+Plug 'plasticboy/vim-markdown' " Tambahan syntax dan fitur-fitur untuk file markdown
+Plug 'lvht/tagbar-markdown' " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
+Plug 'junegunn/goyo.vim' " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
+Plug 'junegunn/limelight.vim' " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
 
 " Useful / Essential
 Plug 'jiangmiao/auto-pairs' 
@@ -85,13 +94,14 @@ set number "Membuat baris nomor di sebelah kiri seperti IDE
 set relativenumber "Membuat baris nomor relatif dari baris cursor
 set cursorline " Highlight baris cursor berada
 set nowrap " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
+set title " biar keliatan window title nya
+set tabstop=4 "Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
+set shiftwidth=4 "indent 4 spasi
 syntax on "Memastikan syntax untuk color theme selalu nyala
-set title
-"set lazyredraw
 
 augroup numbertoggle
   " autocmd!
-  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set relativenumber cursorline
+  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set relativenumber cursorline noshowmode
   autocmd BufLeave,winLeave,FocusLost,InsertEnter   * set norelativenumber nocursorline
 augroup END
 
@@ -134,8 +144,7 @@ nnoremap <silent><A-o> :set paste<CR>m`o<Esc>``:set nopaste<CR> |" insert below 
 nnoremap <silent><A-O> :set paste<CR>m`O<Esc>``:set nopaste<CR> |" insert above cursor
 
 " nvim terminal mode
-noremap <C-m> :sp+te<cr>
-" noremap <CR> :vsp+te<cr>
+noremap <A-t> :sp+te<cr>
 tnoremap <C-k> <UP>
 tnoremap <C-j> <Down>
 tnoremap <C-h> <Left>
@@ -147,11 +156,14 @@ tnoremap <buffer> <C-l> <C-\><C-n><C-w>l
 tnoremap <Esc> <c-\><c-n>
 tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 " disable line number & start in insert mode saat buka terminal neovim
-au TermOpen * startinsert
-au TermOpen * set noruler norelativenumber nonumber laststatus=0
-au BufEnter * if &buftype == 'terminal' | startinsert | endif
-au BufEnter * if &buftype == 'terminal' | set noruler norelativenumber nonumber laststatus=0 | endif
- \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup termode
+	autocmd!
+	au TermOpen * startinsert
+	au TermOpen * set noruler norelativenumber nonumber laststatus=0
+	au BufEnter * if &buftype == 'terminal' | startinsert | endif
+	au BufEnter * if &buftype == 'terminal' | set noruler norelativenumber nonumber laststatus=0 | endif
+	 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
 
 " # Clipboard (primary) & Saving
 set clipboard=unnamedplus " Mengubah register default vim (saat p) menjadi dari primary register
@@ -208,6 +220,9 @@ nmap <silent> 9; :b9<cr>
 " nmap <silent> 0; :b10<cr>
 
 " # Functions & Scripts
+" vim akan menambahkan extension ini kalo di 'gf' gak ketemu
+set suffixesadd=.tex,.latex,.md,.php,.js
+
 " open plugins cheatsheet (invoke with :call Ch())
 function! Ch()
     :sp ~/cheatsheet-vim-pluggins
@@ -225,7 +240,47 @@ function! Log(status)
 endfunction
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
-autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
+autocmd BufWritePost ~/.Xresources,~/dotfiles/.Xresources,~/.Xdefaults !xrdb %
+
+" # Markdown
+function! ConvertPDFPandoc()
+	let realfile = expand('%')
+    " let file = expand('%:r')
+	let file = expand('%:t:r')
+    let zareaddir = '~/.zaread/'
+    let convertedfile = zareaddir. file . '.pdf'
+	redraw
+    echo 'deleting old file '. convertedfile
+    execute "!rm -f " . convertedfile
+    echo 'converting to pdf'
+    execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
+    " execute "!~/dotfiles/.i3/scripts/zaread " . realfile
+	redraw
+endfunction
+
+function! PreviewMdZathura()
+	let realfile = expand('%')
+    let zareaddir = '~/.zaread/'
+    " let file = expand('%:r')
+	let file = expand('%:t:r')
+    let convertedfile = zareaddir. file . '.pdf'
+    " execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
+    execute "!zathura " . convertedfile
+endfunction
+
+" Saat write pada file markdown hapus cache pdf dari zaread agar nanti bisa dibuat baru | buka file dengan zathura
+au BufWritePost *.md call ConvertPDFPandoc()
+au Filetype markdown noremap <leader>z :call PreviewMdZathura()<cr><cr>
+
+augroup mdsettings
+	autocmd!
+	au BufRead,BufEnter index.md setlocal nofoldenable " disable folding saat pertama kali masuk pada index personal notes saya
+	au BufRead,BufEnter index.md noremap <buffer> <cr> f]2lgf " buka catatan di baris cursor dengan enter (pada index.md)
+	au Filetype markdown setlocal conceallevel=2 wrap linebreak " writing mode setup
+	" gerak atas/bawah pada satu kalimat yang sudah di wrap
+	au Filetype markdown noremap j gj
+	au Filetype markdown noremap k gk
+augroup END
 
 " # Plugins
 " autocompletion tab pilih opsi pertama
@@ -441,6 +496,7 @@ nmap <A-=> <plug>(YoinkPostPasteToggleFormat)
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
 
+" copy deletion (c,d,x) to vim yoink | work across files (neovim) | include named register (a,b,s,d,etc) to vim-yoink
 let g:yoinkIncludeDeleteOperations = 1
 let g:yoinkSavePersistently = 1
 let g:yoinkIncludeNamedRegisters = 1
@@ -450,13 +506,49 @@ nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
-let g:AutoPairsShortcutToggle = ''
+" map tagbar & focus to opened tagbar 
+noremap <silent> <leader>b :TagbarToggle<cr>
+noremap <silent> <leader>B :TagbarOpen j<cr>
 
-" Set filetype untuk colorhighlighting
+" remove help sign |  for markdown tagbar open on left & sort according to file
+let g:tagbar_compact = 1
+let g:tagbar_autoshowtag = 1
+au Filetype markdown let g:tagbar_left = 1
+au Filetype markdown let g:tagbar_sort = 0
+
+" vim autopairs
+let g:AutoPairsShortcutToggle = '<F3>'
+au Filetype markdown let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", "*":"*", "~":"~"} " add * & ~ autopair for markdown
+au Filetype vim let b:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'" , "`":"`"} " disable autopair double quote in vimrc
+au Filetype html,smarty let b:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'" , "`":"`", "<":">"} " add autopair <> in html,smarty
+
+" polygot disable markdown syntax (already have markdown plugin)
+let g:polyglot_disabled = ['markdown']
+
+" markdown live preview set browser & disable auto start when opening/close when leaving
+let g:mkdp_browser = 'qutebrowser'
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 0
+au Filetype markdown noremap <leader>v :MarkdownPreview<cr>
+
+" Goyo & Limelight
+noremap <silent> <A-g> :Goyo<cr>
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+" markdown code fence language alias
+let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']
+" let g:vim_markdown_folding_style_pythonic = 1
+
+" Set filetype apa aja colorhighlighting akan aktif
 let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini'
 
 " Bookmark buat plugin vim-startify
-let g:startify_bookmarks = [ {'v': '~/dotfiles/.config/nvim/init.vim'}, {'x': '~/.Xresources'}]
+let g:startify_bookmarks = [ {'v': '~/dotfiles/.config/nvim/init.vim'},
+			   \ {'x': '~/dotfiles/.Xresources'},
+			   \ {'i': '~/dotfiles/.i3/config'},
+			   \ {'n': '~/notes/index.md'}]
+
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 " Tutup Nerd Tree saat save session dengan startify
 let g:startify_session_before_save = [ 
