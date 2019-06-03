@@ -22,7 +22,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
 " Syntax & Code
 Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
 Plug 'neomake/neomake' " Error checking (harus install runner/maker yang sesuai dengan filetype yg digunakan)
-Plug 'majutsushi/tagbar' " Sebuah bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " Preview file markdown secara real-time
@@ -111,7 +111,7 @@ set wildmode=list,full " tab completion di command mode sama seperti di terminal
 
 " # Finding text (/ | ?)
 set incsearch "Highlight text while search
-set ignorecase 
+set ignorecase smartcase
 set nohlsearch
 set completeopt=longest,menuone " better autocompletion
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" |" <Enter> to chose auto completion
@@ -136,6 +136,11 @@ nnoremap x "_x
 vnoremap x "_x
 nnoremap X "_X
 vnoremap X "_X
+
+" kalo mau keluar suka tahan shift kelamaan
+cmap Wq wq
+cmap Qa qa
+cmap Q! q!
 
 " Insert and delete line above & below cursor
 nnoremap <silent><A-l> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
