@@ -161,18 +161,18 @@ alias nvidia="sudo primusrun glxgears"
 #export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # path repo dotfiles
-export dotfiles=$HOME/dotfiles/
-alias dotfiles='cd "$dotfiles"'
+# export dotfiles=$HOME/dotfiles/
+alias dotfiles='cd "$DOTFILES"'
 
 # localan php53 & php70
-export p5=/home/$USER/vagrant-localan/PHP53/
-export p7=/home/$USER/vagrant-localan/PHP70/
-alias p5='cd "$p5"'
-alias p7='cd "$p7"'
-alias p5up='cd "$p5" && vagrant up'
-alias p7up='cd "$p7" && vagrant up'
-alias p5halt='cd "$p5" && vagrant halt'
-alias p7halt='cd "$p7" && vagrant halt'
+# export p5=/home/$USER/vagrant-localan/PHP53/
+# export p7=/home/$USER/vagrant-localan/PHP70/
+alias p5='cd "$P5"'
+alias p7='cd "$P7"'
+alias p5up='cd "$P5" && vagrant up'
+alias p7up='cd "$P7" && vagrant up'
+alias p5halt='cd "$P5" && vagrant halt'
+alias p7halt='cd "$P7" && vagrant halt'
 
 # vim mode (pencet ESC untuk masuk normal mode vim)
 set -o vi
@@ -188,16 +188,17 @@ else
   alias vi='vim'
 fi
 
-alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty'
+alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty' # open alacritty normal size
 
 # alias ls='exa'
+alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
 
 export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
 export FZF_ALT_C_COMMAND="fd -H -E=*Cache* -E=*cache* -E=*.cargo* -E=*.git* --follow -t d ."
 export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
-# cd kemanapun dengan fzf dengan parameter (ex: fcda anime)
+# fuzzy_cd_anywhere (cd kemanapun dengan fzf dengan parameter (ex: fcda anime))
 function fcda() {
   local file
 
@@ -214,13 +215,14 @@ function fcda() {
   fi
 }
 
-# Buka fzf dan otomatis buka file yg dipilih oleh fzf dengan vim
+# fuzzy_vim (Buka fzf dan otomatis buka file yg dipilih oleh fzf dengan vim)
 fv() {
   local files
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
 }
 
+# fuzzy_cd (buke fzf dan cd ke directory yang dipilih)
 fcd() {
   local dir
   dir="$(
