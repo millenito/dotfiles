@@ -1,3 +1,5 @@
+# vi: set ft=conf :
+
 set page-padding 1
 set statusbar-h-padding 0
 set statusbar-v-padding 0
@@ -15,12 +17,14 @@ map f toggle_fullscreen
 unmap =
 map = zoom in
 map - zoom out
+map 0 adjust_window best-fit
 
 map [fullscreen] f toggle_fullscreen
 
 unmap [fullscreen] =
 map [fullscreen] = zoom in
 map [fullscreen] - zoom out
+map [fullscreen] 0 adjust_window best-fit
 map [fullscreen] i follow
 map [fullscreen] r reload
 map [fullscreen] R rotate
