@@ -157,7 +157,7 @@ URxvt*letterSpace: -1
 URxvt.depth:                      32
 URxvt.scrollstyle:                plain
 URxvt*scrollBar:                  false
-URxvt*mouseWheelScrollPage:       true
+URxvt*mouseWheelScrollPage:       false
 URxvt*saveLines:                  5000
 
 ! for 'fake' transparency (without Compton) uncomment the following three lines
