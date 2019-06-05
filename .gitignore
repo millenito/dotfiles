@@ -1,0 +1,11 @@
+*/__pycache__/*
+*.pyc
+.config/nvim/*
+.config/coc/*
+!.config/nvim/init.vim
+!.config/nvim/coc-settings.json
+!.config/coc/ultisnips/
+.config/QtProject.conf
+.config/vlc/vlc-qt-interface.conf
+tags
+.ignore
