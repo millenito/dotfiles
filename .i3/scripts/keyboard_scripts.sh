@@ -5,7 +5,7 @@ setxkbmap -option caps:escape
 setxkbmap -option caps:swapescape
 
 # set key repetition speed & delay jadi lebih cepet (50 repeats/200ms delay sebelum click)
-xset r rate 250 50
+xset r rate 200 50
 
 # bind tombol menu di kanan jadi mod (WINDOWS/SUPER) kedua
 xmodmap -e 'keycode 135 = Super_L' && xset -r 135 
