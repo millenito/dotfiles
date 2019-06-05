@@ -14,35 +14,38 @@ Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 
 " Git
-Plug 'airblade/vim-gitgutter' " untuk melihat baris yang diubah (changes git) seperti di IDE
 Plug 'tpope/vim-fugitive' " Git commands in vim (commit, push, status, blame, etc)
 Plug 'tpope/vim-rhubarb' " :Gbrowse dari vim-fugitive ke github
 Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
 
 " Syntax & Code
-Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
-Plug 'neomake/neomake' " Error checking (harus install runner/maker yang sesuai dengan filetype yg digunakan)
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
+Plug 'blueyed/smarty.vim' " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
+Plug 'honza/vim-snippets' " kumpulan snippets berbagai bahasa
+Plug 'bonsaiben/bootstrap-snippets' " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
+Plug 'Shougo/neco-vim', { 'for': 'vim' } " syntax & completion source untuk filetype vim yang akan dipakai coc-vim
+Plug 'neoclide/coc-neco', { 'for': 'vim' } " extension coc untuk neco (filetype vim)
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " Preview file markdown secara real-time
 Plug 'godlygeek/tabular' " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
-Plug 'plasticboy/vim-markdown' " Tambahan syntax dan fitur-fitur untuk file markdown
-Plug 'lvht/tagbar-markdown' " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
-Plug 'junegunn/goyo.vim' " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
-Plug 'junegunn/limelight.vim' " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " Tambahan syntax dan fitur-fitur untuk file markdown
+Plug 'lvht/tagbar-markdown', { 'for': 'markdown' } " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
+Plug 'junegunn/limelight.vim', { 'on': 'Goyo' } " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
 
 " Useful / Essential
-Plug 'jiangmiao/auto-pairs' 
 Plug 'simeji/winresizer' " Easy resize split windows dengan resize mode seperti di i3
 Plug 'tpope/vim-commentary' " Comment baris dengan 'gcc' atau gc<motion> (ex: gcap, 2gcj)
 Plug 'tpope/vim-surround' " manipulasi text dengan kurung (){}[]''<>
-Plug 'ervandew/supertab' " auto completion with <TAB> in insert mode
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Remove this if already install fzf
 Plug 'junegunn/fzf.vim'
 Plug 'moll/vim-bbye' " Hapus buffer tanpa menhilangkan window/layout
 Plug 'svermeulen/vim-yoink' " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive' " Langsung ganti satu text object dengan register default dengan (s)
+Plug 'andymass/vim-matchup' " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim' " bar dibawah
@@ -97,6 +100,8 @@ set nowrap " Agar text panjang tidak terpotong ke baris selanjutnya (untuk codin
 set title " biar keliatan window title nya
 set tabstop=4 "Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
 set shiftwidth=4 "indent 4 spasi
+set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
+set updatetime=200 " Update time untuk plugin-plugin
 syntax on "Memastikan syntax untuk color theme selalu nyala
 
 augroup numbertoggle
@@ -114,7 +119,9 @@ set incsearch "Highlight text while search
 set ignorecase smartcase
 set nohlsearch
 set completeopt=longest,menuone " better autocompletion
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" |" <Enter> to chose auto completion
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<DOWN>" |" <Enter> to chose auto completion
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>" |" <Enter> to chose auto completion
 
 " arrow keys disable & UP/DOWN in Command mode
 noremap <Up> <NOP>
@@ -126,10 +133,15 @@ cnoremap <C-j> <Down>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
+" Movement in insert mode
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+" inoremap <C-j> <Down> (digabung sama completeopt pumvisible())
+" inoremap <C-k> <Up> (digabung sama completeopt pumvisible())
+
 " Fast escape (no delay)
-" inoremap <Esc> <C-c>
-vnoremap <Esc> <C-c> | " Visual mode
-cnoremap <Esc> <C-c> | " Command mode
+vnoremap <Esc> <C-c>
+cnoremap <Esc> <C-c>
 
 " x permanent delete
 nnoremap x "_x
@@ -141,6 +153,29 @@ vnoremap X "_X
 cmap Wq wq
 cmap Qa qa
 cmap Q! q!
+
+" remap Join & show documentation jadi harus tahan shift+alt
+noremap <A-J> J
+xnoremap <A-J> J
+" noremap <A-K> K
+
+" qq to record, Q to replay
+nnoremap Q @q
+
+" Source (neo)vimrc & install new plugins
+map <F12> :so ~/.config/nvim/init.vim<cr>
+map <F11> :so ~/.config/nvim/init.vim<cr> :PlugInstall<cr>
+
+" Pindah ke tags konfirmasi dulu kalo symbol nya ada yang sama
+nnoremap <C-]> g<C-]>
+nnoremap s<C-]> <C-w>g<C-]> |" buka tag horizontal split
+nnoremap sv<C-]> <C-w>vg<C-]> |" buka tag vertical split
+
+" pindahkan baris atas/bawah
+nnoremap <silent> <A-k> :move-2<cr>
+nnoremap <silent> <A-j> :move+<cr>
+xnoremap <silent> <A-k> :move-2<cr>gv
+xnoremap <silent> <A-j> :move'>+<cr>gv
 
 " Insert and delete line above & below cursor
 nnoremap <silent><A-l> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
@@ -209,9 +244,13 @@ au TabLeave * let g:lasttab = tabpagenr()
 noremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
 
 " # Buffers
+nmap <silent> J :call NerdTreeSync(":bp")<cr>
+nmap <silent> K :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
 noremap <silent> ;# :call NerdTreeSync(":b#")<cr>
+noremap <silent> ;l :call NerdTreeSync(":blast")<cr>
+noremap <silent> ;f :call NerdTreeSync(":bfirst")<cr>
 noremap <silent> ;d :Bdelete<cr>
 nmap <silent> 1; :b1<cr>
 nmap <silent> 2; :b2<cr>
@@ -225,8 +264,16 @@ nmap <silent> 9; :b9<cr>
 " nmap <silent> 0; :b10<cr>
 
 " # Functions & Scripts
-" vim akan menambahkan extension ini kalo di 'gf' gak ketemu
-set suffixesadd=.tex,.latex,.md,.php,.js
+" Zoom split window yang sedang fokus jadi 1 tab
+function! s:zoom()
+  if winnr('$') > 1
+    tab split
+  elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
+                  \ 'index(v:val, '.bufnr('').') >= 0')) > 1
+    tabclose
+  endif
+endfunction
+noremap <silent> <C-z> :call <sid>zoom()<cr>
 
 " open plugins cheatsheet (invoke with :call Ch())
 function! Ch()
@@ -288,20 +335,13 @@ augroup mdsettings
 augroup END
 
 " # Plugins
-" autocompletion tab pilih opsi pertama
-let g:SuperTabLongestHighlight = 1
-let g:SuperTabMappingBackward = '<c-j>'
-" let g:SuperTabMappingForward = '<c-space>'
 
-set updatetime=300 " Update time untuk git gutter plugin
-" Lompat ke perubahan berikutnya di git dengan [h / ]h
-" Preview git diff perubahan dengan <leader>hp
-" Undo perubahan git dengan <leader>hu
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
-autocmd BufWritePost * GitGutter " Update changes git saat save
+" let g:Illuminate_ftblacklist = ['html','smarty']
+
+" let b:match_words = '<:>,<tag>:</tag>'
+
 " fugitive-vim git keymaps
-noremap <silent> <leader>gb :Gblame<cr>
+noremap <silent> <leader>gB :Gblame<cr>
 noremap <silent> <leader>gs :Gstatus<cr>
 noremap <silent> <leader>gd :Gdiff<cr>
 noremap <silent> <leader>gc :Gcommit<cr>
@@ -439,8 +479,6 @@ function! NerdTreeSync(tab)
     endif
 endfunction
 
-" Neomake code linting no delay
-call neomake#configure#automake('nrwi', 500)
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -459,9 +497,9 @@ noremap <silent> <C-p> :Files<cr>
 noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
 noremap <silent> <C-_> :Rg<cr>
 noremap <silent> <leader>; :Buffers<cr>
-noremap <silent> ;l :BLines<cr>
+noremap <silent> <leader>l :BLines<cr>
 noremap <silent> ;] :BTags<cr>
-noremap <silent> <leader>l :Lines<cr>
+noremap <silent> <leader>L :Lines<cr>
 noremap <silent> <leader>] :Tags<cr>
 
 " keluar dari fzf dengan <Esc> dan hilangkan command window di bawah (nvim)
@@ -489,10 +527,10 @@ let g:fzf_colors =
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
 
 " Vim smooth scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 8, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 8, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 10, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 10, 4)<CR>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 " vim-yoink
 nmap <A-p> <plug>(YoinkPostPasteSwapBack)
@@ -511,6 +549,11 @@ nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
+" vim-subversive pada visual mode
+xmap s <plug>(SubversiveSubstitute)
+xmap p <plug>(SubversiveSubstitute)
+xmap P <plug>(SubversiveSubstitute)
+
 " map tagbar & focus to opened tagbar 
 noremap <silent> <leader>b :TagbarToggle<cr>
 noremap <silent> <leader>B :TagbarOpen j<cr>
@@ -520,12 +563,6 @@ let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
 au Filetype markdown let g:tagbar_left = 1
 au Filetype markdown let g:tagbar_sort = 0
-
-" vim autopairs
-let g:AutoPairsShortcutToggle = '<F3>'
-au Filetype markdown let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", "*":"*", "~":"~"} " add * & ~ autopair for markdown
-au Filetype vim let b:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'" , "`":"`"} " disable autopair double quote in vimrc
-au Filetype html,smarty let b:AutoPairs = {'(':')', '[':']', '{':'}', "'":"'" , "`":"`", "<":">"} " add autopair <> in html,smarty
 
 " polygot disable markdown syntax (already have markdown plugin)
 let g:polyglot_disabled = ['markdown']
@@ -540,6 +577,67 @@ au Filetype markdown noremap <leader>v :MarkdownPreview<cr>
 noremap <silent> <A-g> :Goyo<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
+
+" CoC vim
+" filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
+let g:coc_filetype_map = {
+	\ 'smarty': 'html',
+	\ 'javascriptreact': 'javascript'
+	\ }
+
+" Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
+au FileType vim let b:coc_pairs_disabled = ['"']
+au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
+
+" <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" loncat diagnostic coc
+noremap <silent> [c <Plug>(coc-diagnostic-prev)
+noremap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Coc go-to definition/type/implementation/references
+nmap <silent> <leader>cd  <Plug>(coc-definition)
+nmap <silent> <leader>ct <Plug>(coc-type-definition)
+nmap <silent> <leader>ci <Plug>(coc-implementation)
+nmap <silent> <leader>cr <Plug>(coc-references)
+
+" format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+noremap <leader>F :call CocAction('format')<CR>
+
+" coc do code action & quick fix
+nmap <leader>ca  <Plug>(coc-codeaction)
+nmap <leader>cf  <Plug>(coc-fix-current)
+
+" coc-git navigate ke sebelumnya/berikutnya
+nmap ]h <Plug>(coc-git-nextchunk)
+nmap [h <Plug>(coc-git-prevchunk)
+
+" coc-git undo hunk | hunk preview (diff dari yang sebelum diubah) | lihat commit dari git blame di baris cursor
+nmap <silent> <leader>hu :CocCommand git.chunkUndo<cr>
+nmap <leader>hp <Plug>(coc-git-chunkinfo)
+nmap <leader>gb <Plug>(coc-git-commit)
+
+" coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
+noremap <silent> <A-K> :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+function! s:check_back_space() abort
+	let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 
 " markdown code fence language alias
 let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']

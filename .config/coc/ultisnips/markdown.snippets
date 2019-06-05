@@ -1,0 +1,177 @@
+
+snippet hr "Horizontal Rule" b
+----------
+
+$0
+endsnippet
+
+#############
+#  Headers  #
+#############
+
+snippet h1 "Header h1" b
+# ${1:Header name}
+
+$0
+endsnippet
+
+snippet h1i "Header h1 with id" b
+# ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet h2 "Header h2" b
+## ${1:Header name}
+
+$0
+endsnippet
+
+snippet h2i "Header h2 with id" b
+## ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet h3 "Header h3" b
+### ${1:Header name}
+
+$0
+endsnippet
+
+snippet h3i "Header h3 with id" b
+### ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet h4 "Header h4" b
+#### ${1:Header name}
+
+$0
+endsnippet
+
+snippet h4i "Header h4 with id" b
+#### ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet h5 "Header h5" b
+##### ${1:Header name}
+
+$0
+endsnippet
+
+snippet h5i "Header h5 with id" b
+##### ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet h6 "Header h6" b
+###### ${1:Header name}
+
+$0
+endsnippet
+
+snippet h6i "Header h6 with id" b
+###### ${1:Header name} {#${2:id}}
+
+$0
+endsnippet
+
+snippet hrlnk "Header ID Link"
+[${1:Text}](#${2:Header ID})$0
+endsnippet
+
+snippet hrlac "Header ID Link auto-complete"
+[${1:Text}](#${1/(\w+)(\s*)/\L$1\E(?2:-)/g})$0
+endsnippet
+###########
+#  Lists  #
+###########
+
+snippet ol "Ordered List"
+1. ${1}
+2. ${2}
+3. ${3}
+4. ${4}
+$0
+endsnippet
+
+snippet ul "Unordered List"
+- ${1}
+- ${2}
+- ${3}
+- ${4}
+$0
+endsnippet
+
+############
+#  Tables  #
+############
+
+snippet table "Table"
+${1:First Header}   | ${6:First Header}
+--------------------|--------------------
+${2:Content Cell}   | ${7:Content Cell}
+${3:Content Cell}   | ${8:Content Cell}
+${4:Content Cell}   | ${9:Content Cell}
+${5:Content Cell}   | ${10:Content Cell}
+$0
+endsnippet
+
+################
+#  Code Block  #
+################
+
+# code block javascript
+snippet cjs "Javascript codeblock" b
+\`\`\` javascript
+$1
+\`\`\`
+$0
+endsnippet
+
+# code block php
+snippet cphp "php codeblock" b
+\`\`\` php
+$1
+\`\`\`
+$0
+endsnippet
+
+# code block shell/bash
+snippet csh "shell/bash codeblock" b
+\`\`\` bash
+$1
+\`\`\`
+$0
+endsnippet
+
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt

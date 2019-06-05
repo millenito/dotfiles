@@ -1,0 +1,40 @@
+{
+    "suggest.enablePreview": true,
+    "suggest.timeout": 500,
+    "coc.preferences.previewAutoClose": true,
+    "codeLens.enable": true,
+    "diagnostic.virtualText": true,
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.errorSign": "EE",
+    "diagnostic.hintSign": "HH",
+    "diagnostic.infoSign": "II",
+    "diagnostic.warningSign": "WW",
+    "diagnostic.level": "hint",
+    "snippets.extends": {
+        "javascriptreact": ["javascript"]
+    },
+    "coc.preferences.hoverTarget": "float",
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json"],
+    "git.addGlameToVirtualText": true,
+	"git.realtimeGutters": true,
+    "git.virtualTextPrefix": "          ",
+    "eslint.trace.server": "verbose",
+    "html.format.enable": true,
+    "prettier.tabWidth": 4,
+	"prettier.printWidth": 160,
+    "prettier.formatterPriority": 1,
+    "prettier.disableLanguages": ["html", "smarty"],
+    "phpls.enable": false,
+    "languageserver": {
+        "intelephense": {
+            "command": "intelephense",
+            "args": ["--stdio"],
+            "filetypes": ["php"],
+            "initializationOptions": {
+                "storagePath": "/tmp/intelephense"
+            }
+        }
+    },
+    "git.enableGutters": true
+}
