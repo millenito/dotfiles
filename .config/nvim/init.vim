@@ -14,63 +14,63 @@ Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 
 " Git
-Plug 'tpope/vim-fugitive' " Git commands in vim (commit, push, status, blame, etc)
-Plug 'tpope/vim-rhubarb' " :Gbrowse dari vim-fugitive ke github
-Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
+Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc)
+Plug 'tpope/vim-rhubarb'                                                                   " :Gbrowse dari vim-fugitive ke github
+Plug 'Xuyuanp/nerdtree-git-plugin'                                                         " Integrasi git dengan Nerd Tree
 
 " Syntax & Code
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
-Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
-Plug 'blueyed/smarty.vim' " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
-Plug 'honza/vim-snippets' " kumpulan snippets berbagai bahasa
-Plug 'bonsaiben/bootstrap-snippets' " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
-Plug 'Shougo/neco-vim', { 'for': 'vim' } " syntax & completion source untuk filetype vim yang akan dipakai coc-vim
-Plug 'neoclide/coc-neco', { 'for': 'vim' } " extension coc untuk neco (filetype vim)
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }                                         " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+Plug 'sheerun/vim-polyglot'                                                                " Language pack for syntax checking
+Plug 'blueyed/smarty.vim'                                                                  " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
+Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
+Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
+Plug 'Shougo/neco-vim', { 'for': 'vim' }                                                   " syntax & completion source untuk filetype vim yang akan dipakai coc-vim
+Plug 'neoclide/coc-neco', { 'for': 'vim' }                                                 " extension coc untuk neco (filetype vim)
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 
 " Markdown & Note taking
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " Preview file markdown secara real-time
-Plug 'godlygeek/tabular' " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " Tambahan syntax dan fitur-fitur untuk file markdown
-Plug 'lvht/tagbar-markdown', { 'for': 'markdown' } " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
-Plug 'junegunn/limelight.vim', { 'on': 'Goyo' } " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' }  " Preview file markdown secara real-time
+Plug 'godlygeek/tabular'                                                                   " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }                                      " Tambahan syntax dan fitur-fitur untuk file markdown
+Plug 'lvht/tagbar-markdown', { 'for': 'markdown' }                                         " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }                                                 " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
+Plug 'junegunn/limelight.vim', { 'on': 'Goyo' }                                            " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
 
 " Useful / Essential
-Plug 'simeji/winresizer' " Easy resize split windows dengan resize mode seperti di i3
-Plug 'tpope/vim-commentary' " Comment baris dengan 'gcc' atau gc<motion> (ex: gcap, 2gcj)
-Plug 'tpope/vim-surround' " manipulasi text dengan kurung (){}[]''<>
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Remove this if already install fzf
-Plug 'junegunn/fzf.vim'
-Plug 'moll/vim-bbye' " Hapus buffer tanpa menhilangkan window/layout
-Plug 'svermeulen/vim-yoink' " Cycle history yank dengan <alt-p
-Plug 'svermeulen/vim-subversive' " Langsung ganti satu text object dengan register default dengan (s)
-Plug 'andymass/vim-matchup' " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
+Plug 'simeji/winresizer'                                                                   " Easy resize split windows dengan resize mode seperti di i3
+Plug 'tpope/vim-commentary'                                                                " Comment baris dengan 'gcc' atau gc<motion> (ex: gcap, 2gcj)
+Plug 'tpope/vim-surround'                                                                  " manipulasi text dengan kurung (){}[]''<>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }                          " Remove this if already install fzf
+Plug 'junegunn/fzf.vim'                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
+Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
+Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
+Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
+Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
 
 " Colors & Looks
-Plug 'itchyny/lightline.vim' " bar dibawah
-Plug 'mengelbrecht/lightline-bufferline' " bar buffer di atas pengganti bar tab
-Plug 'ayu-theme/ayu-vim' " Color theme ayu pada vim
-Plug 'drewtempelmeyer/palenight.vim' " Color theme palenight
-Plug 'morhetz/gruvbox' " Color theme gruvbox
-Plug 'mhinz/vim-startify' " Start menu saat buka vim tanpa argument
-Plug 'chrisbra/Colorizer' " Memberi warna pada rgb/hex
-Plug 'terryma/vim-smooth-scroll' " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
-Plug 'RRethy/vim-illuminate' " Highlight kata yang sama dengan yg di cursor pada layar
+Plug 'itchyny/lightline.vim'                                                               " bar dibawah
+Plug 'mengelbrecht/lightline-bufferline'                                                   " bar buffer di atas pengganti bar tab
+Plug 'ayu-theme/ayu-vim'                                                                   " Color theme ayu pada vim
+Plug 'drewtempelmeyer/palenight.vim'                                                       " Color theme palenight
+Plug 'morhetz/gruvbox'                                                                     " Color theme gruvbox
+Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
+Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
+Plug 'terryma/vim-smooth-scroll'                                                           " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
+Plug 'RRethy/vim-illuminate'                                                               " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
 " # Color and bling
-set termguicolors  " Enable color in gui vim 
-set t_Co=256 " Enable 256 True color in terminal vim
-set laststatus=2 " for vim lightline
-set showtabline=2  " Show tabline for lightline bufferline
-set noshowmode " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
+set termguicolors                                                                          " Enable color in gui vim
+set t_Co=256                                                                               " Enable 256 True color in terminal vim
+set laststatus=2                                                                           " for vim lightline
+set showtabline=2                                                                          " Show tabline for lightline bufferline
+set noshowmode                                                                             " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
 set cmdheight=1
 
 " " Ayu colorscheme
-" let ayucolor="dark"  " dark/mirage/light
+" let ayucolor=dark" " dark/mirage/light
 " colorscheme ayu
 
 " " palenight colorscheme
@@ -92,17 +92,17 @@ let mapleader = " "
 
 " # General
 set encoding=UTF-8
-set hidden " Pindah ke buffer lain tanpa perlu save
-set number "Membuat baris nomor di sebelah kiri seperti IDE
-set relativenumber "Membuat baris nomor relatif dari baris cursor
-set cursorline " Highlight baris cursor berada
-set nowrap " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
-set title " biar keliatan window title nya
-set tabstop=4 "Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
-set shiftwidth=4 "indent 4 spasi
+set hidden                               " Pindah ke buffer lain tanpa perlu save
+set number                               " Membuat baris nomor di sebelah kiri seperti IDE
+set relativenumber                       " Membuat baris nomor relatif dari baris cursor
+set cursorline                           " Highlight baris cursor berada
+set nowrap                               " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
+set title                                " biar keliatan window title nya
+set tabstop=4                            " Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
+set shiftwidth=4                         " indent 4 spasi
 set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
-set updatetime=200 " Update time untuk plugin-plugin
-syntax on "Memastikan syntax untuk color theme selalu nyala
+set updatetime=200                       " Update time untuk plugin-plugin
+syntax on                                " Memastikan syntax untuk color theme selalu nyala
 
 augroup numbertoggle
   " autocmd!
@@ -111,17 +111,16 @@ augroup numbertoggle
 augroup END
 
 " set command mode autocomplete
-set wildmenu " turn on command line completion wild style
+set wildmenu           " turn on command line completion wild style
 set wildmode=list,full " tab completion di command mode sama seperti di terminal
-
+for
 " # Finding text (/ | ?)
-set incsearch "Highlight text while search
+set incsearch                   " Highlight text while search
 set ignorecase smartcase
 set nohlsearch
 set completeopt=longest,menuone " better autocompletion
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<DOWN>" |" <Enter> to chose auto completion
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>" |" <Enter> to chose auto completion
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<DOWN>" |" Ctrl+j autocomplete go down / next
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>" |" Ctrl+k autocomplete go up / previous
 
 " arrow keys disable & UP/DOWN in Command mode
 noremap <Up> <NOP>
@@ -326,10 +325,10 @@ au Filetype markdown noremap <leader>z :call PreviewMdZathura()<cr><cr>
 
 augroup mdsettings
 	autocmd!
-	au BufRead,BufEnter index.md setlocal nofoldenable " disable folding saat pertama kali masuk pada index personal notes saya
-	au BufRead,BufEnter index.md noremap <buffer> <cr> f]2lgf " buka catatan di baris cursor dengan enter (pada index.md)
+	au BufRead,BufEnter index.md setlocal nofoldenable          " disable folding saat pertama kali masuk pada index personal notes saya
+	au BufRead,BufEnter index.md noremap <buffer> <cr> f]2lgf   " buka catatan di baris cursor dengan enter (pada index.md)
 	au Filetype markdown setlocal conceallevel=2 wrap linebreak " writing mode setup
-	" gerak atas/bawah pada satu kalimat yang sudah di wrap
+" gerak atas/bawah pada satu kalimat yang sudah di wrap
 	au Filetype markdown noremap j gj
 	au Filetype markdown noremap k gk
 augroup END
