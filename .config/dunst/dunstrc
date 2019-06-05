@@ -173,7 +173,7 @@
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left
     # of "1".
-    history = mod1+h 
+    history = ctrl+grave 
     
     # Context menu.
     context = ctrl+mod1+c
