@@ -35,6 +35,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }                           
 Plug 'lvht/tagbar-markdown', { 'for': 'markdown' }                                         " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }                                                 " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
 Plug 'junegunn/limelight.vim', { 'on': 'Goyo' }                                            " membuat gelap teks paragraf/baris lain & hanya meng-highlight paragraf yang berada di cursor (tambahan untuk goyo)
+Plug 'skywind3000/asyncrun.vim', { 'for': 'markdown' }                                     " Menjalankan command2 asyncronous dengan diawali dengan :AsyncRun
 
 " Useful / Essential
 Plug 'simeji/winresizer'                                                                   " Easy resize split windows dengan resize mode seperti di i3
@@ -113,7 +114,7 @@ augroup END
 " set command mode autocomplete
 set wildmenu           " turn on command line completion wild style
 set wildmode=list,full " tab completion di command mode sama seperti di terminal
-for
+
 " # Finding text (/ | ?)
 set incsearch                   " Highlight text while search
 set ignorecase smartcase
@@ -296,7 +297,6 @@ autocmd BufWritePost ~/.Xresources,~/dotfiles/.Xresources,~/.Xdefaults !xrdb %
 " # Markdown
 function! ConvertPDFPandoc()
 	let realfile = expand('%')
-    " let file = expand('%:r')
 	let file = expand('%:t:r')
     let zareaddir = '~/.zaread/'
     let convertedfile = zareaddir. file . '.pdf'
@@ -304,19 +304,23 @@ function! ConvertPDFPandoc()
     echo 'deleting old file '. convertedfile
     execute "!rm -f " . convertedfile
     echo 'converting to pdf'
-    execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
-    " execute "!~/dotfiles/.i3/scripts/zaread " . realfile
+    " execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
+    execute "AsyncRun pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
 	redraw
 endfunction
 
 function! PreviewMdZathura()
 	let realfile = expand('%')
-    let zareaddir = '~/.zaread/'
-    " let file = expand('%:r')
+	let zareaddir = '~/.zaread/'
 	let file = expand('%:t:r')
-    let convertedfile = zareaddir. file . '.pdf'
-    " execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
-    execute "!zathura " . convertedfile
+	let convertedfile = zareaddir. file . '.pdf'
+	" execute "!pandoc " . realfile . " -o " . convertedfile . " --template eisvogel --listings --pdf-engine=xelatex -V disable-header-and-footer -V listings-no-page-break"
+	if !empty(glob(convertedfile))
+		execute "!zathura " . convertedfile
+	else
+		execute "echo 'compiling new pdf...'"
+		execute "AsyncRun ~/.i3/scripts/zaread " . realfile
+	endif
 endfunction
 
 " Saat write pada file markdown hapus cache pdf dari zaread agar nanti bisa dibuat baru | buka file dengan zathura
@@ -337,7 +341,15 @@ augroup END
 
 " let g:Illuminate_ftblacklist = ['html','smarty']
 
-" let b:match_words = '<:>,<tag>:</tag>'
+" let g:matchup_matchparen_status_offscreen = 0
+
+let g:matchup_matchparen_deferred = 1
+
+let g:matchup_matchparen_timeout = 300
+let g:matchup_matchparen_insert_timeout = 60
+
+" " AsyncRun
+" command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 " fugitive-vim git keymaps
 noremap <silent> <leader>gB :Gblame<cr>
@@ -400,7 +412,8 @@ endfunction
 
 " Hilangkan file type saat window mengecil
 function! LightlineFiletype()
-  return winwidth(0) > 115 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  " return winwidth(0) > 115 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  return strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft'
 endfunction
 
 " Hilangkan file encoding saat window mengecil
@@ -419,7 +432,7 @@ endfunction
 function! TabStatusInfo()
 	let buffers = len(getbufinfo({'buflisted':1}))
 	let tabs = tabpagenr() . '/' . tabpagenr('$')
-	return ' Buffs: '.buffers . ' ' . '' .' '  . ' Tabs: '.tabs
+	return buffers . ' ' . 'Buffers  '. '' . ' ' . tabs . ' ' .'Tabs  '
 endfunction
 
 " map leader+n toggle NERDTree on/off
@@ -525,6 +538,27 @@ let g:fzf_colors =
 " Git log format
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
 
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+
+  let height = &lines - 3
+  let width = float2nr(&columns - (&columns * 2 / 10))
+  let col = float2nr((&columns - width) / 2)
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': 1,
+        \ 'col': col,
+        \ 'width': width,
+        \ 'height': height
+        \ }
+
+let win = nvim_open_win(buf, v:true, opts)
+call setwinvar(win, '&number', 0)
+endfunction
 " Vim smooth scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
@@ -587,6 +621,9 @@ let g:coc_filetype_map = {
 " Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
 au FileType vim let b:coc_pairs_disabled = ['"']
 au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
