@@ -21,7 +21,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' " Integrasi git dengan Nerd Tree
 
 " Syntax & Code Check
 Plug 'sheerun/vim-polyglot' " Language pack for syntax checking
-Plug 'neomake/neomake' " Error checking (harus install runner/maker yang sesuai dengan filetype yg digunakan)
+" Plug 'neomake/neomake' " Error checking (harus install runner/maker yang sesuai dengan filetype yg digunakan)
 
 " Useful / Essential
 Plug 'jiangmiao/auto-pairs' 
@@ -32,6 +32,9 @@ Plug 'ervandew/supertab' " auto completion with <TAB> in insert mode
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Remove this if already install fzf
 Plug 'junegunn/fzf.vim'
 Plug 'moll/vim-bbye' " Hapus buffer tanpa menhilangkan window/layout
+Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
+Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
+Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim' " bar dibawah
@@ -39,6 +42,7 @@ Plug 'mengelbrecht/lightline-bufferline' " bar buffer di atas pengganti bar tab
 Plug 'ayu-theme/ayu-vim' " Color theme ayu pada vim
 Plug 'drewtempelmeyer/palenight.vim' " Color theme palenight
 Plug 'morhetz/gruvbox' " Color theme gruvbox
+Plug 'altercation/vim-colors-solarized'                                                    " Color theme solarized
 Plug 'mhinz/vim-startify' " Start menu saat buka vim tanpa argument
 Plug 'chrisbra/Colorizer' " Memberi warna pada rgb/hex
 Plug 'terryma/vim-smooth-scroll' " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
@@ -54,7 +58,8 @@ set laststatus=2 " for vim lightline
 set showtabline=2  " Show tabline for lightline bufferline
 set noshowmode " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
 set cmdheight=1
-
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " " Ayu colorscheme
 " let ayucolor="dark"  " dark/mirage/light
 " colorscheme ayu
@@ -72,6 +77,11 @@ let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
+
+" " solarized dark colorscheme
+" set background=dark
+" let g:solarized_termcolors=256
+" colorscheme solarized
 
 " Map leader to space/spasi"
 let mapleader = " "
@@ -119,6 +129,34 @@ vnoremap x "_x
 nnoremap X "_X
 vnoremap X "_X
 
+" kalo mau keluar suka tahan shift kelamaan
+cmap Wq wq
+cmap Qa qa
+cmap Q! q!
+
+" remap Join & show documentation jadi harus tahan shift+alt
+noremap <A-J> J
+xnoremap <A-J> J
+" noremap <A-K> K
+
+" qq to record, Q to replay
+nnoremap Q @q
+
+" Source (neo)vimrc & install new plugins
+map <F12> :so ~/.config/nvim/init.vim<cr>
+map <F11> :so ~/.config/nvim/init.vim<cr> :PlugInstall<cr>
+
+" Pindah ke tags konfirmasi dulu kalo symbol nya ada yang sama
+nnoremap <C-]> g<C-]>
+nnoremap s<C-]> <C-w>g<C-]> |" buka tag horizontal split
+nnoremap sv<C-]> <C-w>vg<C-]> |" buka tag vertical split
+
+" pindahkan baris atas/bawah
+nnoremap <silent> <A-k> :move-2<cr>
+nnoremap <silent> <A-j> :move+<cr>
+xnoremap <silent> <A-k> :move-2<cr>gv
+xnoremap <silent> <A-j> :move'>+<cr>gv
+
 " Insert and delete line above & below cursor
 nnoremap <silent>]O m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
 nnoremap <silent>[O m`:silent -g/\m^\s*$/d<CR>``:noh<CR> |" delete above cursor
@@ -126,7 +164,7 @@ nnoremap <silent>]o :set paste<CR>m`o<Esc>``:set nopaste<CR> |" insert below cur
 nnoremap <silent>[o :set paste<CR>m`O<Esc>``:set nopaste<CR> |" insert above cursor
 
 " # Clipboard (primary) & Saving
-set clipboard=unnamed " Mengubah register default vim (saat p) menjadi dari primary register
+set clipboard=unnamedplus " Mengubah register default vim (saat p) menjadi dari primary register
 noremap <C-c> "+
 inoremap <C-v> <C-r>+
 noremap <C-s> :update<CR>
@@ -170,6 +208,8 @@ noremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
 " # Buffers
 map  [; <C-Semicolon>
 map! [; <C-Semicolon>
+nmap <silent> J :call NerdTreeSync(":bp")<cr>
+nmap <silent> K :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
 noremap <silent> ;d :Bdelete<cr>
@@ -243,7 +283,9 @@ let g:lightline = {
             \ },
             \ }
 
+" let g:lightline.colorscheme = 'ayu'
 let g:lightline.colorscheme = 'gruvbox'
+" let g:lightline.colorscheme = 'solarized'
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
@@ -296,7 +338,9 @@ endfunction
 
 " Informasi tab ke berapa dan berapa jumlah total tab
 function! TabStatusInfo()
-    return ' Tabs: ' . tabpagenr() . '/' . tabpagenr('$')
+	let buffers = len(getbufinfo({'buflisted':1}))
+	let tabs = tabpagenr() . '/' . tabpagenr('$')
+	return buffers . ' ' . 'Buffers  '. '' . ' ' . tabs . ' ' .'Tabs  '
 endfunction
 
 " map leader+n toggle NERDTree on/off
@@ -356,7 +400,7 @@ function! NerdTreeSync(tab)
 endfunction
 
 " Neomake code linting no delay
-call neomake#configure#automake('nrwi', 500)
+" call neomake#configure#automake('nrwi', 500)
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -404,6 +448,27 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+" vim-yoink
+nmap <A-p> <plug>(YoinkPostPasteSwapBack)
+nmap <A-P> <plug>(YoinkPostPasteSwapForward)
+nmap <A-=> <plug>(YoinkPostPasteToggleFormat)
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+
+" copy deletion (c,d,x) to vim yoink | work across files (neovim) | include named register (a,b,s,d,etc) to vim-yoink
+let g:yoinkIncludeDeleteOperations = 1
+let g:yoinkIncludeNamedRegisters = 1
+
+" vim-subversive
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
+" vim-subversive pada visual mode
+xmap s <plug>(SubversiveSubstitute)
+xmap p <plug>(SubversiveSubstitute)
+xmap P <plug>(SubversiveSubstitute)
 
 " Set filetype untuk colorhighlighting
 let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini'
