@@ -11,6 +11,7 @@ map r reload
 map R rotate
 map c recolor
 map i follow
+map ` mark_evaluate
 
 map f toggle_fullscreen
 
@@ -29,4 +30,4 @@ map [fullscreen] i follow
 map [fullscreen] r reload
 map [fullscreen] R rotate
 map [fullscreen] c recolor
-
+map [fullscreen] ` mark_evaluate
