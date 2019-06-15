@@ -1,4 +1,5 @@
 [Default Applications]
+inode/directory=ranger.desktop;pcmanfm.desktop
 x-scheme-handler/http=vivaldi-stable.desktop
 x-scheme-handler/https=vivaldi-stable.desktop
 x-scheme-handler/ftp=vivaldi-stable.desktop
@@ -12,12 +13,13 @@ application/x-extension-xhtml=vivaldi-stable.desktop
 application/x-extension-xht=vivaldi-stable.desktop
 image/jpeg=viewnior.desktop;gpicview.desktop;
 image/png=viewnior.desktop;gpicview.desktop;
-text/plain=mousepad.desktop
-x-scheme-handler/mailto=userapp-Thunderbird.desktop
+text/plain=nvim.desktop
+x-scheme-handler/mailto=exo-mail-reader.desktop
 message/rfc822=userapp-Thunderbird.desktop
 application/pdf=epdfview.desktop
 application/x-bittorrent=deluge.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
+xdg-mime default ranger.desktop inode/directory
 
 [Added Associations]
 x-scheme-handler/http=vivaldi-stable.desktop;
