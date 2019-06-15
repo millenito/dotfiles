@@ -148,7 +148,7 @@ ex ()
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
 # biar kalo masuk ssh bisa di clear
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 alias pacman="sudo pacman"
 
@@ -179,7 +179,7 @@ set -o vi
 
 # use neovim if available
 if type nvim > /dev/null 2>&1; then
-  alias rvim='vim' # real vim
+  alias rvim='/usr/bin/vim' # real vim
   alias v='nvim'
   alias vi='nvim'
   alias vim='nvim'
@@ -191,12 +191,13 @@ fi
 alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty' # open alacritty normal size
 
 # alias ls='exa'
-alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
+alias zaread='"$HOME"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
 
 export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-export FZF_ALT_C_COMMAND="fd -H -E=*Cache* -E=*cache* -E=*.cargo* -E=*.git* --follow -t d ."
+export FZF_ALT_C_COMMAND="fd --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
 export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
 
 # fuzzy_cd_anywhere (cd kemanapun dengan fzf dengan parameter (ex: fcda anime))
 function fcda() {
@@ -224,9 +225,11 @@ fv() {
 
 # fuzzy_cd (buke fzf dan cd ke directory yang dipilih)
 fcd() {
+	alias fzf_alt_c_command=$FZF_ALT_C_COMMAND
+	alias fzf_alt_c_opts=fzf $FZF_ALT_C_OPTS
   local dir
   dir="$(
-  $FZF_ALT_C_COMMAND $@ | fzf --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'
+  fzf_alt_c_command $@ | fzf_alt_c_opts
   )" || return
   cd "$dir" || return
 }
