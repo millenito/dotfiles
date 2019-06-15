@@ -1,5 +1,5 @@
 # Set variables
-set $terminal urxvt
+set $terminal st
 
 set $ws1 "1"
 set $ws2 "2"
@@ -14,6 +14,16 @@ set $ws10 "10"
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
+
+# set warna
+set $bg-color            #1b2b34
+set $inactive-bg-color   #03031b
+set $text-color          #C0C5CE
+set $inactive-text-color #65737e
+set $urgent-bg-color     #ec5f67
+set $theme-color         #6699CC
+set $theme-color2        #99c794
+
 
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
@@ -108,12 +118,16 @@ exec --no-startup-id ~/.i3/scripts/keyboard_scripts.sh
 exec --no-startup-id ~/.i3/scripts/launch_polybar.sh
 # launch localan vagrants
 exec --no-startup-id ~/.i3/scripts/toggle_vagrants.sh
+# exec alttab (https://github.com/sagb/alttab) or yay -S alttab
+# exec_always alttab -d 1 -font "xft:Noto sans-12" -fg "$text-color" -bg "$bg-color" -frame "$theme-color" -t 150x150 -i 150x100
+exec_always alttab -d 1 -font "xft:Noto sans-12" -t 150x150 -i 150x100
 
 # Start Applications
 bindsym $mod+Ctrl+b exec $terminal -e 'bmenu'
 bindsym $mod+F1 exec pamac-manager
 bindsym $mod+F2 exec vivaldi-stable
-bindsym $mod+F3 exec dbeaver
+# bindsym $mod+F3 exec dbeaver
+bindsym $mod+F3 exec dbeaver-ce
 bindsym $mod+F4 workspace $ws3; exec "google-chrome-stable --incognito"; exec "$terminal -e vim; notify-send 'dev mode'"
 bindsym $mod+F5 exec VirtualBox Manager
 bindsym $mod+apostrophe exec $terminal -e ranger # Double quotes (")
@@ -127,10 +141,11 @@ bindsym Shift+Print --release exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+bindsym $mod+z exec zathura .zaread/index.pdf
 
-# vim anywhere
-bindsym $mod+v exec --no-startup-id $terminal --name=vimclip -e vimclip
-for_window [instance="vimclip"] floating enable
+# # vim anywhere
+# bindsym $mod+v exec --no-startup-id $terminal --name=vimclip -e vimclip
+# for_window [instance="vimclip"] floating enable
 
 # focus_follows_mouse no
 
@@ -194,6 +209,9 @@ bindsym $mod+Shift+y floating enable; sticky enable; resize set 900 800
 # watch mode for mpv
 bindsym $mod+Shift+w sticky enable; resize set 700 400;move right 280px,move down 151px exec "notify-send 'mpv watch mode'"
 
+# buka url youtube di dalam clipboard dengan mpv butuh youtube-dl (https://github.com/ytdl-org/youtube-dl) & xclip (https://github.com/astrand/xclip)
+bindsym $mod+v exec ~/.i3/scripts/mpv-youtube "$(xclip -selection clipboard -o | cut -d '&' -f 1)"
+
 # focus the parent container
 bindsym $mod+a focus parent
 
@@ -205,7 +223,8 @@ bindsym $mod+Shift+s move scratchpad
 bindsym $mod+s scratchpad show
 
 # scratcpad terminal
-exec --no-startup-id $terminal -name SCRATCH
+# exec --no-startup-id $terminal -name SCRATCH (for urxvt)
+exec --no-startup-id $terminal -n SCRATCH
 for_window [instance="SCRATCH"] move scratchpad, border pixel 1
 
 #navigate workspaces next / previous
@@ -389,16 +408,6 @@ set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
-# set warna
-set $bg-color            #1c0f16
-set $inactive-bg-color   #9188bc
-set $text-color          #ffffff
-set $inactive-text-color #ffffff
-set $urgent-bg-color     #F1A8CC
-set $theme-color         #ffa1c0
-set $theme-color2        #7F97E3
-
-
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 #bar {
 #	i3bar_command i3bar
@@ -433,10 +442,10 @@ bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border       backgr.      text      indic.   child_border
-  client.focused          $bg-color $bg-color $theme-color #FDF6E3
-  client.focused_inactive $inactive-bg-color $inactive-bg-color $text-color #454948
-  client.unfocused        $bg-color $bg-color $text-color #454948
-  client.urgent           $urgent-bg-color $urgent-bg-color $text-color #268BD2
+  client.focused          $bg-color $bg-color $text-color $theme-color $theme-color
+  client.focused_inactive $inactve-bg-color $inactve-bg-color $inactive-text-color $inactive-bg-color $inactive-bg-color
+  client.unfocused        $inactive-bg-color $inactive-bg-color $text-color  $inactive-bg-color
+  client.urgent           $urgent-bg-color $urgent-bg-color $text-color $urgent-bg-color
   client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
   client.background       #2B2C2B
