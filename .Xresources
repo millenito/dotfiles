@@ -17,99 +17,153 @@ XTerm*faceSize:          11
 XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
 
-URxvt.foreground:           #ffffff
-URxvt.background:           #1c0F16
-URxvt.borderColor:          #1c0F16
-URxvt.borderless:          true
-URxvt.internalBorder: 5
+/* URxvt.foreground:           #ffffff */
+/* URxvt.background:           #1c0F16 */
+/* URxvt.borderColor:          #1c0F16 */
+/* URxvt.borderless:          true */
+/* URxvt.internalBorder: 5 */
 
-URxvt.cursorColor:          #ffa1c0 
-URxvt.colorBD:              #ffffff
-URxvt.colorIT:              #a761c2
-URxvt.colorUL:              #6d9cbe
-URxvt.underlineColor:       #333333
-URxvt.highlightColor:       #ffa1c0 
-URxvt.highlightTextColor:   #151515
-URxvt.cursorBlink:          true
-URxvt.cursorUnderline:      false
+/* URxvt.cursorColor:          #ffa1c0 */ 
+/* URxvt.colorBD:              #ffffff */
+/* URxvt.colorIT:              #a761c2 */
+/* URxvt.colorUL:              #6d9cbe */
+/* URxvt.underlineColor:       #333333 */
+/* URxvt.highlightColor:       #ffa1c0 */ 
+/* URxvt.highlightTextColor:   #151515 */
+/* URxvt.cursorBlink:          true */
+/* URxvt.cursorUnderline:      false */
 
+/* *background:                      #1c0F16 */
+/* *foreground:                      #ffffff */
+/* *fading:                          8 */
+/* *fadeColor:                       black */
+/* *cursorColor:                     #ffa1c0 */
+/* *pointerColorBackground:          #2B2C2B */
+/* *pointerColorForeground:          #16A085 */
 
-*background:                      #1c0F16
-*foreground:                      #ffffff
-*fading:                          8
-*fadeColor:                       black
-*cursorColor:                     #1ABB9B
-*pointerColorBackground:          #2B2C2B
-*pointerColorForeground:          #16A085
+! Solarized dark color scheme
 
-rofi.show-icons:                     true
-!rofi.terminal:                       termite
-!rofi.ssh-command:                    {terminal} -e {ssh-client} {host}
-rofi.terminal:                       urxvt
-rofi.ssh-command:                    {terminal} -e sh -c "export TERM=\"xterm-256color\";{ssh-client} {host}"
+/* #define S_base03        #03031b */
+/* #define S_base02        #073642 */
+/* #define S_base01        #586e75 */
+/* #define S_base00        #657b83 */
+/* #define S_base0         #839496 */
+/* #define S_base1         #93a1a1 */
+/* #define S_base2         #eee8d5 */
+/* #define S_base3         #fdf6e3 */
+/* #define S_yellow        #b58900 */
+/* #define S_orange        #cb4b16 */
+/* #define S_red           #dc322f */
+/* #define S_magenta       #d33682 */
+/* #define S_violet        #6c71c4 */
+/* #define S_blue          #268bd2 */
+/* #define S_cyan          #2aa198 */
+/* #define S_green         #859900 */
+/* *background:            S_base03 */
+/* *foreground:            S_base0 */
+/* *fadeColor:             S_base03 */
+/* *cursorColor:           S_base1 */
+/* *pointerColorBackground:S_base01 */
+/* *pointerColorForeground:S_base1 */
+/* !! black dark/light */
+/* *color0:                S_base02 */
+/* *color8:                S_base03 */
+/* !! red dark/light */
+/* *color1:                S_red */
+/* *color9:                S_orange */
+/* !! green dark/light */
+/* *color2:                S_green */
+/* *color10:               S_base01 */
+/* !! yellow dark/light */
+/* *color3:                S_yellow */
+/* *color11:               S_base00 */
+/* !! blue dark/light */
+/* *color4:                S_blue */
+/* *color12:               S_base0 */
+/* !! magenta dark/light */
+/* *color5:                S_magenta */
+/* *color13:               S_violet */
+/* !! cyan dark/light */
+/* *color6:                S_cyan */
+/* *color14:               S_base1 */
+/* !! white dark/light */
+/* *color7:                S_base2 */
+/* *color15:               S_base3 */
 
+! Base16 Oceanic Next
+! Scheme: Dmitri Voronianski (http://pixelhunter.me)
 
-/*
-!! black dark/light
-*color0:                          #222D31
-*color8:                          #585858
-
-!! red dark/light
-*color1:                          #ab4642
-*color9:                          #ab4642
-
-!! green dark/light
-*color2:                          #7E807E
-*color10:                         #8D8F8D
-
-!! yellow dark/light
-*color3:                          #f7ca88
-*color11:                         #f7ca88
-
-!! blue dark/light
-*color4:                          #7cafc2
-*color12:                         #7cafc2
-
-!! magenta dark/light
-*color5:                          #ba8baf
-*color13:                         #ba8baf
-
-!! cyan dark/light
-*color6:                          #1ABB9B
-*color14:                         #1ABB9B
-
-!! white dark/light
-*color7:                          #d8d8d8
-*color15:                         #f8f8f8
-*/
-
+/* #define base00 #1B2B34 */
+#define base00 #03031b 
+#define base01 #343D46
+#define base02 #4F5B66
+#define base03 #65737E
+#define base04 #A7ADBA
+#define base05 #C0C5CE
+#define base06 #CDD3DE
+#define base07 #D8DEE9
+#define base08 #EC5f67
+#define base09 #F99157
+#define base0A #FAC863
+#define base0B #99C794
+#define base0C #5FB3B3
+#define base0D #6699CC
+#define base0E #C594C5
+#define base0F #AB7967
+*.foreground:   base05
+*.background:   base00
+*.cursorColor:  base05
+*.color0:       base00
+*.color1:       base08
+*.color2:       base0B
+*.color3:       base0A
+*.color4:       base0D
+*.color5:       base0E
+*.color6:       base0C
+*.color7:       base05
+*.color8:       base03
+*.color9:       base08
+*.color10:      base0B
+*.color11:      base0A
+*.color12:      base0D
+*.color13:      base0E
+*.color14:      base0C
+*.color15:      base07
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*.color16:      base09
+*.color17:      base0F
+*.color18:      base01
+*.color19:      base02
+*.color20:      base04
+*.color21:      base06
 
 !- PINK DARK COLOR THEME (buat chill anime wallpaper)
 
-*color0: #8098e4
-*color1: #a09ace
-!- warna disekitar tulisan kalo file permissionnya 777
-!-*color2: #301a20
-*color2: #993b3b
-*color3: #ef95b1
-*color4: #c48eb3
-*color5: #ad7fa2
-*color6: #9188bc
-*color7: #ffffff
-*color8: #1c0f16
-*color9: #b5a8dd
-!- warna user dan device (nito@lenovog480:$)
-*color10: #ffa1c0
-!- warna syntax script bash (export, if, fi, dll)
-*color11: #d37c19
-!- warna folder
-*color12: #6f79be
-!- warna dalam petik/petik 2 dan file gambar (.png, .jpg)
-*color13: #FE9bab
-!- warna remarks
-*color14: #9188bc
-!*color15: #937ea9
-*color15: #ffffff
+/* *color0: #8098e4 */
+/* *color1: #a09ace */
+/* !- warna disekitar tulisan kalo file permissionnya 777 */
+/* !-*color2: #301a20 */
+/* *color2: #993b3b */
+/* *color3: #ef95b1 */
+/* *color4: #c48eb3 */
+/* *color5: #ad7fa2 */
+/* *color6: #9188bc */
+/* *color7: #ffffff */
+/* *color8: #1c0f16 */
+/* *color9: #b5a8dd */
+/* !- warna user dan device (nito@lenovog480:$) */
+/* *color10: #ffa1c0 */
+/* !- warna syntax script bash (export, if, fi, dll) */
+/* *color11: #d37c19 */
+/* !- warna folder */
+/* *color12: #6f79be */
+/* !- warna dalam petik/petik 2 dan file gambar (.png, .jpg) */
+/* *color13: #FE9bab */
+/* !- warna remarks */
+/* *color14: #9188bc */
+/* !*color15: #937ea9 */
+/* *color15: #ffffff */
 
 
 Xcursor.theme: xcursor-breeze
@@ -136,9 +190,6 @@ URxvt.allow_bold:           true
 /* URxvt*boldItalicFont: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
 /* URxvt*letterSpace: -1 */
 
-
-
-
 URxvt.allow_bold:           true
 URxvt*font: xft:Hack Nerd Font Mono:size=11
 URxvt*imFont: xft:Hack Nerd Font Mono:size=11
@@ -148,6 +199,19 @@ URxvt*boldItalicFont: xft:Hack Nerd Font Mono:style-Bold Italic:size=11
 URxvt*letterSpace: -1
 
 
+st.allow_bold:           true
+st.font: Hack Nerd Font:size=11:antialias=true:autohint=true
+st.imFont: Hack Nerd Font:size=11
+st.boldFont: Hack Nerd Font:style=Bold:size=11:antialias=true:autohint=true
+st.italicFont: Hack Nerd Font:style=Italic:size=11:antialias=true:autohint=true
+st.boldItalicFont: Hack Nerd Font:style-Bold Italic:size=11:antialias=true:autohint=true
+
+/* *allow_bold:           true */
+/* *font: Hack Nerd Font:size=11:antialias=true:autohint=true */
+/* *imFont: Hack Nerd Font:size=11 */
+/* *boldFont: Hack Nerd Font:style=Bold:size=11:antialias=true:autohint=true */
+/* *italicFont: Hack Nerd Font:style=Italic:size=11:antialias=true:autohint=true */
+/* *boldItalicFont: Hack Nerd Font:style-Bold Italic:size=11:antialias=true:autohint=true */
 
 ! alternative font settings with 'terminus':
 ! URxvt.font:      -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
@@ -191,6 +255,15 @@ URxvt.keysym.C-minus: perl:font-size:decreasee
 URxvt.keysym.C-equal: perl:font-size:increase
 URxvt.keysym.C-0: perl:font-size:reset
 
+
+rofi.show-icons:                     true
+/* rofi.terminal:                       urxvt */
+rofi.terminal:                       st
+rofi.ssh-command:                    {terminal} -e sh -c "export TERM=\"xterm-256color\";{ssh-client} {host}"
+/* xofi.ssh-command:                    {terminal} -e {ssh-client} {host} */
+
+rofi.allow_bold:           true
+rofi.font: Hack 13
 
 ! Rxvt.perl-ext-common:             ...,clipboard
 ! URxvt.keysym.M-C-c:               perl:clipboard:copy
