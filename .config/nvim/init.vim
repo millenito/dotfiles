@@ -24,8 +24,6 @@ Plug 'sheerun/vim-polyglot'                                                     
 Plug 'blueyed/smarty.vim'                                                                  " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
 Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
 Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
-Plug 'Shougo/neco-vim', { 'for': 'vim' }                                                   " syntax & completion source untuk filetype vim yang akan dipakai coc-vim
-Plug 'neoclide/coc-neco', { 'for': 'vim' }                                                 " extension coc untuk neco (filetype vim)
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 
 " Markdown & Note taking
@@ -47,6 +45,7 @@ Plug 'moll/vim-bbye'                                                            
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
 Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
+Plug 'chrisbra/Recover.vim' 															   " buat diff saat membuka file yg ada .swp/.swo nya untuk menghapus file .swo/.swpya bisa dengan :FinishRecovery atau :RecoveryPluginFinish
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim'                                                               " bar dibawah
@@ -54,6 +53,9 @@ Plug 'mengelbrecht/lightline-bufferline'                                        
 Plug 'ayu-theme/ayu-vim'                                                                   " Color theme ayu pada vim
 Plug 'drewtempelmeyer/palenight.vim'                                                       " Color theme palenight
 Plug 'morhetz/gruvbox'                                                                     " Color theme gruvbox
+Plug 'frankier/neovim-colors-solarized-truecolor-only'                                     " Color theme solarized (for neovim)
+Plug 'joshdick/onedark.vim'
+Plug 'mhartington/oceanic-next'
 Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
 Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
 Plug 'terryma/vim-smooth-scroll'                                                           " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
@@ -71,7 +73,7 @@ set noshowmode                                                                  
 set cmdheight=1
 
 " " Ayu colorscheme
-" let ayucolor=dark" " dark/mirage/light
+" let ayucolor="dark" " dark/mirage/light
 " colorscheme ayu
 
 " " palenight colorscheme
@@ -79,14 +81,29 @@ set cmdheight=1
 " colorscheme palenight
 " let g:palenight_terminal_italics=1
 
-" " gruvbox dark colorscheme
-set bg=dark
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gruvbox_underline = 1
-let g:gruvbox_undercurl = 1
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+" " " gruvbox dark colorscheme
+" set bg=dark
+" let g:gruvbox_bold = 1
+" let g:gruvbox_italic = 1
+" let g:gruvbox_underline = 1
+" let g:gruvbox_undercurl = 1
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
+
+" " solarized dark colorscheme
+" set bg=dark
+" let g:solarized_termcolors=256
+" " let g:solarized_degrade = 1
+" colorscheme solarized
+
+" let g:onedark_termcolors = 256
+" let g:onedark_terminal_italics = 1
+" colorscheme onedark
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
+colorscheme OceanicNext
 
 " Map leader to space/spasi"
 let mapleader = " "
@@ -103,12 +120,15 @@ set tabstop=4                            " Mengubah tombol <TAB> ketika dipencet
 set shiftwidth=4                         " indent 4 spasi
 set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
 set updatetime=200                       " Update time untuk plugin-plugin
+set shell=/usr/bin/zsh 					 " Set shell jadi zsh
 syntax on                                " Memastikan syntax untuk color theme selalu nyala
 
+" disable relativenumber & cursorline in insert mode / disable all line numbers on focusout
 augroup numbertoggle
   " autocmd!
-  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set relativenumber cursorline noshowmode
-  autocmd BufLeave,winLeave,FocusLost,InsertEnter   * set norelativenumber nocursorline
+  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber cursorline noshowmode
+  autocmd BufLeave,winLeave,FocusLost  			    * set nonumber norelativenumber nocursorline
+  autocmd InsertEnter               				* set norelativenumber number nocursorline
 augroup END
 
 " set command mode autocomplete
@@ -159,6 +179,10 @@ noremap <A-J> J
 xnoremap <A-J> J
 " noremap <A-K> K
 
+" remap original ; (repeat previous t,T,f,F) jadi '(single quote/petik satu)
+noremap ' ;
+xnoremap ' ;
+
 " qq to record, Q to replay
 nnoremap Q @q
 
@@ -171,15 +195,21 @@ nnoremap <C-]> g<C-]>
 nnoremap s<C-]> <C-w>g<C-]> |" buka tag horizontal split
 nnoremap sv<C-]> <C-w>vg<C-]> |" buka tag vertical split
 
-" pindahkan baris atas/bawah
+" pindahkan baris atas/bawah/kiri/kanan
 nnoremap <silent> <A-k> :move-2<cr>
 nnoremap <silent> <A-j> :move+<cr>
+nnoremap <silent> <A-h> <<
+nnoremap <silent> <A-l> >>
 xnoremap <silent> <A-k> :move-2<cr>gv
 xnoremap <silent> <A-j> :move'>+<cr>gv
+xnoremap <silent> <A-h> <gv
+xnoremap <silent> <A-l> >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Insert and delete line above & below cursor
-nnoremap <silent><A-l> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
-nnoremap <silent><A-L> m`:silent -g/\m^\s*$/d<CR>``:noh<CR> |" delete above cursor
+nnoremap <silent><A-i> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
+nnoremap <silent><A-I> m`:silent -g/\m^\s*$/d<CR>``:noh<CR> |" delete above cursor
 nnoremap <silent><A-o> :set paste<CR>m`o<Esc>``:set nopaste<CR> |" insert below cursor
 nnoremap <silent><A-O> :set paste<CR>m`O<Esc>``:set nopaste<CR> |" insert above cursor
 
@@ -210,6 +240,7 @@ set clipboard=unnamedplus " Mengubah register default vim (saat p) menjadi dari 
 noremap Y y$
 noremap <C-c> "+
 inoremap <C-v> <C-r>+
+cnoremap <C-v> <C-r>+
 noremap <C-s> :update<CR>
 vnoremap <C-s> <Esc>:update<CR>
 inoremap <C-s> <Esc>:update<CR>
@@ -238,6 +269,7 @@ noremap <silent> 9<leader> 9gt
 noremap <silent> <leader>n :call NerdTreeSync(":tabnext")<cr>
 noremap <silent> <leader>p :call NerdTreeSync(":tabprev")<cr>
 noremap <silent> <leader>t :tabs<cr>
+noremap <silent> <C-n> :tabnew<cr>
 
 " leader+a pindah ke recent tab (tab terakhir) pada normal mode & visual mode
 au TabLeave * let g:lasttab = tabpagenr()
@@ -248,7 +280,7 @@ nmap <silent> J :call NerdTreeSync(":bp")<cr>
 nmap <silent> K :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
 noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
-noremap <silent> ;# :call NerdTreeSync(":b#")<cr>
+noremap <silent> ;a :call NerdTreeSync(":b#")<cr>
 noremap <silent> ;l :call NerdTreeSync(":blast")<cr>
 noremap <silent> ;f :call NerdTreeSync(":bfirst")<cr>
 noremap <silent> ;d :Bdelete<cr>
@@ -290,6 +322,10 @@ function! Log(status)
         :qa!
     endif
 endfunction
+
+" set shell jadi zsh dan lakukan 'zgen reset' saat save zshr
+autocmd vimenter * let &shell='/bin/zsh -i'
+autocmd BufWritePost $DOTFILES/.zshrc,~/.zshrc !zgen reset
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
 autocmd BufWritePost ~/.Xresources,~/dotfiles/.Xresources,~/.Xdefaults !xrdb %
@@ -337,18 +373,21 @@ augroup mdsettings
 	au Filetype markdown noremap k gk
 augroup END
 
+let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
+
 " # Plugins
 
+" vim illuminate filetype blacklist & highlight with underline
 " let g:Illuminate_ftblacklist = ['html','smarty']
+" hi illuminatedWord cterm=underline gui=underline
 
-" let g:matchup_matchparen_status_offscreen = 0
-
+" vim matchup matchparen highlight cursor delay
 let g:matchup_matchparen_deferred = 1
-
+" let g:matchup_matchparen_status_offscreen = 0
 let g:matchup_matchparen_timeout = 300
 let g:matchup_matchparen_insert_timeout = 60
 
-" " AsyncRun
+"  AsyncRun membuat make & git push menjadi asyncronous
 " command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 " fugitive-vim git keymaps
@@ -376,7 +415,11 @@ let g:lightline = {
             \ },
             \ }
 
-let g:lightline.colorscheme = 'gruvbox'
+" let g:lightline.colorscheme = 'ayu'
+" let g:lightline.colorscheme = 'gruvbox'
+" let g:lightline.colorscheme = 'solarized'
+ " let g:lightline.colorscheme = 'onedark'
+  let g:lightline.colorscheme = 'oceanicnext'
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
@@ -510,9 +553,9 @@ noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
 noremap <silent> <C-_> :Rg<cr>
 noremap <silent> <leader>; :Buffers<cr>
 noremap <silent> <leader>l :BLines<cr>
-noremap <silent> ;] :BTags<cr>
 noremap <silent> <leader>L :Lines<cr>
-noremap <silent> <leader>] :Tags<cr>
+noremap <silent> <leader>] :BTags<cr>
+noremap <silent> <leader>} :Tags<cr>
 
 " keluar dari fzf dengan <Esc> dan hilangkan command window di bawah (nvim)
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
@@ -559,6 +602,7 @@ function! FloatingFZF()
 let win = nvim_open_win(buf, v:true, opts)
 call setwinvar(win, '&number', 0)
 endfunction
+
 " Vim smooth scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
@@ -678,15 +722,12 @@ endfunction
 " markdown code fence language alias
 let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']
 " let g:vim_markdown_folding_style_pythonic = 1
-
-" Set filetype apa aja colorhighlighting akan aktif
-let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini'
-
 " Bookmark buat plugin vim-startify
-let g:startify_bookmarks = [ {'v': '~/dotfiles/.config/nvim/init.vim'},
-			   \ {'x': '~/dotfiles/.Xresources'},
-			   \ {'i': '~/dotfiles/.i3/config'},
-			   \ {'n': '~/notes/index.md'}]
+let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
+			   \ {'x': '$DOTFILES/.Xresources'},
+			   \ {'i': '$DOTFILES/.i3/config'},
+			   \ {'n': '$NOTES/index.md'},
+			   \ {'z': '$DOTFILES/.zshrc'}]
 
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 " Tutup Nerd Tree saat save session dengan startify
