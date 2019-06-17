@@ -84,8 +84,8 @@ export ZSH_AUTOSUGGEST_USE_ASYNC=1
 # Spaceship prompt
 SPACESHIP_GIT_LAST_COMMIT_SHOW="${SPACESHIP_GIT_LAST_COMMIT_SHOW=true}"
 SPACESHIP_GIT_LAST_COMMIT_SYMBOL="${SPACESHIP_GIT_LAST_COMMIT_SYMBOL=""}"
-SPACESHIP_GIT_LAST_COMMIT_PREFIX="${SPACESHIP_GIT_LAST_COMMIT_PREFIX="("}"
-SPACESHIP_GIT_LAST_COMMIT_SUFFIX="${SPACESHIP_GIT_LAST_COMMIT_SUFFIX=") "}"
+SPACESHIP_GIT_LAST_COMMIT_PREFIX="${SPACESHIP_GIT_LAST_COMMIT_PREFIX=""}"
+SPACESHIP_GIT_LAST_COMMIT_SUFFIX="${SPACESHIP_GIT_LAST_COMMIT_SUFFIX=""}"
 SPACESHIP_GIT_LAST_COMMIT_COLOR="${SPACESHIP_GIT_LAST_COMMIT_COLOR="magenta"}"
 
 spaceship_git_last_commit() {
@@ -95,7 +95,8 @@ spaceship_git_last_commit() {
 
   local 'git_last_commit_status'
   # git_last_commit_status=$(git log --pretty='format:%<(25,trunc)%s 🕑 %cr' 'HEAD^..HEAD' | head -n 1)
-  git_last_commit_status=$(git log --pretty='format:%<(25,trunc)%s 🕑 %cr' | head -n 1)
+  # git_last_commit_status=$(git log --pretty='format:🕑 %cr %s' | head -n 1)
+  git_last_commit_status=$(git log --pretty='format:🕑 %cr | %<(30,trunc)%s' | head -n 1)
 
   [[ -z $git_last_commit_status ]] && return
 
@@ -172,7 +173,7 @@ alias nvidia="sudo primusrun glxgears"
 #export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # path repo dotfiles
-alias dotfiles='cd "$DOTFILES"'
+alias dot='cd "$DOTFILES"'
 
 # localan php53 & php70
 alias p5='cd "$P5"'
