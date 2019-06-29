@@ -17,7 +17,7 @@
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": false,
-  "keyMappings": "# Insert your preferred key mappings here.\nunmap f\nunmap i\nunmap u\nunmap <a-p> # conflict with vivaldi's open settings\n\nmap <c-d> scrollPageDown\nmap <c-u> scrollPageUp\n\nmap i LinkHints.activateMode\nmap I LinkHints.activateModeToOpenInNewTab\nmap <C-i> LinkHints.activateModeWithQueue\nmap <A-i> LinkHints.activateModeToCopyLinkUrl\nmap yi LinkHints.activateModeToCopyLinkUrl\n\nmap 0 firstTab\nmap ;f firstTab\nmap $ lastTab\nmap ;l lastTab\nmap u restoreTab\nmap # visitPreviousTab\nmap ;# visitPreviousTab\nmap ;a visitPreviousTab\nmap ;d removeTab\n\nmap <C-p> Vomnibar.activateTabSelection\n#map <space>; Vomnibar.activateTabSelection\n#map <space>t Vomnibar.activateTabSelection",
+  "keyMappings": "# Insert your preferred key mappings here.\nunmap f\nunmap i\nunmap u\nunmap <a-p> # conflict with vivaldi's open settings\n\nmap <c-d> scrollPageDown\nmap <c-u> scrollPageUp\n\nmap i LinkHints.activateMode\nmap I LinkHints.activateModeToOpenInNewTab\nmap <C-i> LinkHints.activateModeWithQueue\nmap <A-i> LinkHints.activateModeToCopyLinkUrl\nmap yi LinkHints.activateModeToCopyLinkUrl\n\nmap 0 firstTab\nmap 'f firstTab\nmap $ lastTab\nmap 'l lastTab\nmap u restoreTab\nmap # visitPreviousTab\nmap '# visitPreviousTab\nmap 'a visitPreviousTab\nmap 'd removeTab\n\nmap <C-p> Vomnibar.activateTabSelection\n#map <space>; Vomnibar.activateTabSelection\n#map <space>t Vomnibar.activateTabSelection",
   "linkHintCharacters": "sadfjklewcmpgh",
   "linkHintNumbers": "0123456789",
   "newTabUrl": "about:newtab",
