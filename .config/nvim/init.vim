@@ -9,12 +9,13 @@
 " :PlugClean (Uninnstall semua plugin yang dihapus dari bawah)
 call plug#begin('~/.config/nvim/vim-plug-pluggins')
 
-" Nerd Tree (File Explorer)
+" File Explorer
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }   
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
+Plug 'mcchrish/nnn.vim', { 'on':  'NnnPicker' } 										   " nnn file manager for neovim (requires nnn to be installed)
 
 " Git
-Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc)
+Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc) 
 Plug 'tpope/vim-rhubarb'                                                                   " :Gbrowse dari vim-fugitive ke github
 Plug 'Xuyuanp/nerdtree-git-plugin'                                                         " Integrasi git dengan Nerd Tree
 
@@ -37,8 +38,9 @@ Plug 'skywind3000/asyncrun.vim', { 'for': 'markdown' }                          
 
 " Useful / Essential
 Plug 'simeji/winresizer'                                                                   " Easy resize split windows dengan resize mode seperti di i3
-Plug 'tpope/vim-commentary'                                                                " Comment baris dengan 'gcc' atau gc<motion> (ex: gcap, 2gcj)
+Plug 'scrooloose/nerdcommenter'                                         				   " Better code commenter
 Plug 'tpope/vim-surround'                                                                  " manipulasi text dengan kurung (){}[]''<>
+Plug 'tpope/vim-repeat'                                                                    " membuat key repeat (.) bisa digunakan untuk mapping plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }                          " Remove this if already install fzf
 Plug 'junegunn/fzf.vim'                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
 Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
@@ -131,6 +133,9 @@ augroup numbertoggle
   autocmd InsertEnter               				* set norelativenumber number nocursorline
 augroup END
 
+" disable automatic commenting on newline after a comment
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " set command mode autocomplete
 set wildmenu           " turn on command line completion wild style
 set wildmode=list,full " tab completion di command mode sama seperti di terminal
@@ -172,16 +177,15 @@ vnoremap X "_X
 " kalo mau keluar suka tahan shift kelamaan
 cmap Wq wq
 cmap Qa qa
+
+" Never go into command line mode
 cmap Q! q!
+nmap q: :q
 
 " remap Join & show documentation jadi harus tahan shift+alt
 noremap <A-J> J
 xnoremap <A-J> J
 " noremap <A-K> K
-
-" remap original ; (repeat previous t,T,f,F) jadi '(single quote/petik satu)
-noremap ' ;
-xnoremap ' ;
 
 " qq to record, Q to replay
 nnoremap Q @q
@@ -206,6 +210,14 @@ xnoremap <silent> <A-h> <gv
 xnoremap <silent> <A-l> >gv
 xnoremap < <gv
 xnoremap > >gv
+
+" delete & yank function
+nnoremap <silent> daf Va}ddd
+nnoremap <silent> yaf Va}oVy
+augroup phpFunction
+	autocmd!
+	au Filetype php nnoremap <silent> <buffer> daf Va}d2dd
+augroup END
 
 " Insert and delete line above & below cursor
 nnoremap <silent><A-i> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
@@ -278,22 +290,29 @@ noremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
 " # Buffers
 nmap <silent> J :call NerdTreeSync(":bp")<cr>
 nmap <silent> K :call NerdTreeSync(":bn")<cr>
-noremap <silent> ;n :call NerdTreeSync(":bn")<cr>
-noremap <silent> ;p :call NerdTreeSync(":bp")<cr>
-noremap <silent> ;a :call NerdTreeSync(":b#")<cr>
-noremap <silent> ;l :call NerdTreeSync(":blast")<cr>
-noremap <silent> ;f :call NerdTreeSync(":bfirst")<cr>
-noremap <silent> ;d :Bdelete<cr>
-nmap <silent> 1; :b1<cr>
-nmap <silent> 2; :b2<cr>
-nmap <silent> 3; :b3<cr>
-nmap <silent> 4; :b4<cr>
-nmap <silent> 5; :b5<cr>
-nmap <silent> 6; :b6<cr>
-nmap <silent> 7; :b7<cr>
-nmap <silent> 8; :b8<cr>
-nmap <silent> 9; :b9<cr>
-" nmap <silent> 0; :b10<cr>
+noremap <silent> 'n :call NerdTreeSync(":bn")<cr>
+noremap <silent> 'p :call NerdTreeSync(":bp")<cr>
+noremap <silent> 'a :call NerdTreeSync(":b#")<cr>
+noremap <silent> 'l :call NerdTreeSync(":blast")<cr>
+noremap <silent> 'f :call NerdTreeSync(":bfirst")<cr>
+noremap <silent> 'd :Bdelete<cr>
+nmap <silent> 1' :b1<cr>
+nmap <silent> 2' :b2<cr>
+nmap <silent> 3' :b3<cr>
+nmap <silent> 4' :b4<cr>
+nmap <silent> 5' :b5<cr>
+nmap <silent> 6' :b6<cr>
+nmap <silent> 7' :b7<cr>
+nmap <silent> 8' :b8<cr>
+nmap <silent> 9' :b9<cr>
+" nmap <silent> 0' :b10<cr>
+
+" netrw like nerdree
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
 " # Functions & Scripts
 " Zoom split window yang sedang fokus jadi 1 tab
@@ -323,8 +342,18 @@ function! Log(status)
     endif
 endfunction
 
+" copy file path yang lagi di select di nnn ke register
+function! CopyLinestoRegister(lines)
+	let joined_lines = join(a:lines, "\n")
+	if len(a:lines) > 1
+		let joined_lines .= "\n"
+	endif
+	echom joined_lines
+	let @+ = joined_lines
+endfunction
+
 " set shell jadi zsh dan lakukan 'zgen reset' saat save zshr
-autocmd vimenter * let &shell='/bin/zsh -i'
+autocmd vimenter $DOTFILES/.zshrc,~/.zshrc let &shell='/bin/zsh -i'
 autocmd BufWritePost $DOTFILES/.zshrc,~/.zshrc !zgen reset
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
@@ -398,7 +427,7 @@ noremap <silent> <leader>gc :Gcommit<cr>
 noremap <silent> <leader>gp :Gpush<cr>
 " from fzf.vim
 noremap <silent> <leader>gl :Commits<cr>
-noremap <silent> <leader>g;l :BCommits<cr>
+noremap <silent> <leader>g'l :BCommits<cr>
 
 let g:lightline = {
             \ 'active': {
@@ -478,10 +507,27 @@ function! TabStatusInfo()
 	return buffers . ' ' . 'Buffers  '. '' . ' ' . tabs . ' ' .'Tabs  '
 endfunction
 
-" map leader+n toggle NERDTree on/off
+" nnn file manager
+let g:nnn#set_default_mappings = 0
+
+nnoremap <silent> <leader><C-e> :NnnPicker<CR>
+" Start nnn in the current file's directory
+nnoremap <leader>e :NnnPicker '%:p:h'<CR>
+
+" Opens the nnn window in a split
+"let g:nnn#layout = 'tabnew' " or vnew, tabnew etc.
+let g:nnn#layout = { 'left': '~20%' } " or right, up, down
+let g:nnn#action = {
+      \ '<c-t>': 'tab split',
+      \ '<c-s>': 'split',
+      \ '<c-v>': 'vsplit', 
+	  \ '<c-c>': function('CopyLinestoRegister') } " copy full path file yang dipilih ke register
+
+let g:nnn#command = 'nnn -l' " buat nnn minimal mode (gak ada file information) & find as you type
+
 "noremap <leader>t :NERDTreeToggle<CR>
-noremap <silent> <leader>e :call NerdTreeSync(":NERDTreeToggle")<cr>
-noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeTabsToggle")<cr>
+noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeToggle")<cr>
+" noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeTabsToggle")<cr>
 silent! map <F2> :NERDTreeFind<CR>
 
 let g:nerdtree_tabs_open_on_console_startup=2
@@ -534,6 +580,58 @@ function! NerdTreeSync(tab)
     endif
 endfunction
 
+" NERDCommenter
+let g:NERDCustomDelimiters = {
+			\'smarty': { 'left': '<!--','right': '-->', 'leftAlt': '/*', 'rightAlt': '*/'},
+			\'html': { 'left': '<!--','right': '-->', 'leftAlt': '/*', 'rightAlt': '*/'},
+			\'vim': { 'left': '"'} } 
+let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
+let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
+let g:NERDDefaultAlign = 'left' " Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDCommentEmptyLines = 1 " Comment empty lines (useful for regions)
+let g:NERDTrimTrailingWhitespace = 1 " Trim trailing white space when uncommenting
+let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not 
+
+nmap gcc <plug>NERDCommenterToggle
+nmap gcU <plug>NERDCommenterComment
+nmap gcu <plug>NERDCommenterUncomment
+nmap gcC <plug>NERDCommenterToEOL |" Comment dari cursor ke EOL
+nmap gci <plug>NERDCommenterInvert |" Invert baris yang sudah di comment jadi uncomment dan sebaliknya
+nmap gcm <plug>NERDCommenterMinimal |" Comment multiple line
+nmap gcs <plug>NERDCommenterSexy |" Comment multiple line dipercantik
+nmap gcy <plug>NERDCommenterYank |" copy (Yank) baris lalu comment
+nmap gcA <plug>NERDCommenterAppend |" Memulai comment dari akhir baris
+nmap gcv <plug>NERDCommenterAltDelims |" Switch alternative comments (ex: di php "//" & "/* */")
+" comment paragraf
+nmap gcap  vapgcs 
+nmap 2gcap v2apgcs
+nmap 3gcap v3apgcs
+nmap gcip  vipgcm
+nmap 2gcip v2ipgcm
+nmap 3gcip v3ipgcm
+
+" comment paragraf untuk filetype yang gak ada multiline comment nya
+augroup commentmultiple
+	autocmd!
+	au filetype vim,conf,xdefaults nmap <buffer> gcap vapgcc
+	au filetype vim,conf,xdefaults nmap <buffer> 2gcap v2apgcc
+	au filetype vim,conf,xdefaults nmap <buffer> 3gcap v3apgcc
+	au filetype vim,conf,xdefaults nmap <buffer> gcip vipgcc
+	au filetype vim,conf,xdefaults nmap <buffer> 2gcip v2ipgcc
+	au filetype vim,conf,xdefaults nmap <buffer> 3gcip v3ipgcc
+augroup END
+
+xmap gcc <plug>NERDCommenterToggle
+xmap gcU <plug>NERDCommenterComment
+xmap gcu <plug>NERDCommenterUncomment
+xmap gci <plug>NERDCommenterInvert
+xmap gcm <plug>NERDCommenterMinimal
+xmap gcs <plug>NERDCommenterSexy
+xmap gcy <plug>NERDCommenterYank
+
+imap <C-c> <plug>NERDCommenterInsert
+
+" silent! call repeat#set("\<Plug>NERDCommenterToggle", v:count)
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -551,7 +649,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 noremap <silent> <C-p> :Files<cr>
 noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
 noremap <silent> <C-_> :Rg<cr>
-noremap <silent> <leader>; :Buffers<cr>
+noremap <silent> <C-Space> :Buffers<cr>
 noremap <silent> <leader>l :BLines<cr>
 noremap <silent> <leader>L :Lines<cr>
 noremap <silent> <leader>] :BTags<cr>
@@ -580,32 +678,33 @@ let g:fzf_colors =
 
 " Git log format
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
+let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8"
 
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
 function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
+	let buf = nvim_create_buf(v:false, v:true)
+	call setbufvar(buf, '&signcolumn', 'no')
 
-  let height = &lines - 3
-  let width = float2nr(&columns - (&columns * 2 / 10))
-  let col = float2nr((&columns - width) / 2)
+	let height = &lines - 3
+	let width = float2nr(&columns - (&columns * 2 / 5))
+	let col = float2nr((&columns - width) / 2)
 
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': 1,
-        \ 'col': col,
-        \ 'width': width,
-        \ 'height': height
-        \ }
+	let opts = {
+				\ 'relative': 'editor',
+				\ 'row': 1,
+				\ 'col': col,
+				\ 'width': width,
+				\ 'height': height
+				\ }
 
-let win = nvim_open_win(buf, v:true, opts)
-call setwinvar(win, '&number', 0)
+	let win = nvim_open_win(buf, v:true, opts)
+	call setwinvar(win, '&number', 0)
 endfunction
 
-" Vim smooth scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+" " Vim smooth scroll
+" noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+" noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
@@ -620,6 +719,7 @@ nmap P <plug>(YoinkPaste_P)
 let g:yoinkIncludeDeleteOperations = 1
 let g:yoinkSavePersistently = 1
 let g:yoinkIncludeNamedRegisters = 1
+let g:yoinkAutoFormatPaste = 1
 
 " vim-subversive
 nmap s <plug>(SubversiveSubstitute)
@@ -654,6 +754,9 @@ au Filetype markdown noremap <leader>v :MarkdownPreview<cr>
 noremap <silent> <A-g> :Goyo<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
+
+" Set filetype apa aja colorhighlighting akan aktif
+let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg'
 
 " CoC vim
 " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
