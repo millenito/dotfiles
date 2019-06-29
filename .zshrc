@@ -167,6 +167,10 @@ alias pacman="sudo pacman"
 # enable nvidia drivers
 alias nvidia="sudo primusrun glxgears"
 
+# nmcli wifi
+alias nmlist="nmcli dev wifi list"
+alias nmconn="nmcli -a dev wifi connect"
+
 # set path go
 #export GOROOT=/home/$USER/go/
 #export GOPATH=/home/$USER/gopath/
@@ -205,6 +209,10 @@ export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-i
 export FZF_ALT_C_COMMAND="fd --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
 export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
+export NNN_BMS='h:~;a:/hdd/Anime'	
+export NNN_CONTEXT_COLORS='1234'	
+export NNN_USE_EDITOR=1
+export NNN_OPS_PROG=1
 
 # fuzzy_cd_anywhere (cd kemanapun dengan fzf dengan parameter (ex: fcda anime))
 function fcda() {
@@ -253,6 +261,30 @@ fgl() {
         local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
         git show $hashes
     fi
+}
+
+# # ex - archive extractor
+# # usage: ex <file>
+ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xvjf $1   ;;
+      *.tar.gz)    tar xzvf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xvf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xvzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 alias fhi='__fzf_history__' # list history dengan fzf (key: Ctrl+r)
