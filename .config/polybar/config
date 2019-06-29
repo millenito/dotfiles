@@ -30,6 +30,39 @@ secondary-theme = #6c69a8
 secondary = #e60053
 alert = #bd2c40
 
+black           = ${xrdb:color0}
+brightblack     = ${xrdb:color8}
+
+red             = ${xrdb:color1}
+brightred       = ${xrdb:color9}
+red-alt         = #c67d6f
+
+green           = ${xrdb:color2}
+brightgreen     = ${xrdb:color10}
+
+yellow          = ${xrdb:color3}
+brightyellow    = ${xrdb:color11}
+
+blue            = ${xrdb:color4}
+brightblue      = ${xrdb:color12}
+
+magenta        = ${xrdb:color5}
+brightmangenta  = ${xrdb:color13}
+
+cyan            = ${xrdb:color6}
+brightcyan      = ${xrdb:color14}
+		
+white           = ${xrdb:color7}
+brightwhite     = ${xrdb:color15}
+
+color16 		= ${xrdb:color16}
+color17 		= ${xrdb:color17}
+color18 		= ${xrdb:color18}
+color19 		= ${xrdb:color19}
+color20 		= ${xrdb:color20}
+color21 		= ${xrdb:color21}
+
+
 [bar/bar]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
@@ -66,8 +99,8 @@ font-4 = FontAwesome:size=11;0
 font-5 = Noto Sans CJK JP:size=11:antialias=true;0		# (Japanese) Band names, etc.
 
 modules-left = i3 xwindow 
-modules-center = date 
-modules-right = xkeyboard spotify wlan eth battery xbacklight pulseaudio 
+modules-center = 
+modules-right = xkeyboard spotify wlan eth battery cpu filesystem memory xbacklight date pulseaudio 
 
 #tray-position = right
 tray-position = hidden
@@ -91,6 +124,7 @@ cursor-scroll = ns-resize
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:40:...%
+format-underline = ${colors.primary-theme}
 
 [module/spotify]
 type = custom/script
@@ -116,15 +150,28 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
 
+[module/telegram]
+type = custom/text
+content-foreground = #FFFFFF
+content-background = #fffff
+click-left = "telegram-desktop >/dev/null 2>&1 &"
+content = 
+content-padding =1
+
 [module/filesystem]
 type = internal/fs
 interval = 25
+format-mounted = <label-mounted>
+format-mounted-prefix = " "
+format-mounted-underline = ${colors.color17}
+format-unmounted-underline = ${colors.background}
 
 mount-0 = /
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+; label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted =  %percentage_used%%
 label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
+label-unmounted-foreground = ${colors.foreground}
 
 [module/bspwm]
 type = internal/bspwm
@@ -234,28 +281,49 @@ inherit = module/xbacklight
 type = internal/backlight
 card = intel_backlight
 
+; [module/cpu]
+; type = internal/cpu
+; interval = 2
+; format-prefix = ""
+; format-prefix-foreground = ${colors.foreground}
+; format-underline = #f90000
+; label = %percentage:2%%
+
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+format-prefix = " "
+format-foreground = ${colors.foreground}
+format-prefix-foreground = ${colors.foreground}
+;format-underline = #f90000
 label = %percentage:2%%
+;label-foreground = ${colors.green}
+format-underline = #C8E344
+
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
-label = %percentage_used%%
+format-prefix = "﬙ "
+
+format-prefix-foreground = ${colors.foreground}
+format-underline = ${colors.blue}
+label = %gb_used%
 
 [module/wlan]
 type = internal/network
 interface = wlp0s20f3
 interval = 3.0
 
-format-connected = <ramp-signal>  <label-connected>
+format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
 label-connected = %essid%
 
@@ -296,16 +364,17 @@ date-alt =
 date = 
 ;date = " %d-%m"
 
-;time = %H:%M
-;time = "    %a %b %d      %I:%M %p  "
-time = "    %I:%M %p       %a %b %d  "
+; time = %H:%M
+; time = "    %a %b %d      %I:%M %p  "
+; time = "  %a %b %d   %I:%M %p"
+time = " %I:%M %p    %a %b %d"
 time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.primary-theme}
+format-underline = ${colors.brightred}
 
-label = %time% %date%
+label = %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -321,12 +390,12 @@ label-muted = 🔇 muted
 label-muted-foreground = #666
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-0 = ${colors.blue}
+bar-volume-foreground-1 = ${colors.blue}
+bar-volume-foreground-2 = ${colors.blue}
+bar-volume-foreground-3 = ${colors.blue}
+bar-volume-foreground-4 = ${colors.blue}
+bar-volume-foreground-5 = ${colors.green}
 bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
 bar-volume-indicator = |
