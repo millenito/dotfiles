@@ -2,8 +2,16 @@ snippet thi "$this->" b
 \$this->${1}
 endsnippet
 
+snippet di "die(...);" b
+die(${1});
+endsnippet
+
 snippet pridie "print_r($...) ;die();" b
 print_r($${1});die();
+endsnippet
+
+snippet vardie "var_dump($...);die();" b
+var_dump($${1});die();
 endsnippet
 
 snippet post "$this->input->post()" b
