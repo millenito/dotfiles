@@ -57,7 +57,7 @@ Plug 'drewtempelmeyer/palenight.vim'                                            
 Plug 'morhetz/gruvbox'                                                                     " Color theme gruvbox
 Plug 'frankier/neovim-colors-solarized-truecolor-only'                                     " Color theme solarized (for neovim)
 Plug 'joshdick/onedark.vim'
-Plug 'mhartington/oceanic-next'
+Plug 'millenito/oceanic-next-darker' 													   " Personal fork of Oceanic Next Color theme
 Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
 Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
 Plug 'terryma/vim-smooth-scroll'                                                           " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
@@ -105,7 +105,7 @@ set cmdheight=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-colorscheme OceanicNext
+colorscheme OceanicNextDarker
 
 " Map leader to space/spasi"
 let mapleader = " "
@@ -447,8 +447,8 @@ let g:lightline = {
 " let g:lightline.colorscheme = 'ayu'
 " let g:lightline.colorscheme = 'gruvbox'
 " let g:lightline.colorscheme = 'solarized'
- " let g:lightline.colorscheme = 'onedark'
-  let g:lightline.colorscheme = 'oceanicnext'
+" let g:lightline.colorscheme = 'onedark'
+let g:lightline.colorscheme = 'oceanicnextdarker'
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
