@@ -112,10 +112,10 @@ SPACESHIP_PROMPT_ORDER=(
   host          # Hostname section
   user          # Username section
   dir           # Current directory section
-  git           # Git section (git_branch + git_status)
-  # php           # PHP section
-  git_last_commit
   docker        # Docker section
+  # php           # PHP section
+  git           # Git section (git_branch + git_status)
+  git_last_commit
   line_sep      # Line break
   battery       # Battery level and status
   jobs          # Background jobs indicator
