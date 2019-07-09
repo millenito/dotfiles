@@ -12,12 +12,16 @@
     {
       "pattern": "https://www.youtube.com/",
       "passKeys": "<space>t"
+    },
+    {
+      "pattern": "https://zty.pe/",
+      "passKeys": ""
     }
   ],
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": false,
-  "keyMappings": "# Insert your preferred key mappings here.\nunmap f\nunmap i\nunmap u\nunmap <a-p> # conflict with vivaldi's open settings\n\nmap <c-d> scrollPageDown\nmap <c-u> scrollPageUp\n\nmap i LinkHints.activateMode\nmap I LinkHints.activateModeToOpenInNewTab\nmap <C-i> LinkHints.activateModeWithQueue\nmap <A-i> LinkHints.activateModeToCopyLinkUrl\nmap yi LinkHints.activateModeToCopyLinkUrl\n\nmap 0 firstTab\nmap 'f firstTab\nmap $ lastTab\nmap 'l lastTab\nmap u restoreTab\nmap # visitPreviousTab\nmap '# visitPreviousTab\nmap 'a visitPreviousTab\nmap 'd removeTab\n\nmap <C-p> Vomnibar.activateTabSelection\n#map <space>; Vomnibar.activateTabSelection\n#map <space>t Vomnibar.activateTabSelection",
+  "keyMappings": "# Insert your preferred key mappings here.\nunmap f\nunmap <a-f>\nunmap i\nunmap u\nunmap <a-p> # conflict with vivaldi's open settings\n\nmap <c-d> scrollPageDown\nmap <c-u> scrollPageUp\nmap <c-f> scrollFullPageDown\nmap <c-b> scrollFullPageUp\n\nmap i LinkHints.activateMode\nmap I LinkHints.activateModeToOpenInNewTab\nmap <C-i> LinkHints.activateModeWithQueue\nmap <A-i> LinkHints.activateModeToCopyLinkUrl\nmap yi LinkHints.activateModeToCopyLinkUrl\n\nmap 0 firstTab\nmap 'f firstTab\nmap $ lastTab\nmap 'l lastTab\nmap u restoreTab\nmap # visitPreviousTab\nmap '# visitPreviousTab\nmap 'a visitPreviousTab\nmap 'd removeTab\nmap <C-w>o closeOtherTabs\nmap <a-h> moveTabLeft\nmap <a-l> moveTabRight\n\nmap <C-p> Vomnibar.activateTabSelection\nmap <C-space> Vomnibar.activateTabSelection\n#map <space>; Vomnibar.activateTabSelection\n#map <space>t Vomnibar.activateTabSelection",
   "linkHintCharacters": "sadfjklewcmpgh",
   "linkHintNumbers": "0123456789",
   "newTabUrl": "about:newtab",
@@ -26,7 +30,7 @@
   "regexFindMode": false,
   "ignoreKeyboardLayout": false,
   "scrollStepSize": 60,
-  "smoothScroll": false,
+  "smoothScroll": true,
   "grabBackFocus": true,
   "searchEngines": "w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\n\n# More examples.\n#\n# (Vimium supports search completion Wikipedia, as\n# above, and for these.)\n#\n#g: https://www.google.com/search?q=%s Google\n# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky...\n yt: https://www.youtube.com/results?search_query=%s Youtube\n# gm: https://www.google.com/maps?q=%s Google maps\n# b: https://www.bing.com/search?q=%s Bing\n# d: https://duckduckgo.com/?q=%s DuckDuckGo\n# az: https://www.amazon.com/s/?field-keywords=%s Amazon\n# qw: https://www.qwant.com/?q=%s Qwant",
   "searchUrl": "https://www.google.com/search?q=",
