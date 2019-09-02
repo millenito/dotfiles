@@ -4,15 +4,21 @@
 "  / /|  / / /_/ /_/ / (__  )  / / / / / / /__| |/ / / / / / / /
 " /_/ |_/_/\__/\____/ /____/  /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/ 
 
-" Init vim-plug pluggin manager
+" Vim-plug plugin manager init / install baru kalau belum di install
 " :PlugInstall (Install semua plugin yang disebutkan dibawah)
 " :PlugClean (Uninnstall semua plugin yang dihapus dari bawah)
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
+endif
+
 call plug#begin('~/.config/nvim/vim-plug-pluggins')
 
 " File Explorer
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }   
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
-Plug 'mcchrish/nnn.vim', { 'on':  'NnnPicker' } 										   " nnn file manager for neovim (requires nnn to be installed)
+Plug 'justinmk/vim-dirvish'                                                                " File explorer pengganti netrw
 
 " Git
 Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc) 
@@ -26,6 +32,7 @@ Plug 'blueyed/smarty.vim'                                                       
 Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
 Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
+" Plug 'cosminadrianpopescu/vim-sql-workbench'
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' }  " Preview file markdown secara real-time
@@ -48,6 +55,7 @@ Plug 'svermeulen/vim-yoink'                                                     
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
 Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
 Plug 'chrisbra/Recover.vim' 															   " buat diff saat membuka file yg ada .swp/.swo nya untuk menghapus file .swo/.swpya bisa dengan :FinishRecovery atau :RecoveryPluginFinish
+Plug 'christoomey/vim-tmux-navigator'                                                      " Integrasi split panes dengan pane tmux (C-hjkl antara split di vim dengan split pane tmux)
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim'                                                               " bar dibawah
@@ -64,6 +72,7 @@ Plug 'terryma/vim-smooth-scroll'                                                
 Plug 'RRethy/vim-illuminate'                                                               " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
+Plug 'michaeljsmith/vim-indent-object'                                                     " Text object untuk indent <motion>ii (in indent), <motion>ai (above indent), <motion>aI <above and below indent)
 call plug#end()
 
 " # Color and bling
@@ -119,22 +128,25 @@ set cursorline                           " Highlight baris cursor berada
 set nowrap                               " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
 set title                                " biar keliatan window title nya
 set tabstop=4                            " Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
+set expandtab
 set shiftwidth=4                         " indent 4 spasi
 set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
 set updatetime=200                       " Update time untuk plugin-plugin
 set shell=/usr/bin/zsh 					 " Set shell jadi zsh
+" set winblend=20
 syntax on                                " Memastikan syntax untuk color theme selalu nyala
-
 " disable relativenumber & cursorline in insert mode / disable all line numbers on focusout
 augroup numbertoggle
   " autocmd!
   autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber cursorline noshowmode
-  autocmd BufLeave,winLeave,FocusLost  			    * set nonumber norelativenumber nocursorline
+  autocmd BufLeave,winLeave,FocusLost  			    * set number nocursorline
   autocmd InsertEnter               				* set norelativenumber number nocursorline
+  " autocmd BufEnter,winEnter,FocusGained             :checktime
 augroup END
 
 " disable automatic commenting on newline after a comment
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" autocmd VimResized * wincmd =
 
 " set command mode autocomplete
 set wildmenu           " turn on command line completion wild style
@@ -143,26 +155,41 @@ set wildmode=list,full " tab completion di command mode sama seperti di terminal
 " # Finding text (/ | ?)
 set incsearch                   " Highlight text while search
 set ignorecase smartcase
-set nohlsearch
+" set nohlsearch
 set completeopt=longest,menuone " better autocompletion
+noremap <silent> <esc> :nohl<CR>
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<DOWN>" |" Ctrl+j autocomplete go down / next
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>" |" Ctrl+k autocomplete go up / previous
-
-" arrow keys disable & UP/DOWN in Command mode
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-cnoremap <C-k> <UP>
-cnoremap <C-j> <Down>
-cnoremap <C-h> <Left>
-cnoremap <C-l> <Right>
 
 " Movement in insert mode
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 " inoremap <C-j> <Down> (digabung sama completeopt pumvisible())
 " inoremap <C-k> <Up> (digabung sama completeopt pumvisible())
+
+" GNU Readline mappings in command mode
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap  <C-B> <Left>
+cnoremap  <C-F> <Right>
+cnoremap  <M-f> <S-Right>
+cnoremap  <M-b> <S-Left>
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+
+cnoremap  <C-Y> <C-R>-
+cnoremap  <M-d> <S-Right><C-W>
+cnoremap  <M-BS> <C-W>
+cnoremap  <M-n> <Down>
+cnoremap  <M-p> <Up>
+
+function! s:ctrl_u()
+    if getcmdpos() > 1
+        let @- = getcmdline()[:getcmdpos()-2]
+    endif
+    return "\<C-U>"
+endfunction
+
+cnoremap <expr> <C-U> <SID>ctrl_u()
 
 " Fast escape (no delay)
 vnoremap <Esc> <C-c>
@@ -219,33 +246,13 @@ augroup phpFunction
 	au Filetype php nnoremap <silent> <buffer> daf Va}d2dd
 augroup END
 
-" Insert and delete line above & below cursor
-nnoremap <silent><A-i> m`:silent +g/\m^\s*$/d<CR>``:noh<CR> |" delete below cursor
-nnoremap <silent><A-I> m`:silent -g/\m^\s*$/d<CR>``:noh<CR> |" delete above cursor
-nnoremap <silent><A-o> :set paste<CR>m`o<Esc>``:set nopaste<CR> |" insert below cursor
-nnoremap <silent><A-O> :set paste<CR>m`O<Esc>``:set nopaste<CR> |" insert above cursor
+" Insert new line above/below cursor
+nnoremap <silent> ]<cr> :set paste<CR>m`o<Esc>``:set nopaste<CR>
+nnoremap <silent> [<cr> :set paste<CR>m`O<Esc>``:set nopaste<CR>
 
-" nvim terminal mode
-noremap <A-t> :sp+te<cr>
-tnoremap <C-k> <UP>
-tnoremap <C-j> <Down>
-tnoremap <C-h> <Left>
-tnoremap <C-l> <Right>
-tnoremap <buffer> <C-h> <C-\><C-n><C-w>h
-tnoremap <buffer> <C-j> <C-\><C-n><C-w>j
-tnoremap <buffer> <C-k> <C-\><C-n><C-w>k
-tnoremap <buffer> <C-l> <C-\><C-n><C-w>l
-tnoremap <Esc> <c-\><c-n>
-tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
-" disable line number & start in insert mode saat buka terminal neovim
-augroup termode
-	autocmd!
-	au TermOpen * startinsert
-	au TermOpen * set noruler norelativenumber nonumber laststatus=0
-	au BufEnter * if &buftype == 'terminal' | startinsert | endif
-	au BufEnter * if &buftype == 'terminal' | set noruler norelativenumber nonumber laststatus=0 | endif
-	 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
+" Delete new line above/below cursor
+nnoremap <silent> ]d m`:silent +g/\m^\s*$/d<CR>``:noh<CR>
+nnoremap <silent> [d m`:silent -g/\m^\s*$/d<CR>``:noh<CR>
 
 " # Clipboard (primary) & Saving
 set clipboard=unnamedplus " Mengubah register default vim (saat p) menjadi dari primary register
@@ -257,12 +264,21 @@ noremap <C-s> :update<CR>
 vnoremap <C-s> <Esc>:update<CR>
 inoremap <C-s> <Esc>:update<CR>
 
+" Folds
+set foldmethod=indent " fold by indents
+set foldcolumn=1 "defines 1 col at window left, to indicate folding
+let javaScript_fold=1 "activate folding by JS syntax
+set foldlevelstart=99 "start file with all folds opened
+
 " # Splits
 " pindah antar window dengan Ctrl+hjkl
-noremap <C-k> <C-w>k
-noremap <C-j> <C-w>j
-noremap <C-h> <C-w>h
-noremap <C-l> <C-w>l
+if !exists(':TmuxNavigatorProcessList')
+    noremap <C-k> <C-w>k
+    noremap <C-j> <C-w>j
+    noremap <C-h> <C-w>h
+    noremap <C-l> <C-w>l
+endif
+noremap <C-w>f <C-w>\|<C-w>_ |" zoom maximize split pane dengan cara di resize sampe mentok (untuk normalin lagi <C-w>0)
 set splitbelow "split dari :sp muncul di bawah
 set splitright "split dari :vsp muncul di kanan
 
@@ -280,8 +296,9 @@ noremap <silent> 9<leader> 9gt
 " noremap <silent> <leader>0 :call NerdTreeSync(":tablast")<cr>
 noremap <silent> <leader>n :call NerdTreeSync(":tabnext")<cr>
 noremap <silent> <leader>p :call NerdTreeSync(":tabprev")<cr>
-noremap <silent> <leader>t :tabs<cr>
-noremap <silent> <C-n> :tabnew<cr>
+" Remap <C-t> from jump back tag stack to <leader>t
+noremap <silent> <leader>t <C-t>
+noremap <silent> <C-t> :tabnew<cr>
 
 " leader+a pindah ke recent tab (tab terakhir) pada normal mode & visual mode
 au TabLeave * let g:lasttab = tabpagenr()
@@ -306,13 +323,6 @@ nmap <silent> 7' :b7<cr>
 nmap <silent> 8' :b8<cr>
 nmap <silent> 9' :b9<cr>
 " nmap <silent> 0' :b10<cr>
-
-" netrw like nerdree
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
 
 " # Functions & Scripts
 " Zoom split window yang sedang fokus jadi 1 tab
@@ -342,16 +352,6 @@ function! Log(status)
     endif
 endfunction
 
-" copy file path yang lagi di select di nnn ke register
-function! CopyLinestoRegister(lines)
-	let joined_lines = join(a:lines, "\n")
-	if len(a:lines) > 1
-		let joined_lines .= "\n"
-	endif
-	echom joined_lines
-	let @+ = joined_lines
-endfunction
-
 " set shell jadi zsh dan lakukan 'zgen reset' saat save zshr
 autocmd vimenter $DOTFILES/.zshrc,~/.zshrc let &shell='/bin/zsh -i'
 autocmd BufWritePost $DOTFILES/.zshrc,~/.zshrc !zgen reset
@@ -374,7 +374,35 @@ function! ConvertPDFPandoc()
 	redraw
 endfunction
 
-function! PreviewMdZathura()
+" Convert markdown ke file .html ke directory khusus untuk html yang berada di directory utama $NOTES (/home/nito/notes)
+" dengan struktur yang sama dengan file markdown (otomatis buat folder yang diperlukan)
+function! ConvertHTMLPandoc()
+	let notesdir = $NOTES
+	let converteddir = notesdir . "/_html"
+	let realfile = expand('%:p')
+
+	if realfile == $NOTES . "/index.md"
+		let indexhtml = converteddir . '/' . expand('%:t:r') . '.html'
+		execute "AsyncRun pandoc " . realfile . " -o " . indexhtml . " --template=uikit.html --toc"
+	else
+		let matched = matchlist(expand("%:p"), '\v' . notesdir . '(/.+)(/[^/]+)\.md$')
+		let convertedfile = converteddir . matched[1] . matched[2]  . ".html"
+		let newdir = matchstr(convertedfile, '.*\/')
+
+		if !isdirectory(newdir)
+			echo "directory didn't exist, creating new directory"
+			call mkdir(newdir, "p")
+		endif
+
+		echo 'deleting old file '. convertedfile
+		execute "!rm -f " . convertedfile
+		echo 'converting to html'
+		execute "AsyncRun pandoc " . realfile . " -o " . convertedfile . " --template=uikit.html --toc"
+		" execute "AsyncRun pandoc " . realfile . " -o " . convertedfile . " --template=uikit.html --toc --self-contained --resource-path=.:$NOTES/_images"
+	endif
+endfunction
+
+function! PreviewMdPDF()
 	let realfile = expand('%')
 	let zareaddir = '~/.zaread/'
 	let file = expand('%:t:r')
@@ -388,18 +416,54 @@ function! PreviewMdZathura()
 	endif
 endfunction
 
-" Saat write pada file markdown hapus cache pdf dari zaread agar nanti bisa dibuat baru | buka file dengan zathura
-au BufWritePost *.md call ConvertPDFPandoc()
-au Filetype markdown noremap <leader>z :call PreviewMdZathura()<cr><cr>
+" Buka file markdown yang sudah di convert ke .html dengan qutebrowser
+function! PreviewMdHTML()
+	let realfile = expand('%:p')
+	let filedir = expand('%:p:h') . '/html/'
+	let file = expand('%:t:r')
+	let convertedfile = filedir . file . '.html'
+	if !empty(glob(convertedfile))
+		execute "!qutebrowser " . convertedfile
+	else
+		execute "echo 'compiling new html...'"
+		execute "AsyncRun pandoc " . realfile . " -o " . convertedfile . " --template=uikit.html --toc"
+		execute "!qutebrowser " . convertedfile
+	endif
+endfunction
 
-augroup mdsettings
+" Saat write pada file markdown hapus cache pdf dari zaread agar nanti bisa dibuat baru | buka file dengan zathura
+au BufWritePost *.md call ConvertHTMLPandoc()
+" au BufWritePost *.md call ConvertPDFPandoc()
+au Filetype markdown noremap <leader>z :call PreviewMdPDF()<cr><cr>
+
+augroup mdSettings
 	autocmd!
 	au BufRead,BufEnter index.md setlocal nofoldenable          " disable folding saat pertama kali masuk pada index personal notes saya
 	au BufRead,BufEnter index.md noremap <buffer> <cr> f]2lgf   " buka catatan di baris cursor dengan enter (pada index.md)
 	au Filetype markdown setlocal conceallevel=2 wrap linebreak " writing mode setup
-" gerak atas/bawah pada satu kalimat yang sudah di wrap
+
+	" gerak atas/bawah pada satu kalimat yang sudah di wrap
 	au Filetype markdown noremap j gj
 	au Filetype markdown noremap k gk
+
+	" Loncat ke yang ada tanda <++>
+	inoremap ,, <Esc>/<++><Enter>"_c4l
+	vnoremap ,, <Esc>/<++><Enter>"_c4l
+	map ,, <Esc>/<++><Enter>"_c4l
+
+	" Markdown maps
+	au Filetype markdown inoremap ,b **** <++><Esc>F*hi
+	au Filetype markdown nnoremap ,b bi**<Esc>ea**<Esc>
+	au Filetype markdown inoremap ,s ~~~~ <++><Esc>F~hi
+	au Filetype markdown nnoremap ,s bi~~<Esc>ea~~<Esc>
+	au Filetype markdown inoremap ,c `` <++><Esc>F`ha
+	au Filetype markdown nnoremap ,c bi`<Esc>ea`<Esc>
+	au Filetype markdown inoremap ,i ** <++><Esc>F*ha
+	au Filetype markdown nnoremap ,i bi*<Esc>ea*<Esc>
+	au Filetype markdown inoremap ,e ****** <++><Esc>F*2hi
+	au Filetype markdown nnoremap ,e bi***<Esc>ea***<Esc>
+	au Filetype markdown inoremap ,m <mark></mark> <++><Esc>F/hi
+	au Filetype markdown nnoremap ,m bi<mark><Esc>ea</mark><Esc>
 augroup END
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
@@ -418,6 +482,7 @@ let g:matchup_matchparen_insert_timeout = 60
 
 "  AsyncRun membuat make & git push menjadi asyncronous
 " command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+let g:asyncrun_exit = "echo 'finished compiling!'"
 
 " fugitive-vim git keymaps
 noremap <silent> <leader>gB :Gblame<cr>
@@ -426,8 +491,8 @@ noremap <silent> <leader>gd :Gdiff<cr>
 noremap <silent> <leader>gc :Gcommit<cr>
 noremap <silent> <leader>gp :Gpush<cr>
 " from fzf.vim
-noremap <silent> <leader>gl :Commits<cr>
-noremap <silent> <leader>g'l :BCommits<cr>
+noremap <silent> <leader>gl :Commits!<cr>
+noremap <silent> <leader>g'l :BCommits!<cr>
 
 let g:lightline = {
             \ 'active': {
@@ -507,31 +572,160 @@ function! TabStatusInfo()
 	return buffers . ' ' . 'Buffers  '. '' . ' ' . tabs . ' ' .'Tabs  '
 endfunction
 
-" nnn file manager
-let g:nnn#set_default_mappings = 0
+" Dirvish
+" Gunakan dirvish dan disable netrw kalo ada dirvish
+function CheckDirvishIfNotExistsUseNetrw()
+    if exists(':Dirvish')
+        let g:loaded_netrw       = 1
+        let g:loaded_netrwPlugin = 1
+        let g:dirvish_mode       = ':sort ,^.*[\/],'
 
-nnoremap <silent> <leader><C-e> :NnnPicker<CR>
-" Start nnn in the current file's directory
-nnoremap <leader>e :NnnPicker '%:p:h'<CR>
+        " Change default Explore, Vexplore, Sexplore to using dirvish
+        command! -nargs=? -complete=dir Explore Dirvish <args>
+        command! -nargs=? -complete=dir Vexplore  vsplit | silent Dirvish <args>
+        command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
 
-" Opens the nnn window in a split
-"let g:nnn#layout = 'tabnew' " or vnew, tabnew etc.
-let g:nnn#layout = { 'left': '~20%' } " or right, up, down
-let g:nnn#action = {
-      \ '<c-t>': 'tab split',
-      \ '<c-s>': 'split',
-      \ '<c-v>': 'vsplit', 
-	  \ '<c-c>': function('CopyLinestoRegister') } " copy full path file yang dipilih ke register
+        " Dirvish on the left
+        command! VleftDirvish leftabove vsplit | vertical resize 30 | silent Dirvish
+        nnoremap <silent> _ :VleftDirvish<CR>
 
-let g:nnn#command = 'nnn -l' " buat nnn minimal mode (gak ada file information) & find as you type
+        " Open dirvish on current pane/ vertically from current pane/ horizontally from current pane (use capitals for opening in CWD)
+        nnoremap <silent> - :Explore %:p:h<CR>
+        nnoremap <silent> <leader>S :Sexplore<cr>
+        nnoremap <silent> <leader>V :Vexplore<cr>
+        nnoremap <silent> <leader>s :Sexplore %:p:h<cr>
+        nnoremap <silent> <leader>v :Vexplore %:p:h<cr>
+
+        augroup dirvishSettings
+            autocmd!
+            autocmd FileType dirvish silent! unmap <buffer> <C-p>
+            autocmd FileType dirvish silent! unmap <buffer> <Cr>
+
+            " Go up / enter directory easily
+            au FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
+            au FileType dirvish nmap <silent><buffer> l :call dirvish#open("edit", 0)<CR>
+
+            " Ctrl+t open in new tap
+            au FileType dirvish nnoremap <silent><buffer> <C-t> :call dirvish#open('tabedit', 0)<CR>
+            au FileType dirvish xnoremap <silent><buffer> <C-t> :call dirvish#open('tabedit', 0)<CR>
+
+            " Ctrl+s open in horizontal split
+            au FileType dirvish nnoremap <silent><buffer> <C-s> :call dirvish#open('split', 0)<CR>
+            au FileType dirvish xnoremap <silent><buffer> <C-s> :call dirvish#open('split', 0)<CR>
+
+            " Ctrl+v open in vertical split
+            au FileType dirvish nnoremap <silent><buffer> <C-v> :call dirvish#open('vsplit', 0)<CR>
+            au FileType dirvish xnoremap <silent><buffer> <C-v> :call dirvish#open('vsplit', 0)<CR>
+
+            " Map `gr` to reload.
+            au FileType dirvish nnoremap <silent><buffer> gr :<C-U>Dirvish %<CR>
+
+            " Map `gh` to hide dot-prefixed files.  Press `R` to "toggle" (reload).
+            au FileType dirvish nnoremap <silent><buffer> gh :silent keeppatterns g@\v/\.[^\/]+/?$@d _<cr>:setl cole=3<cr>
+
+            " Delete file
+            au FileType dirvish nmap <silent><buffer> D :Shdo rm -rf {}<cr> Z! <cr>
+
+            au FileType dirvish nmap <silent><nowait><buffer> q <Plug>(dirvish_quit)
+        augroup END
+
+    else
+        fun! NetrwNerdtree()
+            let g:netrw_liststyle=3
+
+            execute "Lexplore "
+            wincmd H
+
+            execute "vertical resize 45"
+        endf
+
+        function! NetrwOpen(pane)
+            let g:netrw_liststyle=0
+
+            if a:pane == "split"
+                execute "Sexplore "
+            elseif a:pane == "vsplit"
+                execute "Sexplore! "
+            else
+                execute "Explore "
+            endif
+        endfunction
+
+        augroup netrwsettings
+            autocmd!
+            autocmd FileType netrw call s:netrw_maps()
+        augroup END
+
+        function! s:netrw_maps() abort
+            if !exists(':TmuxNavigatorProcessList')
+                nmap <buffer> <C-k> <C-w>k
+                nmap <buffer> <C-j> <C-w>j
+                nmap <buffer> <C-h> <C-w>h
+                nmap <buffer> <C-l> <C-w>l
+            else
+                nmap <buffer> <silent> <C-h> :TmuxNavigateLeft<cr>
+                nmap <buffer> <silent> <C-j> :TmuxNavigateDown<cr>
+                nmap <buffer> <silent> <C-k> :TmuxNavigateUp<cr>
+                nmap <buffer> <silent> <C-L> :TmuxNavigateRight<cr>
+            endif
+            nmap <buffer> gr <Plug>NetrwRefresh
+            nmap <buffer> gh <Plug>NetrwHideEdit
+
+            " 'h' & 'l' change directories except when in tree list mode
+            if g:netrw_liststyle == 3
+                nmap <buffer> h <Plug>NetrwLocalBrowseCheck
+                nmap <buffer> l <Plug>NetrwLocalBrowseCheck
+            else
+                nmap <buffer> h <Plug>NetrwBrowseUpDir
+                nmap <buffer> l <Plug>NetrwLocalBrowseCheck
+            endif
+        endfunction
+
+        " hide banner and '.' in netrw
+        let g:netrw_banner = 0
+        let g:netrw_list_hide = '^\./$'
+        let g:netrw_hide = 1
+
+        " open netrw like nerdtree in tree mode
+        noremap <silent> - :call NetrwNerdtree()<cr>
+
+        " open netrw split horizontally and vertically from the curent pane
+        noremap <silent> <leader>s :call NetrwOpen("split")<cr>
+        noremap <silent> <leader>v :call NetrwOpen("vsplit")<cr>
+    endif
+endfunction
+
+autocmd VimEnter * call CheckDirvishIfNotExistsUseNetrw()
 
 "noremap <leader>t :NERDTreeToggle<CR>
-noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeToggle")<cr>
-" noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeTabsToggle")<cr>
+noremap <silent> <leader>e :call NerdTreeSync(":NERDTreeToggle")<cr>
 silent! map <F2> :NERDTreeFind<CR>
+" noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeTabsToggle")<cr>
+
+augroup nerdtreeSettings
+    autocmd!
+    " Go up / enter directory easily
+    au FileType nerdtree nmap <silent><buffer> l :call nerdtree#ui_glue#invokeKeyMap(g:NERDTreeMapActivateNode)<CR>
+    au FileType nerdtree nmap <silent><buffer> h :call nerdtree#ui_glue#invokeKeyMap(g:NERDTreeMapActivateNode)<CR>
+    
+    " Open selected file in split/vertical split using <C-s>/<C-v>
+    au FileType nerdtree nmap <silent><buffer> <C-s> :call nerdtree#ui_glue#invokeKeyMap("i")<CR>
+    au FileType nerdtree nmap <silent><buffer> <C-v> :call nerdtree#ui_glue#invokeKeyMap("s")<CR>
+
+    " Move between git changes (modified) with ]h/[h (nerdtree-git-plugin)
+    au FileType nerdtree nmap <silent><buffer> [h :call nerdtree#ui_glue#invokeKeyMap("[c")<CR>
+    au FileType nerdtree nmap <silent><buffer> ]h :call nerdtree#ui_glue#invokeKeyMap("]c")<CR>
+augroup END
 
 let g:nerdtree_tabs_open_on_console_startup=2
 let g:nerdtree_tabs_open_on_gui_startup=2
+let g:NERDTreeHijackNetrw = 0 
+
+" Nerd Tree pake icon folder dari NerdFonts
+" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:nerdtree_tabs_startup_cd = 1  
+let NERDTreeMinimalUI = 1
+let NERDTreeChDirMode = 2
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "",
@@ -549,12 +743,6 @@ let g:NERDTreeIndicatorMapCustom = {
 " Masuk resize mode untuk split window dengan Ctrl+wr
 let g:winresizer_start_key = '<C-w>r'
 let g:winresizer_finish_with_escape = 1
-
-" Nerd Tree pake icon folder dari NerdFonts
-" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:nerdtree_tabs_startup_cd = 1  
-let NERDTreeMinimalUI = 1
-let NERDTreeChDirMode = 2
 
 " Nerd Tree auto-sync directory with open file
 function! NerdTreeSync(tab)
@@ -678,7 +866,7 @@ let g:fzf_colors =
 
 " Git log format
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
-let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8"
+let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8 --bind ctrl-g:toggle-preview"
 
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
@@ -720,6 +908,7 @@ let g:yoinkIncludeDeleteOperations = 1
 let g:yoinkSavePersistently = 1
 let g:yoinkIncludeNamedRegisters = 1
 let g:yoinkAutoFormatPaste = 1
+let g:yoinkMoveCursorToEndOfPaste = 1
 
 " vim-subversive
 nmap s <plug>(SubversiveSubstitute)
@@ -745,10 +934,11 @@ au Filetype markdown let g:tagbar_sort = 0
 let g:polyglot_disabled = ['markdown']
 
 " markdown live preview set browser & disable auto start when opening/close when leaving
+" let g:mkdp_browser = 'min'
 let g:mkdp_browser = 'qutebrowser'
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 0
-au Filetype markdown noremap <leader>v :MarkdownPreview<cr>
+au Filetype markdown noremap <leader>p :MarkdownPreview<cr>
 
 " Goyo & Limelight
 noremap <silent> <A-g> :Goyo<cr>
@@ -756,12 +946,13 @@ autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 " Set filetype apa aja colorhighlighting akan aktif
-let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg'
+let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg,tmux,vim'
 
 " CoC vim
 " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
 let g:coc_filetype_map = {
 	\ 'smarty': 'html',
+	\ 'blade': 'html',
 	\ 'javascriptreact': 'javascript'
 	\ }
 
@@ -771,6 +962,7 @@ au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * :checktime
 
 " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
@@ -830,6 +1022,7 @@ let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
 			   \ {'x': '$DOTFILES/.Xresources'},
 			   \ {'i': '$DOTFILES/.i3/config'},
 			   \ {'n': '$NOTES/index.md'},
+               \ {'t': '$DOTFILES/.tmux.conf'},
 			   \ {'z': '$DOTFILES/.zshrc'}]
 
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
