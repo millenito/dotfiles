@@ -25,6 +25,7 @@
 	"prettier.printWidth": 160,
     "prettier.formatterPriority": 1,
     "prettier.disableLanguages": ["html", "smarty"],
+	"emmet.includeLanguages": {"blade": "html"},
     "phpls.enable": false,
     "languageserver": {
         "intelephense": {
