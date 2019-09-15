@@ -50,7 +50,11 @@ setopt correct_all # autocorrect commands
 
 # auto ls after cd with colorls
 autoload -U add-zsh-hook
-add-zsh-hook -Uz chpwd (){ colorls --sort-dirs; }
+add-zsh-hook -Uz chpwd (){
+    # colorls --sort-dirs;
+     exa --group-directories-first
+	 # exa
+}
 
 # Enable autocompletions
 autoload -Uz compinit
@@ -75,8 +79,19 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
-# vi mode for zsh
+# vi mode zsh
 bindkey -v
+
+# GNU Readline bindings
+bindkey "\C-u" vi-kill-line
+bindkey "\C-k" vi-kill-eol
+bindkey "\C-f" vi-forward-char
+bindkey "\C-b" vi-backward-char
+bindkey "^[f" vi-forward-word
+bindkey "^[b" vi-backward-word
+
+# 10ms for key sequences
+KEYTIMEOUT=1
 
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
@@ -124,7 +139,7 @@ SPACESHIP_PROMPT_ORDER=(
   char          # Prompt character
 )
  SPACESHIP_RPROMPT_ORDER=( # Spaceship right prompt
-   vi_mode       # Vi-mode indicator
+   # vi_mode       # Vi-mode indicator
 
 )
 SPACESHIP_CHAR_SYMBOL="❯"
@@ -156,6 +171,30 @@ case $TERM in
 	;;
 esac
 
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+    if [[ ${KEYMAP} == vicmd ]] ||
+        [[ $1 = 'block' ]]; then
+            echo -ne '\e[1 q'
+
+        elif [[ ${KEYMAP} == main ]] ||
+            [[ ${KEYMAP} == viins ]] ||
+            [[ ${KEYMAP} = '' ]] ||
+            [[ $1 = 'beam' ]]; then
+                    echo -ne '\e[5 q'
+    fi
+}
+zle -N zle-keymap-select
+
+    # Use beam shape cursor on startup.
+    echo -ne '\e[5 q'
+
+    # Use beam shape cursor for each new prompt.
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
@@ -167,6 +206,9 @@ alias pacman="sudo pacman"
 # enable nvidia drivers
 alias nvidia="sudo primusrun glxgears"
 
+# startx from tty
+alias sx="startx"
+
 # nmcli wifi
 alias nmlist="nmcli dev wifi list"
 alias nmconn="nmcli -a dev wifi connect"
@@ -176,8 +218,9 @@ alias nmconn="nmcli -a dev wifi connect"
 #export GOPATH=/home/$USER/gopath/
 #export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# path repo dotfiles
+# cd to environment
 alias dot='cd "$DOTFILES"'
+alias note='cd "$NOTES"'
 
 # localan php53 & php70
 alias p5='cd "$P5"'
@@ -200,12 +243,19 @@ fi
 
 alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty' # open alacritty normal size
 
-# alias ls='exa'
+alias ls='exa'
 alias cls='colorls'
 alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
 
+# tmux
+alias tm='tmux'
+alias tml='tmux ls'
+tma(){ if [[ $# -eq 0 ]]; then tmux attach; else tmux attach -t "$1"; fi } # Attach to last tmux session or attach to named session
+tmn(){ if [[ $# -eq 0 ]]; then tmux new-session; else tmux new-session -s "$1"; fi} # Create new unnamed session or use gived name
+tmk(){ if [[ $# -eq 0 ]]; then tmux kill-server; else tmux kill-session -t "$1"; fi } # Kill all session or kill named session
+
 export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
-export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
+export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-v:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
 export FZF_ALT_C_COMMAND="fd --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
 export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
@@ -287,11 +337,32 @@ ex ()
   fi
 }
 
+alias gr='cd $(git rev-parse --show-toplevel)' # cd to git repo's root directory
+
+# Commit & push
+compush()
+{
+	git commit -m "$*"
+	git push
+}
+
+# Commit & Push every changes
+compushall()
+{
+	echo "Staging every changes.."
+	git add .
+
+	echo "Preparing commit.."
+	git commit -a -m "$*"
+
+	echo "Pushing to remote.."
+	git push
+}
 alias fhi='__fzf_history__' # list history dengan fzf (key: Ctrl+r)
 alias vf=fv # Alias kalau salah
 
 # disable Ctrl+s freeze terminal
 stty -ixon
 
-
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
