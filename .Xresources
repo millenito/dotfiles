@@ -94,7 +94,8 @@ XTerm*selectToClipboard: true
 ! Scheme: Dmitri Voronianski (http://pixelhunter.me)
 
 /* #define base00 #1B2B34 */
-#define base00 #03031b 
+#define base_old #1B2B34
+#define base00 #03031b
 #define base01 #343D46
 #define base02 #4F5B66
 #define base03 #65737E
@@ -138,33 +139,42 @@ XTerm*selectToClipboard: true
 *.color20:      base04
 *.color21:      base06
 
-!- PINK DARK COLOR THEME (buat chill anime wallpaper)
-
-/* *color0: #8098e4 */
-/* *color1: #a09ace */
-/* !- warna disekitar tulisan kalo file permissionnya 777 */
-/* !-*color2: #301a20 */
-/* *color2: #993b3b */
-/* *color3: #ef95b1 */
-/* *color4: #c48eb3 */
-/* *color5: #ad7fa2 */
-/* *color6: #9188bc */
-/* *color7: #ffffff */
-/* *color8: #1c0f16 */
-/* *color9: #b5a8dd */
-/* !- warna user dan device (nito@lenovog480:$) */
-/* *color10: #ffa1c0 */
-/* !- warna syntax script bash (export, if, fi, dll) */
-/* *color11: #d37c19 */
-/* !- warna folder */
-/* *color12: #6f79be */
-/* !- warna dalam petik/petik 2 dan file gambar (.png, .jpg) */
-/* *color13: #FE9bab */
-/* !- warna remarks */
-/* *color14: #9188bc */
-/* !*color15: #937ea9 */
-/* *color15: #ffffff */
-
+! ! Challenger Deep Terminal Colors
+! *.foreground:   #cbe3e7
+! *.background:   #1e1c31
+! *.cursorColor:  #fbfcfc
+!
+! ! black
+! *.color0:       #565575
+! *.color8:       #100e23
+!
+! ! red
+! *.color1:       #ff8080
+! *.color9:       #ff5458
+!
+! ! green
+! *.color2:       #95ffa4
+! *.color10:      #62d196
+!
+! ! yellow
+! *.color3:       #ffe9aa
+! *.color11:      #ffb378
+!
+! ! blue
+! *.color4:       #91ddff
+! *.color12:      #65b2ff
+!
+! ! magenta
+! *.color5:       #c991e1
+! *.color13:      #906cff
+!
+! ! cyan
+! *.color6:       #aaffe4
+! *.color14:      #63f2f1
+!
+! ! white
+! *.color7:       #cbe3e7
+! *.color15:      #a6b3cc
 
 Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
@@ -172,23 +182,40 @@ Xcursor.size:                     0
 !! URxvt.font:                       9x15,xft:TerminessTTFNerdFontMono
 
 /*
-URxvt.allow_bold:           true
- URxvt*font: xft:source code pro:size=13
- URxvt*imFont: xft:source code pro:size=13
- URxvt*boldFont: xft:source code pro:size=13
- URxvt*italicFont: xft:source code pro:size=13
- URxvt*boldItalicFont: xft:source code pro:size=13
- URxvt*letterSpace: 0
-*/
- 
+   URxvt.allow_bold:           true
+   URxvt*font: xft:source code pro:size=13
+   URxvt*imFont: xft:source code pro:size=13
+   URxvt*boldFont: xft:source code pro:size=13
+   URxvt*italicFont: xft:source code pro:size=13
+   URxvt*boldItalicFont: xft:source code pro:size=13
+   URxvt*letterSpace: 0
+ */
 
-/* URxvt.allow_bold:           true */
-/* URxvt*font: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
-/* URxvt*imFont: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
-/* URxvt*boldFont: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
-/* URxvt*italicFont: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
-/* URxvt*boldItalicFont: xft:SauceCodePro Nerd Font Mono:style=Regular:size=12 */
-/* URxvt*letterSpace: -1 */
+
+rofi.show-icons: true
+rofi.terminal: st
+rofi.ssh-command: {terminal} -e sh -c "tmux new-session -s {host} {ssh-client} {host} || tmux attach -t {host}"
+
+rofi.allow_bold: true
+rofi.width: 30
+rofi.lines: 20
+rofi.line-margin: 5
+! rofi.line-padding: 3
+rofi.font: Noto Sans 12
+
+! Enable the extended coloring options
+rofi.color-enabled: true
+
+! Property Name     BG       Border   Separator
+rofi.color-window:  base00, base0D, #282c34
+
+! Property Name     BG       FG       BG-alt   Head-BG  Head-FG
+rofi.color-normal:  base00, base03, base00, base_old, base05
+rofi.color-active:  base00, base0D, base00, base00, base0D
+rofi.color-urgent:  base00, base08, base00, base00, base08
+
+! Set the desired separator style
+rofi.separator-style: solid
 
 URxvt.allow_bold:           true
 URxvt*font: xft:Hack Nerd Font Mono:size=11
@@ -197,6 +224,13 @@ URxvt*boldFont: xft:Hack Nerd Font Mono:style=Bold:size=11
 URxvt*italicFont: xft:Hack Nerd Font Mono:style=Italic:size=11
 URxvt*boldItalicFont: xft:Hack Nerd Font Mono:style-Bold Italic:size=11
 URxvt*letterSpace: -1
+
+! st.allow_bold:           true
+! st.font: SauceCodePro Nerd Font Mono:size=11:antialias=true:autohint=true
+! st.imFont: SauceCodePro Nerd Font Mono:size=11
+! st.boldFont: SauceCodePro Nerd Font Mono:style=Bold:size=11:antialias=true:autohint=true
+! st.italicFont: SauceCodePro Nerd Font Mono:style=Italic:size=11:antialias=true:autohint=true
+! st.boldItalicFont: SauceCodePro Nerd Font Mono:style-Bold Italic:size=11:antialias=true:autohint=true
 
 
 st.allow_bold:           true
@@ -255,15 +289,6 @@ URxvt.keysym.C-minus: perl:font-size:decreasee
 URxvt.keysym.C-equal: perl:font-size:increase
 URxvt.keysym.C-0: perl:font-size:reset
 
-
-rofi.show-icons:                     true
-/* rofi.terminal:                       urxvt */
-rofi.terminal:                       st
-rofi.ssh-command:                    {terminal} -e sh -c "export TERM=\"xterm-256color\";{ssh-client} {host}"
-/* xofi.ssh-command:                    {terminal} -e {ssh-client} {host} */
-
-rofi.allow_bold:           true
-rofi.font: Hack 13
 
 ! Rxvt.perl-ext-common:             ...,clipboard
 ! URxvt.keysym.M-C-c:               perl:clipboard:copy
