@@ -13,7 +13,8 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.config/nvim/vim-plug-pluggins')
+let g:pluginsDir = '~/.config/nvim/vim-plug-pluggins'
+call plug#begin(pluginsDir)
 
 " File Explorer
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }   
@@ -24,19 +25,33 @@ Plug 'justinmk/vim-dirvish'                                                     
 Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc) 
 Plug 'tpope/vim-rhubarb'                                                                   " :Gbrowse dari vim-fugitive ke github
 Plug 'Xuyuanp/nerdtree-git-plugin'                                                         " Integrasi git dengan Nerd Tree
+Plug 'rhysd/git-messenger.vim'
 
 " Syntax & Code
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }                                         " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
-Plug 'sheerun/vim-polyglot'                                                                " Language pack for syntax checking
+Plug 'diepm/vim-rest-console', { 'for': 'rest' }
+Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] }                                         " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+Plug 'sheerun/vim-polyglot', { 'on': [] }                                                                " Language pack for syntax checking
 Plug 'blueyed/smarty.vim'                                                                  " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
-Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
-Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
+Plug 'honza/vim-snippets', { 'on': [] }                                                                  " kumpulan snippets berbagai bahasa
+Plug 'bonsaiben/bootstrap-snippets', { 'on': [] }                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
+let coc_commands = ['<Plug>(coc-diagnostic-prev)',
+            \ '<Plug>(coc-diagnostic-next)',
+            \ '<Plug>(coc-definition)',
+            \ '<Plug>(coc-type-definition)',
+            \ '<Plug>(coc-implementation)',
+            \ '<Plug>(coc-references)',
+            \ '<Plug>(coc-format-selected)',
+            \ '<Plug>(coc-git-commit)',
+            \ '<Plug>(coc-git-nextchunk)',
+            \ '<Plug>(coc-git-prevchunk)',
+            \ 'CocCommand',
+            \ 'CocAction']
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'on': coc_commands}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 " Plug 'cosminadrianpopescu/vim-sql-workbench'
 
 " Markdown & Note taking
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' }  " Preview file markdown secara real-time
-Plug 'godlygeek/tabular'                                                                   " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'on': 'MarkdownPreview', 'for': 'markdown' }  " Preview file markdown secara real-time
+Plug 'godlygeek/tabular', { 'on': ['Tab','Tabular'] }                                                                   " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }                                      " Tambahan syntax dan fitur-fitur untuk file markdown
 Plug 'lvht/tagbar-markdown', { 'for': 'markdown' }                                         " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }                                                 " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
@@ -44,17 +59,42 @@ Plug 'junegunn/limelight.vim', { 'on': 'Goyo' }                                 
 Plug 'skywind3000/asyncrun.vim', { 'for': 'markdown' }                                     " Menjalankan command2 asyncronous dengan diawali dengan :AsyncRun
 
 " Useful / Essential
-Plug 'simeji/winresizer'                                                                   " Easy resize split windows dengan resize mode seperti di i3
-Plug 'scrooloose/nerdcommenter'                                         				   " Better code commenter
+let nerdcommenter_commands = [ '<plug>NERDCommenterToggle', 
+            \ '<plug>NERDCommenterComment', 
+            \ '<plug>NERDCommenterUncomment',
+            \ '<plug>NERDCommenterToEOL',
+            \ '<plug>NERDCommenterInvert',
+            \ '<plug>NERDCommenterMinimal',
+            \ '<plug>NERDCommenterSexy',
+            \ '<plug>NERDCommenterYank',
+            \ '<plug>NERDCommenterAppend',
+            \ '<plug>NERDCommenterAltDelims' ]
+Plug 'scrooloose/nerdcommenter', { 'on' : nerdcommenter_commands }                                         				   " Better code commenter
+Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'tpope/vim-surround'                                                                  " manipulasi text dengan kurung (){}[]''<>
 Plug 'tpope/vim-repeat'                                                                    " membuat key repeat (.) bisa digunakan untuk mapping plugins
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }                          " Remove this if already install fzf
-Plug 'junegunn/fzf.vim'                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
+let fzf_commands = [ 'Files', 
+                \ 'Buffers', 
+                \ 'BLines',
+                \ 'Lines',
+                \ 'Rg',
+                \ 'BTags',
+                \ 'Tags',
+                \ 'Commits',
+                \ 'BCommits',
+                \ 'Helptags',
+                \ 'Colors',
+                \ '<plug>(fzf-complete-word)',
+                \ '<plug>(fzf-complete-path)',
+                \ '<plug>(fzf-complete-file-ag)',
+                \ '<plug>(fzf-complete-line)' ]
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': fzf_commands}                          " Remove this if already install fzf
+Plug 'junegunn/fzf.vim', {'on': fzf_commands}                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
 Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
 Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
-Plug 'chrisbra/Recover.vim' 															   " buat diff saat membuka file yg ada .swp/.swo nya untuk menghapus file .swo/.swpya bisa dengan :FinishRecovery atau :RecoveryPluginFinish
 Plug 'christoomey/vim-tmux-navigator'                                                      " Integrasi split panes dengan pane tmux (C-hjkl antara split di vim dengan split pane tmux)
 
 " Colors & Looks
@@ -64,15 +104,17 @@ Plug 'ayu-theme/ayu-vim'                                                        
 Plug 'drewtempelmeyer/palenight.vim'                                                       " Color theme palenight
 Plug 'morhetz/gruvbox'                                                                     " Color theme gruvbox
 Plug 'frankier/neovim-colors-solarized-truecolor-only'                                     " Color theme solarized (for neovim)
-Plug 'joshdick/onedark.vim'
 Plug 'millenito/oceanic-next-darker' 													   " Personal fork of Oceanic Next Color theme
+Plug 'cocopon/iceberg.vim'
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
-Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
+Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle'}                                                                  " Memberi warna pada rgb/hex
 Plug 'terryma/vim-smooth-scroll'                                                           " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
 Plug 'RRethy/vim-illuminate'                                                               " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'michaeljsmith/vim-indent-object'                                                     " Text object untuk indent <motion>ii (in indent), <motion>ai (above indent), <motion>aI <above and below indent)
+Plug 'tweekmonster/startuptime.vim', { 'on' : 'StartupTime' }
 call plug#end()
 
 " # Color and bling
@@ -92,7 +134,7 @@ set cmdheight=1
 " colorscheme palenight
 " let g:palenight_terminal_italics=1
 
-" " " gruvbox dark colorscheme
+" " gruvbox dark colorscheme
 " set bg=dark
 " let g:gruvbox_bold = 1
 " let g:gruvbox_italic = 1
@@ -107,9 +149,9 @@ set cmdheight=1
 " " let g:solarized_degrade = 1
 " colorscheme solarized
 
-" let g:onedark_termcolors = 256
-" let g:onedark_terminal_italics = 1
-" colorscheme onedark
+" colorscheme iceberg
+
+" colorscheme challenger_deep
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:oceanic_next_terminal_bold = 1
@@ -122,9 +164,10 @@ let mapleader = " "
 " # General
 set encoding=UTF-8
 set hidden                               " Pindah ke buffer lain tanpa perlu save
-set number                               " Membuat baris nomor di sebelah kiri seperti IDE
-set relativenumber                       " Membuat baris nomor relatif dari baris cursor
-set cursorline                           " Highlight baris cursor berada
+" set number                               " Membuat baris nomor di sebelah kiri seperti IDE
+" set relativenumber                       " Membuat baris nomor relatif dari baris cursor
+" set cursorline                           " Highlight baris cursor berada
+set lazyredraw
 set nowrap                               " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
 set title                                " biar keliatan window title nya
 set tabstop=4                            " Mengubah tombol <TAB> ketika dipencet jadi 4 spasi
@@ -137,16 +180,24 @@ set shell=/usr/bin/zsh 					 " Set shell jadi zsh
 syntax on                                " Memastikan syntax untuk color theme selalu nyala
 " disable relativenumber & cursorline in insert mode / disable all line numbers on focusout
 augroup numbertoggle
-  " autocmd!
-  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber cursorline noshowmode
-  autocmd BufLeave,winLeave,FocusLost  			    * set number nocursorline
-  autocmd InsertEnter               				* set norelativenumber number nocursorline
-  " autocmd BufEnter,winEnter,FocusGained             :checktime
+  autocmd!
+  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber  noshowmode
+  autocmd BufLeave,winLeave,FocusLost  			    * set number norelativenumber 
+  autocmd InsertEnter               				* set norelativenumber number 
 augroup END
 
+augroup autoreadfile
+    autocmd!
+    " Triger `autoread` when files changes on disk
+    autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+
+    " Notification after file change
+    autocmd FileChangedShellPost *
+            \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+augroup END
 " disable automatic commenting on newline after a comment
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" autocmd VimResized * wincmd =
+autocmd VimResized * wincmd =
 
 " set command mode autocomplete
 set wildmenu           " turn on command line completion wild style
@@ -202,12 +253,14 @@ nnoremap X "_X
 vnoremap X "_X
 
 " kalo mau keluar suka tahan shift kelamaan
-cmap Wq wq
-cmap Qa qa
+command! WQ wq
+command! Wq wq
+command! W w
+command! Q q
+command! Qa qa
 
-" Never go into command line mode
-cmap Q! q!
-nmap q: :q
+" Close vim
+nmap <C-q> :q<cr>
 
 " remap Join & show documentation jadi harus tahan shift+alt
 noremap <A-J> J
@@ -270,6 +323,10 @@ set foldcolumn=1 "defines 1 col at window left, to indicate folding
 let javaScript_fold=1 "activate folding by JS syntax
 set foldlevelstart=99 "start file with all folds opened
 
+" Toggle fold & toggle folds recursively in cursor
+noremap - za
+noremap _ zA
+
 " # Splits
 " pindah antar window dengan Ctrl+hjkl
 if !exists(':TmuxNavigatorProcessList')
@@ -279,6 +336,8 @@ if !exists(':TmuxNavigatorProcessList')
     noremap <C-l> <C-w>l
 endif
 noremap <C-w>f <C-w>\|<C-w>_ |" zoom maximize split pane dengan cara di resize sampe mentok (untuk normalin lagi <C-w>0)
+noremap <M-s> :sp<cr>
+noremap <M-v> :vsp<cr>
 set splitbelow "split dari :sp muncul di bawah
 set splitright "split dari :vsp muncul di kanan
 
@@ -358,6 +417,8 @@ autocmd BufWritePost $DOTFILES/.zshrc,~/.zshrc !zgen reset
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
 autocmd BufWritePost ~/.Xresources,~/dotfiles/.Xresources,~/.Xdefaults !xrdb %
+
+" autocmd CursorHold * :checktime
 
 " # Markdown
 function! ConvertPDFPandoc()
@@ -447,9 +508,9 @@ augroup mdSettings
 	au Filetype markdown noremap k gk
 
 	" Loncat ke yang ada tanda <++>
-	inoremap ,, <Esc>/<++><Enter>"_c4l
-	vnoremap ,, <Esc>/<++><Enter>"_c4l
-	map ,, <Esc>/<++><Enter>"_c4l
+    au Filetype markdown inoremap ,, <Esc>/<++><Enter>"_c4l
+    au Filetype markdown vnoremap ,, <Esc>/<++><Enter>"_c4l
+    au Filetype markdown map ,, <Esc>/<++><Enter>"_c4l
 
 	" Markdown maps
 	au Filetype markdown inoremap ,b **** <++><Esc>F*hi
@@ -467,6 +528,12 @@ augroup mdSettings
 augroup END
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
+let g:node_host_prog=0
+let g:ruby_host_prog=0
+let g:python_host_skip_check=1
+let g:python3_host_skip_check=1
+let g:loaded_python_provider = 0
+let g:loaded_python3_provider=0
 
 " # Plugins
 
@@ -497,7 +564,7 @@ noremap <silent> <leader>g'l :BCommits!<cr>
 let g:lightline = {
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename'] ]
+            \             [  'readonly', 'filename'] ]
             \ },
             \ 'component_function': {
             \   'filename': 'LightlineFullFilename_MergeModified',
@@ -510,10 +577,12 @@ let g:lightline = {
             \ }
 
 " let g:lightline.colorscheme = 'ayu'
+" let g:lightline.colorscheme = 'palenight'
 " let g:lightline.colorscheme = 'gruvbox'
 " let g:lightline.colorscheme = 'solarized'
-" let g:lightline.colorscheme = 'onedark'
+" let g:lightline.colorscheme = 'iceberg'
 let g:lightline.colorscheme = 'oceanicnextdarker'
+" let g:lightline = { 'colorscheme': 'challenger_deep'}
 let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
@@ -574,10 +643,10 @@ endfunction
 
 " Dirvish
 " Gunakan dirvish dan disable netrw kalo ada dirvish
-function CheckDirvishIfNotExistsUseNetrw()
+function! LoadDirvishNetrw()
     if exists(':Dirvish')
         let g:loaded_netrw       = 1
-        let g:loaded_netrwPlugin = 1
+        let g:loaded_netrwPlugin = 0
         let g:dirvish_mode       = ':sort ,^.*[\/],'
 
         " Change default Explore, Vexplore, Sexplore to using dirvish
@@ -587,12 +656,13 @@ function CheckDirvishIfNotExistsUseNetrw()
 
         " Dirvish on the left
         command! VleftDirvish leftabove vsplit | vertical resize 30 | silent Dirvish
-        nnoremap <silent> _ :VleftDirvish<CR>
+        nnoremap <silent> <leader>E :VleftDirvish<CR>
 
         " Open dirvish on current pane/ vertically from current pane/ horizontally from current pane (use capitals for opening in CWD)
-        nnoremap <silent> - :Explore %:p:h<CR>
+        nnoremap <silent> <leader>W :Explore<CR>
         nnoremap <silent> <leader>S :Sexplore<cr>
         nnoremap <silent> <leader>V :Vexplore<cr>
+        nnoremap <silent> <leader>w :Explore %:p:h<CR>
         nnoremap <silent> <leader>s :Sexplore %:p:h<cr>
         nnoremap <silent> <leader>v :Vexplore %:p:h<cr>
 
@@ -610,12 +680,12 @@ function CheckDirvishIfNotExistsUseNetrw()
             au FileType dirvish xnoremap <silent><buffer> <C-t> :call dirvish#open('tabedit', 0)<CR>
 
             " Ctrl+s open in horizontal split
-            au FileType dirvish nnoremap <silent><buffer> <C-s> :call dirvish#open('split', 0)<CR>
-            au FileType dirvish xnoremap <silent><buffer> <C-s> :call dirvish#open('split', 0)<CR>
+            au FileType dirvish nnoremap <silent><buffer> <M-s> :call dirvish#open('split', 0)<CR>
+            au FileType dirvish xnoremap <silent><buffer> <M-s> :call dirvish#open('split', 0)<CR>
 
             " Ctrl+v open in vertical split
-            au FileType dirvish nnoremap <silent><buffer> <C-v> :call dirvish#open('vsplit', 0)<CR>
-            au FileType dirvish xnoremap <silent><buffer> <C-v> :call dirvish#open('vsplit', 0)<CR>
+            au FileType dirvish nnoremap <silent><buffer> <M-v> :call dirvish#open('vsplit', 0)<CR>
+            au FileType dirvish xnoremap <silent><buffer> <M-v> :call dirvish#open('vsplit', 0)<CR>
 
             " Map `gr` to reload.
             au FileType dirvish nnoremap <silent><buffer> gr :<C-U>Dirvish %<CR>
@@ -695,7 +765,7 @@ function CheckDirvishIfNotExistsUseNetrw()
     endif
 endfunction
 
-autocmd VimEnter * call CheckDirvishIfNotExistsUseNetrw()
+autocmd VimEnter * call LoadDirvishNetrw()
 
 "noremap <leader>t :NERDTreeToggle<CR>
 noremap <silent> <leader>e :call NerdTreeSync(":NERDTreeToggle")<cr>
@@ -709,8 +779,8 @@ augroup nerdtreeSettings
     au FileType nerdtree nmap <silent><buffer> h :call nerdtree#ui_glue#invokeKeyMap(g:NERDTreeMapActivateNode)<CR>
     
     " Open selected file in split/vertical split using <C-s>/<C-v>
-    au FileType nerdtree nmap <silent><buffer> <C-s> :call nerdtree#ui_glue#invokeKeyMap("i")<CR>
-    au FileType nerdtree nmap <silent><buffer> <C-v> :call nerdtree#ui_glue#invokeKeyMap("s")<CR>
+    au FileType nerdtree nmap <silent><buffer> <M-s> :call nerdtree#ui_glue#invokeKeyMap("i")<CR>
+    au FileType nerdtree nmap <silent><buffer> <M-v> :call nerdtree#ui_glue#invokeKeyMap("s")<CR>
 
     " Move between git changes (modified) with ]h/[h (nerdtree-git-plugin)
     au FileType nerdtree nmap <silent><buffer> [h :call nerdtree#ui_glue#invokeKeyMap("[c")<CR>
@@ -741,7 +811,8 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 
 " Masuk resize mode untuk split window dengan Ctrl+wr
-let g:winresizer_start_key = '<C-w>r'
+" let g:winresizer_start_key = '<C-w>r'
+noremap <silent> <C-w>r :WinResizerStartResize<cr>
 let g:winresizer_finish_with_escape = 1
 
 " Nerd Tree auto-sync directory with open file
@@ -787,7 +858,8 @@ nmap gcC <plug>NERDCommenterToEOL |" Comment dari cursor ke EOL
 nmap gci <plug>NERDCommenterInvert |" Invert baris yang sudah di comment jadi uncomment dan sebaliknya
 nmap gcm <plug>NERDCommenterMinimal |" Comment multiple line
 nmap gcs <plug>NERDCommenterSexy |" Comment multiple line dipercantik
-nmap gcy <plug>NERDCommenterYank |" copy (Yank) baris lalu comment
+" nmap gcy <plug>NERDCommenterYank |" copy (Yank) baris lalu comment
+nmap gcy yygcc
 nmap gcA <plug>NERDCommenterAppend |" Memulai comment dari akhir baris
 nmap gcv <plug>NERDCommenterAltDelims |" Switch alternative comments (ex: di php "//" & "/* */")
 " comment paragraf
@@ -821,74 +893,79 @@ imap <C-c> <plug>NERDCommenterInsert
 
 " silent! call repeat#set("\<Plug>NERDCommenterToggle", v:count)
 
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+if exists(':Files')
+    let g:fzf_action = {
+                \ 'Alt-t': 'tab split',
+                \ 'Alt-s': 'split',
+                \ 'Alt-v': 'vsplit' }
 
-" let g:fzf_buffers_jump = 1
+    " let g:fzf_buffers_jump = 1
 
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-" fzf mapping (<C-_> = Ctrl /)
-noremap <silent> <C-p> :Files<cr>
-noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
-noremap <silent> <C-_> :Rg<cr>
-noremap <silent> <C-Space> :Buffers<cr>
-noremap <silent> <leader>l :BLines<cr>
-noremap <silent> <leader>L :Lines<cr>
-noremap <silent> <leader>] :BTags<cr>
-noremap <silent> <leader>} :Tags<cr>
+    " Insert mode completion
+    imap <c-x><c-k> <plug>(fzf-complete-word)
+    imap <c-x><c-f> <plug>(fzf-complete-path)
+    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+    imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" keluar dari fzf dengan <Esc> dan hilangkan command window di bawah (nvim)
-autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-autocmd  FileType fzf set laststatus=0 noshowmode noruler norelativenumber
-\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    " fzf mapping (<C-_> = Ctrl /)
+    noremap <silent> <C-p> :Files<cr>
+    noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
+    noremap <silent> <C-_> :Rg<cr>
+    noremap <silent> <C-Space> :Buffers<cr>
+    noremap <silent> <leader>l :BLines<cr>
+    noremap <silent> <leader>L :Lines<cr>
+    noremap <silent> <leader>] :BTags<cr>
+    noremap <silent> <leader>} :Tags<cr>
 
-" fzf set warna sesuai colorscheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+    " keluar dari fzf dengan <Esc> dan hilangkan command window di bawah (nvim)
+    autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+    autocmd  FileType fzf set laststatus=0 noshowmode noruler norelativenumber
+                \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
-" Git log format
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
-let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8 --bind ctrl-g:toggle-preview"
+    " fzf set warna sesuai colorscheme
+    let g:fzf_colors =
+                \ { 'fg':      ['fg', 'Normal'],
+                \ 'bg':      ['bg', 'Normal'],
+                \ 'hl':      ['fg', 'Comment'],
+                \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+                \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+                \ 'hl+':     ['fg', 'Statement'],
+                \ 'info':    ['fg', 'PreProc'],
+                \ 'border':  ['fg', 'Ignore'],
+                \ 'prompt':  ['fg', 'Conditional'],
+                \ 'pointer': ['fg', 'Exception'],
+                \ 'marker':  ['fg', 'Keyword'],
+                \ 'spinner': ['fg', 'Label'],
+                \ 'header':  ['fg', 'Comment'] }
 
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+    " Git log format
+    let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
+    let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8 --bind ctrl-g:toggle-preview"
 
-function! FloatingFZF()
-	let buf = nvim_create_buf(v:false, v:true)
-	call setbufvar(buf, '&signcolumn', 'no')
+    if has('nvim-0.4.0')
+        let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
-	let height = &lines - 3
-	let width = float2nr(&columns - (&columns * 2 / 5))
-	let col = float2nr((&columns - width) / 2)
+        function! FloatingFZF()
+            let buf = nvim_create_buf(v:false, v:true)
+            call setbufvar(buf, '&signcolumn', 'no')
 
-	let opts = {
-				\ 'relative': 'editor',
-				\ 'row': 1,
-				\ 'col': col,
-				\ 'width': width,
-				\ 'height': height
-				\ }
+            let height = &lines - 3
+            let width = float2nr(&columns - (&columns * 2 / 5))
+            let col = float2nr((&columns - width) / 2)
 
-	let win = nvim_open_win(buf, v:true, opts)
-	call setwinvar(win, '&number', 0)
-endfunction
+            let opts = {
+                        \ 'relative': 'editor',
+                        \ 'row': 1,
+                        \ 'col': col,
+                        \ 'width': width,
+                        \ 'height': height
+                        \ }
+
+            let win = nvim_open_win(buf, v:true, opts)
+            call setwinvar(win, '&number', 0)
+        endfunction
+    endif
+endif
 
 " " Vim smooth scroll
 " noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
@@ -915,7 +992,7 @@ nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
-" vim-subversive pada visual mode
+" vim-subversive in visual mode
 xmap s <plug>(SubversiveSubstitute)
 xmap p <plug>(SubversiveSubstitute)
 xmap P <plug>(SubversiveSubstitute)
@@ -946,85 +1023,152 @@ autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 " Set filetype apa aja colorhighlighting akan aktif
-let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg,tmux,vim'
+" let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg,tmux,vim'
+map <F3> :ColorToggle<cr>
 
-" CoC vim
-" filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
-let g:coc_filetype_map = {
-	\ 'smarty': 'html',
-	\ 'blade': 'html',
-	\ 'javascriptreact': 'javascript'
-	\ }
+" CoC
+if exists(':CocCommand')
+    let g:coc_global_extensions = ["coc-yank",
+                \ "coc-snippets",
+                \ "coc-prettier",
+                \ "coc-pairs",
+                \ "coc-git",
+                \ "coc-eslint",
+                \ "coc-emmet",
+                \ "coc-phpls",
+                \ "coc-json",
+                \ "coc-html"]
 
-" Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
-au FileType vim let b:coc_pairs_disabled = ['"']
-au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
+    " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
+    let g:coc_filetype_map = {
+                \ 'smarty': 'html',
+                \ 'blade': 'html',
+                \ 'javascriptreact': 'javascript'
+                \ }
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-autocmd CursorHold * :checktime
+    " Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
+    au FileType vim let b:coc_pairs_disabled = ['"']
+    au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
 
-" <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-inoremap <silent><expr> <c-space> coc#refresh()
+    " Highlight symbol under cursor on CursorHold
+    " if exists('CocActionAsync')
+    "     autocmd CursorHold * silent call CocActionAsync('highlight')
+    " endif
 
-" loncat diagnostic coc
-noremap <silent> [c <Plug>(coc-diagnostic-prev)
-noremap <silent> ]c <Plug>(coc-diagnostic-next)
+    " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
+    inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    inoremap <silent><expr> <c-space> coc#refresh()
 
-" Coc go-to definition/type/implementation/references
-nmap <silent> <leader>cd  <Plug>(coc-definition)
-nmap <silent> <leader>ct <Plug>(coc-type-definition)
-nmap <silent> <leader>ci <Plug>(coc-implementation)
-nmap <silent> <leader>cr <Plug>(coc-references)
+    " loncat diagnostic coc
+    noremap <silent> [c <Plug>(coc-diagnostic-prev)
+    noremap <silent> ]c <Plug>(coc-diagnostic-next)
 
-" format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-noremap <leader>F :call CocAction('format')<CR>
+    " Coc go-to definition/type/implementation/references
+    nmap <silent> <leader>cd  <Plug>(coc-definition)
+    nmap <silent> <leader>ct <Plug>(coc-type-definition)
+    nmap <silent> <leader>ci <Plug>(coc-implementation)
+    nmap <silent> <leader>cr <Plug>(coc-references)
 
-" coc do code action & quick fix
-nmap <leader>ca  <Plug>(coc-codeaction)
-nmap <leader>cf  <Plug>(coc-fix-current)
+    " format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+    noremap <leader>F :call CocAction('format')<CR>
 
-" coc-git navigate ke sebelumnya/berikutnya
-nmap ]h <Plug>(coc-git-nextchunk)
-nmap [h <Plug>(coc-git-prevchunk)
+    " coc do code action & quick fix
+    nmap <leader>ca  <Plug>(coc-codeaction)
+    nmap <leader>cf  <Plug>(coc-fix-current)
 
-" coc-git undo hunk | hunk preview (diff dari yang sebelum diubah) | lihat commit dari git blame di baris cursor
-nmap <silent> <leader>hu :CocCommand git.chunkUndo<cr>
-nmap <leader>hp <Plug>(coc-git-chunkinfo)
-nmap <leader>gb <Plug>(coc-git-commit)
+    " coc-git navigate ke sebelumnya/berikutnya
+    nmap ]h <Plug>(coc-git-nextchunk)
+    nmap [h <Plug>(coc-git-prevchunk)
 
-" coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
-noremap <silent> <A-K> :call <SID>show_documentation()<CR>
+    " coc-git undo hunk | hunk preview (diff dari yang sebelum diubah) | lihat commit dari git blame di baris cursor
+    nmap <silent> <leader>hu :CocCommand git.chunkUndo<cr>
+    nmap <leader>hp <Plug>(coc-git-chunkinfo)
+    nmap <leader>gb <Plug>(coc-git-commit)
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+    " coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
+    noremap <silent> <A-K> :call <SID>show_documentation()<CR>
 
-function! s:check_back_space() abort
-	let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
+
+    augroup load_coc
+        autocmd!
+        autocmd InsertEnter * call plug#load('coc.nvim', 'bootstrap-snippets', 'vim-snippets')
+                    \| autocmd! load_coc
+    augroup END
+else
+    noremap <silent> <A-K> K
+endif
 
 " markdown code fence language alias
 let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']
 " let g:vim_markdown_folding_style_pythonic = 1
+
+" vim-rest-console
+if !empty(glob(pluginsDir . '/vim-rest-console'))
+    let g:vrc_trigger = '<cr>'
+    let g:vrc_output_buffer_name = '__VRC_OUTPUT.json'
+    let b:vrc_response_default_content_type = 'application/json'
+    let g:vrc_curl_opts = {
+                \ '-Ss': '',
+                \}
+    " let g:vrc_set_default_mapping = 0
+
+    function! Load_and_format_Coc()
+        call plug#load('coc.nvim')
+        call CocAction('format')
+
+    endfunction
+
+    augroup restmaps
+        autocmd!
+        " au Filetype rest noremap <Cr> :call VrcQuery()<cr> <C-w>l
+
+        au BufRead,BufNewFile,BufEnter,BufWinEnter,WinNew,WinEnter,SessionLoadPost  *__VRC_OUTPUT.json* set ma
+        au BufRead,BufNewFile,BufEnter,BufWinEnter,WinNew,WinEnter,SessionLoadPost *__VRC_OUTPUT.json* set ft=json
+
+        if exists(':CocAction')
+            au Filetype rest call plug#load('coc.nvim')
+            au BufRead,BufNewFile,BufEnter,BufWinEnter *__VRC_OUTPUT.json* call CocAction('format')
+        endif
+    augroup END
+endif
+
+let g:git_messenger_include_diff = "current"
+let g:git_messenger_always_into_popup = v:true
+
+function! Setup_git_messenger_popup() abort
+
+    " set go back/forward history to <C-p>/<C-n>
+    nmap <buffer><C-p> o
+    nmap <buffer><C-n> O
+endfunction
+autocmd FileType gitmessengerpopup call Setup_git_messenger_popup()
+
 " Bookmark buat plugin vim-startify
 let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
 			   \ {'x': '$DOTFILES/.Xresources'},
 			   \ {'i': '$DOTFILES/.i3/config'},
 			   \ {'n': '$NOTES/index.md'},
                \ {'t': '$DOTFILES/.tmux.conf'},
-			   \ {'z': '$DOTFILES/.zshrc'}]
+			   \ {'z': '$DOTFILES/.zshrc'},
+               \ {'r': '~/.config/nvim/restapi'} ]
 
+let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 " Tutup Nerd Tree saat save session dengan startify
 let g:startify_session_before_save = [ 
