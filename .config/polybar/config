@@ -103,17 +103,15 @@ modules-center =
 modules-right = xkeyboard spotify wlan eth battery cpu filesystem memory xbacklight date pulseaudio 
 
 # buat system tray ada di pojok kiri bawah #
-; tray-padding = 1
-; tray-position = right
-; tray-position = hidden
-tray-detached = true
-tray-position = left
-tray-offset-x = 0
-tray-offset-y = 1050
-tray-maxsize = 16
-tray-padding = 0
-tray-scale = 1
-tray-background = ${colors.background}
+ tray-position = hidden
+;tray-detached = true
+;tray-position = left
+; tray-offset-x = 0
+; tray-offset-y = 1050
+; tray-maxsize = 16
+; tray-padding = 0
+; tray-scale = 1
+; tray-background = ${colors.background}
 
 ;wm-restack = bspwm
 wm-restack = i3
