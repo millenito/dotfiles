@@ -3,7 +3,7 @@
 # toggle_gaps [on|off|toggle]
  
 INNER=12
-OUTER=10
+OUTER=-2
  
 # keep polybar 
 POLYBAR=~/.config/polybar/config

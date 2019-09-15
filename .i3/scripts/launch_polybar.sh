@@ -9,3 +9,5 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 # Launch Polybar, using default config location ~/.config/polybar/config
 polybar bar -r &
 
+# Hide polybar tray
+hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40

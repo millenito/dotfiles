@@ -1,9 +1,28 @@
-keycode 64 = Mode_switch
+! Swap Escape with Right Shift
+! keycode 9 = Caps_Lock
+! keycode 62 = Escape
+
+!  Right shift to backspace
+! keycode 62 = BackSpace
+
+! Caps Lock as Mode_switch (vim-like control)
+! hjkl = arrow keys
+! 0, $ = home, end
+! f, b = page up, page down
+keycode 37 = Mode_switch
 keysym h = h H Left
 keysym l = l L Right
 keysym k = k K Up
 keysym j = j J Down
-keysym u = u U Prior
-keysym i = i I Home
-keysym o = o O End
-keysym p = p P Next
+keysym b = b B Prior
+keysym f = f F Next
+keysym 0 = 0 parenright Home
+keysym dollar = 4 dollar End
+keysym c = c C Caps_Lock
+keysym c = c C Caps_Lock
+keysym a = a A Home
+keysym e = e E End
+
+! Swap Menu with Right Control (No need to press fn for menu on some laptops)
+! keycode 105 = Menu
+! keycode 135 = Control_R
