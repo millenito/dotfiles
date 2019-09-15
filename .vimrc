@@ -242,6 +242,9 @@ function! Log(status)
     endif
 endfunction
 
+nnoremap <silent> ]d m`:silent +g/\m^\s*$/d<CR>``:noh<CR>
+nnoremap <silent> [d m`:silent -g/\m^\s*$/d<CR>``:noh<CR>
+
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
 autocmd BufWritePost ~/.Xresources,~/.Xdefaults !xrdb %
 
