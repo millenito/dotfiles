@@ -97,7 +97,11 @@ snippet h6i "Header h6 with id" b
 $0
 endsnippet
 
+snippet hlink "Header Link (Bold Title)"
+[**${1:${VISUAL:Text}}**](${2:http://:www.url.com}):$0
+endsnippet
 snippet hrlnk "Header ID Link"
+
 [${1:Text}](#${2:Header ID})$0
 endsnippet
 
@@ -153,6 +157,15 @@ endsnippet
 # code block php
 snippet cphp "php codeblock" b
 \`\`\` php
+<?php
+$1
+\`\`\`
+$0
+endsnippet
+
+# code block html
+snippet chtml "html codeblock" b
+\`\`\` html
 $1
 \`\`\`
 $0
