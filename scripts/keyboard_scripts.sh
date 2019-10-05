@@ -14,7 +14,7 @@ xset r rate 200 50
 # xmodmap -e 'keycode 135 = Super_L' && xset -r 135
 
 # scripts control jadi modifier buat hjkl = arrows, switch menu button dengan right control (no fn)
-xmodmap ~/.i3/scripts/.xmodmap
+xmodmap $SCRIPTS/.xmodmap
 
 # xcape (https://github.com/alols/xcape)
 # buat caps lock (sekarang sudah di tukar sama control) menjadi escape kalo ditekan sendiri dan menjadi control kalo dengan key lain
