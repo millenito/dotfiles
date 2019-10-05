@@ -226,19 +226,26 @@ URxvt*boldItalicFont: xft:Hack Nerd Font Mono:style-Bold Italic:size=11
 URxvt*letterSpace: -1
 
 ! st.allow_bold:           true
-! st.font: SauceCodePro Nerd Font Mono:size=11:antialias=true:autohint=true
-! st.imFont: SauceCodePro Nerd Font Mono:size=11
-! st.boldFont: SauceCodePro Nerd Font Mono:style=Bold:size=11:antialias=true:autohint=true
-! st.italicFont: SauceCodePro Nerd Font Mono:style=Italic:size=11:antialias=true:autohint=true
-! st.boldItalicFont: SauceCodePro Nerd Font Mono:style-Bold Italic:size=11:antialias=true:autohint=true
+! st.font: SauceCodePro Nerd Font Mono:size=10:antialias=true:autohint=true
+! st.imFont: SauceCodePro Nerd Font Mono:size=10
+! st.boldFont: SauceCodePro Nerd Font Mono:style=Bold:size=10:antialias=true:autohint=true
+! st.italicFont: SauceCodePro Nerd Font Mono:style=Italic:size=10:antialias=true:autohint=true
+! st.boldItalicFont: SauceCodePro Nerd Font Mono:style-Bold Italic:size=10:antialias=true:autohint=true
 
+
+! st.allow_bold:           true
+! st.font: DejaVu Sans Mono:size=10:antialias=true:autohint=true
+! st.imFont: DejaVu Sans Mono:size=10
+! st.boldFont: DejaVu Sans Mono:style=Bold:size=10:antialias=true:autohint=true
+! st.italicFont: DejaVu Sans Mono:style=Italic:size=10:antialias=true:autohint=true
+! st.boldItalicFont: DejaVu Sans Mono:style-Bold Italic:size=10:antialias=true:autohint=true
 
 st.allow_bold:           true
-st.font: Hack Nerd Font:size=11:antialias=true:autohint=true
-st.imFont: Hack Nerd Font:size=11
-st.boldFont: Hack Nerd Font:style=Bold:size=11:antialias=true:autohint=true
-st.italicFont: Hack Nerd Font:style=Italic:size=11:antialias=true:autohint=true
-st.boldItalicFont: Hack Nerd Font:style-Bold Italic:size=11:antialias=true:autohint=true
+st.font: Hack Nerd Font:size=10:antialias=true:autohint=true
+st.imFont: Hack Nerd Font:size=10
+st.boldFont: Hack Nerd Font:style=Bold:size=10:antialias=true:autohint=true
+st.italicFont: Hack Nerd Font:style=Italic:size=10:antialias=true:autohint=true
+st.boldItalicFont: Hack Nerd Font:style-Bold Italic:size=10:antialias=true:autohint=true
 
 /* *allow_bold:           true */
 /* *font: Hack Nerd Font:size=11:antialias=true:autohint=true */
