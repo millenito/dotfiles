@@ -1,0 +1,12 @@
+[user]
+	email = wownito31@gmail.com
+	name = millenito
+
+[merge]
+    tool = nvimdiff
+
+[mergetool]
+    keepBackup = false
+
+[mergetool "nvimdiff"]
+    cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
