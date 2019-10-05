@@ -15,6 +15,7 @@ export PROJECTS=$HOME/projects/
 
 export DOTFILES=$HOME/dotfiles/ # dotfiles repo
 export NOTES=$HOME/notes # notes directory
+export SCRIPTS=$HOME/scripts
 
 # fzf commands & options
 export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
@@ -29,5 +30,8 @@ export NNN_USE_EDITOR=1
 export NNN_OPS_PROG=1
 
 # clipmenu
-export CM_LAUNCHER=rofi
+export CM_LAUNCHER=$SCRIPTS/rofi/rofi-clipmenu.sh
 export CM_DIR=/tmp/clipmenu
+
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH=$PATH:~/scripts
