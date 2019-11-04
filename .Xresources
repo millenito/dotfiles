@@ -90,54 +90,87 @@ XTerm*selectToClipboard: true
 /* *color7:                S_base2 */
 /* *color15:               S_base3 */
 
-! Base16 Oceanic Next
 ! Scheme: Dmitri Voronianski (http://pixelhunter.me)
+! Dracula Xresources palette
+*.foreground: #F8F8F2
+*.background: #282A36
+*.color0:     #000000
+*.color8:     #4D4D4D
+*.color1:     #FF5555
+*.color9:     #FF6E67
+*.color2:     #50FA7B
+*.color10:    #5AF78E
+*.color3:     #F1FA8C
+*.color11:    #F4F99D
+*.color4:     #BD93F9
+*.color12:    #CAA9FA
+*.color5:     #FF79C6
+*.color13:    #FF92D0
+*.color6:     #8BE9FD
+*.color14:    #9AEDFE
+*.color7:     #BFBFBF
+*.color15:    #E6E6E6
+*.color16:    #F99157
+#define bg #282A36
+! #define bg_alt #44475A
+#define bg_alt #424450 /* vim cursorline (subtle) */
+#define fg #F8F8F2
+#define fg_alt #F1FA8C
+#define accent #BD93F9
+#define urgent #FF5555
 
-/* #define base00 #1B2B34 */
-#define base_old #1B2B34
-#define base00 #03031b
-#define base01 #343D46
-#define base02 #4F5B66
-#define base03 #65737E
-#define base04 #A7ADBA
-#define base05 #C0C5CE
-#define base06 #CDD3DE
-#define base07 #D8DEE9
-#define base08 #EC5f67
-#define base09 #F99157
-#define base0A #FAC863
-#define base0B #99C794
-#define base0C #5FB3B3
-#define base0D #6699CC
-#define base0E #C594C5
-#define base0F #AB7967
-*.foreground:   base05
-*.background:   base00
-*.cursorColor:  base05
-*.color0:       base00
-*.color1:       base08
-*.color2:       base0B
-*.color3:       base0A
-*.color4:       base0D
-*.color5:       base0E
-*.color6:       base0C
-*.color7:       base05
-*.color8:       base03
-*.color9:       base08
-*.color10:      base0B
-*.color11:      base0A
-*.color12:      base0D
-*.color13:      base0E
-*.color14:      base0C
-*.color15:      base07
-! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
-! use 'shell' template to set these if necessary
-*.color16:      base09
-*.color17:      base0F
-*.color18:      base01
-*.color19:      base02
-*.color20:      base04
-*.color21:      base06
+! Base16 Oceanic Next
+/* #define base00 #1B2B34 ! oceanic next default background */
+! #define base00 #03031b
+! #define base01 #343D46
+! #define base02 #4F5B66
+! #define base03 #65737E
+! #define base04 #A7ADBA
+! #define base05 #C0C5CE
+! #define base06 #CDD3DE
+! #define base07 #D8DEE9
+! #define base08 #EC5f67
+! #define base09 #F99157
+! #define base0A #FAC863
+! #define base0B #99C794
+! #define base0C #5FB3B3
+! #define base0D #6699CC
+! #define base0E #C594C5
+! #define base0F #AB7967
+! #define bg base00
+! #define bg_alt #1B2B34
+! #define fg base03
+! #define fg_alt base05
+! #define accent base0D
+! #define urgent base08
+! *.foreground:   base05
+! *.background:   base00
+! *.cursorColor:  base05
+! *.color0:       base00
+! *.color1:       base08
+! *.color2:       base0B
+! *.color3:       base0A
+! *.color4:       base0D
+! *.color5:       base0E
+! *.color6:       base0C
+! *.color7:       base05
+! *.color8:       base03
+! *.color9:       base08
+! *.color10:      base0B
+! *.color11:      base0A
+! *.color12:      base0D
+! *.color13:      base0E
+! *.color14:      base0C
+! *.color15:      base07
+! ! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! ! use 'shell' template to set these if necessary
+! *.color16:      base09
+! *.color17:      base0F
+! *.color18:      base01
+! *.color19:      base02
+! *.color20:      base04
+! *.color21:      base06
+! *.color22:      bg_alt
 
 ! ! Challenger Deep Terminal Colors
 ! *.foreground:   #cbe3e7
@@ -207,45 +240,32 @@ rofi.font: Noto Sans 12
 rofi.color-enabled: true
 
 ! Property Name     BG       Border   Separator
-rofi.color-window:  base00, base0D, #282c34
+rofi.color-window:  bg, accent, #282c34
 
-! Property Name     BG       FG       BG-alt   Head-BG  Head-FG
-rofi.color-normal:  base00, base03, base00, base_old, base05
-rofi.color-active:  base00, base0D, base00, base00, base0D
-rofi.color-urgent:  base00, base08, base00, base00, base08
+! Property Name     BG  FG  BG-alt Head-BG  Head-FG
+rofi.color-normal:  bg, fg, bg, bg_alt, fg_alt
+rofi.color-active:  bg, accent, bg, bg, accent
+rofi.color-urgent:  bg, urgent, bg, bg, base08
 
 ! Set the desired separator style
 rofi.separator-style: solid
 
+#define FT Hack Nerd Font
+#define FT_SIZE 10
 URxvt.allow_bold:           true
-URxvt*font: xft:Hack Nerd Font Mono:size=11
-URxvt*imFont: xft:Hack Nerd Font Mono:size=11
-URxvt*boldFont: xft:Hack Nerd Font Mono:style=Bold:size=11
-URxvt*italicFont: xft:Hack Nerd Font Mono:style=Italic:size=11
-URxvt*boldItalicFont: xft:Hack Nerd Font Mono:style-Bold Italic:size=11
+URxvt*font: xft:FT Mono:size=FT_SIZE
+URxvt*imFont: xft:FT Mono:size=FT_SIZE
+URxvt*boldFont: xft:FT Mono:style=Bold:size=FT_SIZE
+URxvt*italicFont: xft:FT Mono:style=Italic:size=FT_SIZE
+URxvt*boldItalicFont: xft:FT Mono:style-Bold Italic:size=FT_SIZE
 URxvt*letterSpace: -1
 
-! st.allow_bold:           true
-! st.font: SauceCodePro Nerd Font Mono:size=10:antialias=true:autohint=true
-! st.imFont: SauceCodePro Nerd Font Mono:size=10
-! st.boldFont: SauceCodePro Nerd Font Mono:style=Bold:size=10:antialias=true:autohint=true
-! st.italicFont: SauceCodePro Nerd Font Mono:style=Italic:size=10:antialias=true:autohint=true
-! st.boldItalicFont: SauceCodePro Nerd Font Mono:style-Bold Italic:size=10:antialias=true:autohint=true
-
-
-! st.allow_bold:           true
-! st.font: DejaVu Sans Mono:size=10:antialias=true:autohint=true
-! st.imFont: DejaVu Sans Mono:size=10
-! st.boldFont: DejaVu Sans Mono:style=Bold:size=10:antialias=true:autohint=true
-! st.italicFont: DejaVu Sans Mono:style=Italic:size=10:antialias=true:autohint=true
-! st.boldItalicFont: DejaVu Sans Mono:style-Bold Italic:size=10:antialias=true:autohint=true
-
 st.allow_bold:           true
-st.font: Hack Nerd Font:size=10:antialias=true:autohint=true
-st.imFont: Hack Nerd Font:size=10
-st.boldFont: Hack Nerd Font:style=Bold:size=10:antialias=true:autohint=true
-st.italicFont: Hack Nerd Font:style=Italic:size=10:antialias=true:autohint=true
-st.boldItalicFont: Hack Nerd Font:style-Bold Italic:size=10:antialias=true:autohint=true
+st.font: FT:size=FT_SIZE:antialias=true:autohint=true
+st.imFont: FT:size=FT_SIZE
+st.boldFont: FT:style=Bold:size=FT_SIZE:antialias=true:autohint=true
+st.italicFont: FT:style=Italic:size=FT_SIZE:antialias=true:autohint=true
+st.boldItalicFont: FT:style-Bold Italic:size=FT_SIZE:antialias=true:autohint=true
 
 /* *allow_bold:           true */
 /* *font: Hack Nerd Font:size=11:antialias=true:autohint=true */
