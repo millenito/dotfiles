@@ -10,14 +10,14 @@ youtube-dl -F "$1" > "$format"
 if [[ -z $(grep "video only" "$format") ]]; then
   quality=$(tail -n +5 "$format" | awk '{print $1}' | rofi -dmenu -i -p "Select quality:")
 
-  mpv --title=mpv-float --geometry=640-2-22 --loop-file --ontop --ytdl-format="$quality" "$1"
+  mpv --title=mpv-float --loop-file --ontop --ytdl-format="$quality" "$1"
 else
   video_quality=$(grep "video only" "$format" | awk '{print $1,"("$NF,$4,$2")"}' \
     | rofi -dmenu -i -p "Select video resolution" | awk '{print $1}')
   audio_quality=$(grep "audio only" "$format" | awk '{print $1,"("$NF,$7,$9")"}' \
     | rofi -dmenu -i -p "Select audio quality" | awk '{print $1}')
 
-  mpv --title=mpv-float --geometry=640-2-22 --loop-file --ontop \
+  mpv --title=mpv-float --loop-file --ontop \
     --ytdl-format="$video_quality"+"$audio_quality" "$1"
 fi
 
