@@ -30,9 +30,12 @@ if ! zgen saved; then
     # theme
     # zgen oh-my-zsh themes/avit
 	# zgen oh-my-zsh themes/steeef
-	# zgen oh-my-zsh themes/ys
-	# zgen load marszall87/nodeys-zsh-theme nodeys
-	zgen load denysdovhan/spaceship-prompt spaceship
+    # zgen oh-my-zsh themes/ys
+    # zgen load marszall87/nodeys-zsh-theme nodeys
+    zgen load denysdovhan/spaceship-prompt spaceship
+    zgen load mafredri/zsh-async
+    # zgen load sindresorhus/pure
+    # zgen load geometry-zsh/geometry
 
     # save all to init script
     zgen save
@@ -48,12 +51,18 @@ setopt hist_reduce_blanks # remove superfluous blanks from history items
 setopt share_history # share history between different instances
 setopt correct_all # autocorrect commands
 
-# auto ls after cd with colorls
+# auto ls after cd with exa
 autoload -U add-zsh-hook
+autoload -U colors && colors
 add-zsh-hook -Uz chpwd (){
-    # colorls --sort-dirs;
-     exa --group-directories-first
-	 # exa
+     # if type exa > /dev/null 2>&1; then
+     #     exa --group-directories-first
+         # exa
+     if type lsd > /dev/null 2>&1; then
+         lsd --group-dirs first
+     else
+         ls
+     fi
 }
 
 # Enable autocompletions
@@ -148,6 +157,7 @@ SPACESHIP_USER_COLOR="red"
 SPACESHIP_USER_SHOW=always
 SPACESHIP_HOST_SHOW=always
 SPACESHIP_HOST_SHOW_FULL=true
+SPACESHIP_HOST_COLOR="cyan"
 SPACESHIP_USER_PREFIX="as "
 SPACESHIP_DIR_COLOR="yellow"
 SPACESHIP_PROMPT_FIRST_PREFIX_SHOW=true
@@ -155,6 +165,12 @@ SPACESHIP_BATTERY_THRESHOLD=20
 # SPACESHIP_HOST_PREFIX="using " 
 SPACESHIP_VI_MODE_INSERT="-- INSERT --"
 SPACESHIP_VI_MODE_NORMAL="[NORMAL]"
+
+# pure prompt
+autoload -U promptinit; promptinit
+
+# change the path color
+zstyle :prompt:pure:path color yellow 
 
 # Untuk merubah titlebar dari st terminal
 # Sumber: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#s5
@@ -211,7 +227,7 @@ alias sx="startx"
 
 # nmcli wifi
 alias nmlist="nmcli dev wifi list"
-alias nmconn="nmcli -a dev wifi connect"
+alias nmconn="nmcli dev wifi connect"
 
 # set path go
 #export GOROOT=/home/$USER/go/
@@ -243,9 +259,13 @@ fi
 
 alias alacritty='WINIT_HIDPI_FACTOR=1.0 alacritty' # open alacritty normal size
 
-alias ls='exa'
+if type exa > /dev/null 2>&1; then
+    alias ls='exa'
+    alias la='exa -a'
+fi
+
 alias cls='colorls'
-alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
+# alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
 
 # tmux
 alias tm='tmux'
@@ -364,5 +384,4 @@ alias vf=fv # Alias kalau salah
 # disable Ctrl+s freeze terminal
 stty -ixon
 
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
