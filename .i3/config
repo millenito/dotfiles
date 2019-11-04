@@ -59,6 +59,7 @@ bindsym $mod+q kill
 
 # rofi
 bindsym $mod+d exec --no-startup-id "rofi  -combi-modi drun,ssh -show combi"
+bindsym Mod1+Tab exec --no-startup-id "rofi  -show window"
 bindsym $mod+Ctrl+d exec --no-startup-id bwmenu -C --auto-lock -1 # rofi bitwarden (https://github.com/mattydebie/bitwarden-rofi)
 bindsym $mod+Ctrl+c exec --no-startup-id clipmenu # rofi clipboard manager (https://github.com/cdown/clipmenu) (https://bandithijo.com/blog/manajemen-clipboard-dengan-clipmenu#konfigurasi)
 bindsym $mod+Shift+c exec --no-startup-id "clipdel -d '.*'; notify-send 'Cleared clipboard'"
@@ -75,7 +76,7 @@ bindsym $mod+Ctrl+e exec --no-startup-id $SCRIPTS/rofi/rofi-unicode.sh #rofi emo
 #bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 exec --no-startup-id pulseaudio
 # exec --no-startup-id pa-applet
-bindsym $mod+Ctrl+m exec pavucontrol
+bindsym $mod+F12 exec pavucontrol
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
@@ -103,7 +104,7 @@ bindsym Mod1+Right exec playerctl next
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id compton -b
+exec --no-startup-id compton -b
 #exec --no-startup-id manjaro-hello
 # exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
@@ -127,7 +128,7 @@ exec --no-startup-id $SCRIPTS/keyboard_scripts.sh                               
 exec --no-startup-id $SCRIPTS/launch_polybar.sh                                 # polybar
 # exec --no-startup-id $SCRIPTS/toggle_vagrants.sh                                # launch localan vagrants
 # exec_always alttab -d 1 -font "xft:Noto sans-12" -fg "$text-color" -bg "$bg-color" -frame "$theme-color" -t 150x150 -i 150x100
-exec_always alttab -d 1 -font "xft:Noto sans-12" -t 150x150 -i 150x100               # alttab (https://github.com/sagb/alttab) or yay -S alttab
+# exec_always alttab -d 1 -font "xft:Noto sans-12" -t 150x150 -i 150x100               # alttab (https://github.com/sagb/alttab) or yay -S alttab
 exec --no-startup-id $SCRIPTS/random_wallpaper.sh $wallpapers 600               # randomize wallpaper every 60 seconds
 bindsym $mod+F8 exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
 # exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
@@ -140,18 +141,19 @@ bindsym $mod+F1 exec pamac-manager
 bindsym $mod+F2 exec $BROWSER
 # bindsym $mod+F3 exec dbeaver
 bindsym $mod+F3 exec dbeaver-ce
-bindsym $mod+F4 workspace $ws3; exec "google-chrome-stable --incognito"; exec "$terminal -e nvim; notify-send 'dev mode'"
+bindsym $mod+F4 exec postman
 bindsym $mod+F5 exec VirtualBox Manager; workspace $ws5
 bindsym $mod+apostrophe exec $terminal2 -e ranger # single quote (')
 bindsym $mod+Shift+F3 exec gksu pcmanfm
+bindsym $mod+F10 exec spotify
 # bindsym $mod+F5 exec $terminal -e 'mocp'
 bindsym $mod+p exec --no-startup-id "killall compton; notify-send 'transparency off'"
 bindsym $mod+Shift+p exec --no-startup-id $SCRIPTS/restart_compton.sh
 bindsym $mod+Ctrl+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym Print --release exec --no-startup-id i3-scrot -s
-bindsym Shift+Print --release exec --no-startup-id i3-scrot 
+bindsym Print --release exec "notify-send 'Select area for the CLIPBOARD screenshot'; scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'; notify-send 'Screenshot copied to clipboard'"
+bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'; notify-send 'Fullscreen screenshot copied to clipboard'"
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -w
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot 
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # open notes as pdf / html
@@ -164,8 +166,8 @@ bindsym Mode_switch+m exec "xdotool click 4"
 bindsym Mode_switch+n exec "xdotool click 5"
 
 # bind hjkl to arrow keys permanently
-bindsym $mod+comma exec --no-startup-id "$SCRIPTS/vim_arrows.sh; notify-send 'keyboard hjkl/wasd = arrow keys'"; mode "arrow keys mode"
-mode "arrow keys mode" {
+bindsym $mod+comma exec --no-startup-id "$SCRIPTS/vim_arrows.sh; notify-send 'Home Row Arrows Mode' 'hjkl/wasd = arrow keys'"; mode "Home Row Arrows Mode"
+mode "Home Row Arrows Mode" {
 	# scroll up
 	bindsym m exec "xdotool click 4" 
 	# scroll down
@@ -175,13 +177,13 @@ mode "arrow keys mode" {
 }
 
 # launch default keyboard scripts (caps = control and escape, mode switch, etc)
-bindsym $mod+period exec --no-startup-id "pkill xcape; $SCRIPTS/keyboard_scripts.sh; notify-send 'keyboard vim mode'"
+bindsym $mod+period exec --no-startup-id "pkill xcape; $SCRIPTS/keyboard_scripts.sh; notify-send 'Personal Keyboard Layout Mode' 'Ctrl+hjkl = left,down,up,right \nCaps Lock = escape & control (when pressed with other key) \nCtrl+c = Caps Lock \nCtrl+a = Home \nCtrl+e = End' "
 
 # change keyboard back to normal
-bindsym $mod+Shift+period exec --no-startup-id "setxkbmap -option; pkill xcape; notify-send 'keyboard normal mode'"
+bindsym $mod+Shift+period exec --no-startup-id "setxkbmap -option; pkill xcape; notify-send 'Normal Keyboard mode' 'Same keyboard layout as other laptops'"
 
 # mouse mode move cursor with keyboard (requires xdotool)
-bindsym $mod+m mode "mouse mode"; exec "notify-send 'keyboard mouse mode'"
+bindsym $mod+m mode "mouse mode"; exec "notify-send 'Mouse Mode' 'Use hjkl keys to move cursor'"
 mode "mouse mode" {
 	# move cursor with hjkl
 	bindsym k exec xdotool mousemove_relative --sync -- 0 -20
@@ -311,7 +313,7 @@ bindsym $mod+y sticky toggle
 bindsym $mod+Shift+y floating enable; sticky enable; resize set 900 800
 
 # watch mode for mpv
-bindsym $mod+Shift+w sticky enable; resize set 700 400;move right 280px,move down 151px exec "notify-send 'mpv watch mode'"
+bindsym $mod+Shift+w sticky enable; resize set 700 400;move right 280px,move down 151px exec "notify-send 'mpv watch mode' 'Always on top'"
 
 # buka url youtube di dalam clipboard dengan mpv butuh youtube-dl (https://github.com/ytdl-org/youtube-dl) & xclip (https://github.com/astrand/xclip)
 bindsym $mod+v exec $SCRIPTS/mpv-youtube "$(xclip -selection clipboard -o | cut -d '&' -f 1)"
@@ -383,16 +385,16 @@ assign [class="Brave-browser"] $ws2
 assign [class="DBeaver"] $ws3
 assign [class="Java"] $ws3 # dbeaver splash loading
 assign [class="code-oss"] $ws3 
+assign [class="jetbrains-studio"] $ws3 
+assign [class="Postman"] $ws4 
 assign [class="Google-chrome"] $ws2 
 assign [class="VirtualBox Manager"] $ws5
 assign [class="VirtualBox Machine"] $ws5
 assign [class="TelegramDesktop"] $ws9
 assign [class="Slack"] $ws9
 assign [class="whats-app-nativefier-d52542"] $ws9 # whatsapp
-# Spotify workaround
-for_window [class="Spotify"] move to workspace 10
 
-# Open specific applications in floating mode
+# Specific applications settings
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
@@ -422,7 +424,8 @@ for_window [class="VirtualBox Manager"] border pixel 1
 for_window [class="VirtualBox Machine"] border pixel 1
 for_window [class="Gpick"] floating enable
 for_window [class="java-lang-Thread"] floating enable # XDM Download Manager
-for_window [class="mpv"] floating enable resize set 1000 550
+for_window [class="mpv"] floating enable resize set 1000 550; exec notify-send 'mod+shift+w for watch mode'
+for_window [class="Spotify"] move to workspace $ws10
 
 
 # switch to workspace with urgent window automatically
@@ -569,9 +572,9 @@ set_from_resource $term_color15    color15
 # Set inner/outer gaps
 #gaps inner 14
 #gaps outer -2
-gaps inner 12
+gaps inner 6
 #gaps outer 27
-gaps outer -2
+gaps outer -1
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
