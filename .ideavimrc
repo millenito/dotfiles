@@ -1,0 +1,115 @@
+" List of all actions: https://gist.github.com/zchee/9c78f91cc5ad771c1f5d
+
+set hlsearch                      " highlight search occurrences
+set ignorecase                    " ignore case in search patterns
+set smartcase                     " no ignore case when pattern is uppercase
+set incsearch                     " show search results while typing
+set wrapscan                      " searches wrap around the end of the fileset scrolloff=3         " 3 lines above/below cursor when scrolling
+
+set number relativenumber         " line numbers
+
+set clipboard=unnamedplus,unnamed " integrate with system clipboard
+
+" Plugins
+set surround                      " Vim-surround
+set commentary                    " Vim-commentary
+
+" set <leader> to <space>
+let mapleader = " "
+
+" Remove highlight <esc>
+noremap <esc> :nohl<CR>
+
+" x permanent delete
+nnoremap x "_x
+vnoremap x "_x
+nnoremap X "_X
+vnoremap X "_X
+
+" join line alt+shift+j
+noremap <A-S-J> :action EditorJoinLines<cr>
+" noremap <A-K> K
+
+" qq to record, Q to replay
+nnoremap Q @q
+
+" " Pindah ke tags konfirmasi dulu kalo symbol nya ada yang sama
+" nnoremap <C-]> g<C-]>
+" nnoremap s<C-]> <C-w>g<C-]> |" buka tag horizontal split
+" nnoremap sv<C-]> <C-w>vg<C-]> |" buka tag vertical split
+
+" pindahkan baris atas/bawah/kiri/kanan
+nnoremap <A-k> :move-2<cr>
+nnoremap <A-j> :move+<cr>
+nnoremap <A-h> <<
+nnoremap <A-l> >>
+xnoremap <A-k> :move-2<cr>gv
+xnoremap <A-j> :move'>+<cr>gv
+xnoremap <A-h> <gv
+xnoremap <A-l> >gv
+xnoremap < <gv
+xnoremap > >gv
+
+" Insert new line above/below cursor
+nmap ]<cr> o<Esc>k
+nmap [<cr> O<Esc>j
+
+" Y yank rest of line
+noremap Y y$
+
+" insert mode paste from primary clipboard
+inoremap <C-v> <C-r>+
+
+" # Splits
+" pindah antar window dengan Ctrl+hjkl
+noremap <C-k> <C-w>k
+noremap <C-j> <C-w>j
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l
+
+" # tab
+nmap J :action PreviousTab<CR>
+nmap K :action NextTab<CR>
+
+" vim-subversive
+nmap siw viwp
+nmap ss Vp
+
+" exit visual mode
+vmap <esc> :action VimVisualExitMode<cr>
+
+" source new changes
+nmap <leader><F12> :source ~/.ideavimrc<cr>
+
+" project navigation
+nmap <C-space> :action Switcher<cr>
+nmap <C-p> :action GotoFile<cr>
+nmap <C-a> :action GotoAction<CR>
+nmap <C-/> :action FindInPath<cr>
+nmap <C-cr> :action Run<cr>
+
+" code action
+nmap <leader>cd :action GotoDeclaration<cr>
+nmap <leader>cr :action ShowUsages<cr>
+nmap <leader>ci :action GotoImplementation<cr>
+nmap <leader>ct :action GotoTypeDeclaration<cr>
+nmap <leader>ca :action ShowIntentionActions<cr>
+nmap <leader>cn :action GotoNextError<cr>
+nmap <leader>cN :action GotoPreviousError<cr>
+
+" # git 
+nmap ]h :action VcsShowNextChangeMarker<cr>
+nmap [h :action VcsShowPrevChangeMarker<cr>
+nmap <leader>hp :action VcsShowCurrentChangeMarker<cr>
+nmap <leader>hu :action Vcs.RollbackChangedLines<cr>
+
+" find symbol/method in current file
+nmap <leader>] :action FileStructurePopup<cr>
+
+" Toggle project window
+nmap <leader>E :action ActivateProjectToolWindow<cr> :action ActivateBuildToolWindow<cr>
+nmap <leader>e :action HideAllWindows<cr>
+
+" format
+vmap <leader>f :action VimReformatVisual<cr>
+nmap <leader>F :action ReformatCode<cr>
