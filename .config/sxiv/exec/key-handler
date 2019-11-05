@@ -14,5 +14,7 @@ do
         "Y")
             readlink -f "$file" | xclip -selection clipboard &&
             notify-send "$(readlink -f "$file") copied to clipboard" & ;;
+        "w")
+            feh --bg-scale "$file" ;;
     esac
 done
