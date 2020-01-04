@@ -1,36 +1,6 @@
-;==========================================================
-;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
-;
-;   The README contains alot of information
-;
-;==========================================================
+# vi: set ft=dosini :
 
 [colors]
-;#1c0F16
-; background = ${xrdb:background}
-background = #00000000
-;background = #1c0F16
-background-alt = ${xrdb:color4}
-;#ffffff
-foreground-alt = ${xrdb:foreground}
-;foreground = #ffffff
-foreground = #ffffff
-primary-theme = #6699CC
-secondary-theme = #6c69a8
-secondary = #e60053
-alert = #bd2c40
-
 black           = ${xrdb:color0}
 brightblack     = ${xrdb:color8}
 
@@ -43,152 +13,327 @@ brightgreen     = ${xrdb:color10}
 
 yellow          = ${xrdb:color3}
 brightyellow    = ${xrdb:color11}
-
 blue            = ${xrdb:color4}
 brightblue      = ${xrdb:color12}
 
 magenta        = ${xrdb:color5}
-brightmangenta  = ${xrdb:color13}
+brightmagenta  = ${xrdb:color13}
 
 cyan            = ${xrdb:color6}
 brightcyan      = ${xrdb:color14}
-		
+
 white           = ${xrdb:color7}
 brightwhite     = ${xrdb:color15}
 
-color16 		= ${xrdb:color16}
-color17 		= ${xrdb:color17}
-color18 		= ${xrdb:color18}
-color19 		= ${xrdb:color19}
-color20 		= ${xrdb:color20}
-color21 		= ${xrdb:color21}
-
-
-[bar/bar]
-;monitor = ${env:MONITOR:HDMI-1}
+orange          = ${xrdb:color16}
+background = ${xrdb:background}
+background-alt = ${xrdb:background}
+foreground = ${xrdb:foreground}
+primary = ${colors.blue}
+alert = ${colors.red}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[bar/top]
 width = 100%
-height = 30
-;offset-x = 1%
-;offset-y = 1%
-radius = 0.0
+height = 24
 fixed-center = true
-
 background = ${colors.background}
 foreground = ${colors.foreground}
-
-line-size = 3
-line-color = #f00
-
-border-size = 0
-border-color = #00000000
-
 padding-left = 0
-padding-right = 2
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
 
-module-margin-left = 1
-module-margin-right = 2
+; font-0 = Comfortaa:pixelsize=10:style=Bold
+; font-0 = Raleway:pixelsize=10:style=Bold
+; font-0 = Noto Sans SemiCondensed ExtraBold:style=SemiCondensed ExtraBold,Regular:size=10
+; font-0 = Noto Sans SemiCondensed Medium:style=SemiCondensed Medium,Regular:size=10
+font-0 = Noto Sans SemiCondensed SemiBold:style=SemiCondensed SemiBold,Regular:size=11
+; font-0 = Noto Sans SemiBold:style=SemiBold:size=10
+font-1 = UbuntuMono Nerd Font:size=10;1
+font-2 = UbuntuMono Nerd Font:size=16;4
+font-3 = NotoSans Nerd Font-Regular:size=11
+font-4 = Symbola:style=Regular:size=12
+font-5 = Noto Sans CJK JP:style=SemiBold:size=11:antialias=true;0		# (Japanese) Band names, etc.
 
-;font-0 = fixed:pixelsize=10;1
-;font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-;font-2 = siji:pixelsize=10;1
+modules-left = bspwm i3 xkeyboard
+modules-center = windowtitle
+modules-right =  transmission date xbacklight pulseaudio battery system-usb-mount 
 
-font-0 = NotoSans Nerd Font-Regular:size=11
-font-1 = "Droid Sans Mono for Powerline:size=11:antialias=true;3"
-font-2 = xos4\ Terminus:size=14;0
-font-3 = Siji:pixelsize=11;1
-font-4 = FontAwesome:size=11;0
-font-5 = Noto Sans CJK JP:size=11:antialias=true;0		# (Japanese) Band names, etc.
+; font-0 = Hack Nerd Font :pixelsize=10;5:style=Regular
+; font-1 = "Droid Sans Mono for Powerline:size=11:antialias=true;3"
+; font-2 = xos4\ Terminus:size=14;0
+; font-3 = Siji:pixelsize=11;1
+; font-4 = FontAwesome:size=11;0
+; font-5 = Noto Sans CJK JP:size=11:antialias=true;0		# (Japanese) Band names, etc.
+;
+; tray-position = right
+; tray-padding = 2
 
-modules-left = i3 xwindow 
-modules-center =  date 
-modules-right = xkeyboard spotify wlan eth battery pulseaudio xbacklight memory filesystem cpu  
+module-margin = 0
 
-# buat system tray ada di pojok kiri bawah #
-;tray-position = hidden
-;tray-detached = true
-; tray-position = left
-; tray-offset-x = 0
-; tray-offset-y = 1050
-; tray-maxsize = 16
-; tray-padding = 0
-; tray-scale = 1
-; tray-background = ${colors.background}
+cursor-click = pointer
+cursor-scroll = ns-resize
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[bar/bottom]
+bottom = true
+width = 100%
+height = 24
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+padding-left = 0
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
 
-;wm-restack = bspwm
-wm-restack = i3
+; font-0 = Comfortaa:pixelsize=10:style=Bold
+; font-0 = Raleway:pixelsize=10:style=Bold
+; font-0 = Noto Sans SemiCondensed ExtraBold:style=SemiCondensed ExtraBold,Regular:size=10
+; font-0 = Noto Sans SemiCondensed Medium:style=SemiCondensed Medium,Regular:size=10
+font-0 = Noto Sans SemiCondensed SemiBold:style=SemiCondensed SemiBold,Regular:size=11
+; font-0 = Noto Sans SemiBold:style=SemiBold:size=11
+font-1 = UbuntuMono Nerd Font:size=10;2
+font-2 = UbuntuMono Nerd Font:size=16;3
+font-3 = NotoSans Nerd Font-Regular:size=12
+font-4 = Symbola:style=Regular:size=12
+font-5 = Noto Sans CJK JP:style=SemiBold:size=11:antialias=true;0		# (Japanese) Band names, etc.
 
-;override-redirect = true
+modules-left = bluetoothctl ip wireless-network 
+modules-center =  spotify
+modules-right =  cpu cpu_total temperature filesystem memory 
 
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+tray-position = left
+; tray-padding =
 
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[module/xwindow]
+; #### MODULES ####
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/windowtitle]
 type = internal/xwindow
-label = %title:0:40:...%
-format-foreground = ${colors.foreground-alt}
-; format-underline = ${colors.primary-theme}
+format =  <label>   
+label = "   %title:0:76:..%   "
+format-background = ${colors.blue}
+format-foreground = ${colors.background}
 
-[module/spotify]
-type = custom/script
+; format-padding=4
+format-prefix = "%{T3}%{T-}"
+format-prefix-foreground = ${colors.blue}
+format-prefix-background = ${colors.background}
+
+format-suffix = %{T3}%{T-}
+format-suffix-foreground = ${colors.blue}
+format-suffix-background = ${colors.background}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/battery]
+type = internal/battery
+format-charging = "   <animation-charging>  <label-charging>"
+format-full = <label-full>
+label-charging = "%percentage%% Charged  "
+label-full = " Fully charged  "
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+animation-charging-3 = " "
+animation-charging-4 = " "
+format-discharging = <label-discharging>
+label-discharging = "     %percentage%%   "
+
+format-charging-background = ${colors.magenta}
+format-charging-foreground = ${colors.background}
+format-charging-prefix = %{T3}%{T-}
+format-charging-prefix-foreground = ${colors.magenta}
+format-charging-prefix-background = ${colors.cyan}
+;format-charging-suffix = %{T3}%{T-}
+;format-charging-suffix-foreground = ${colors.magenta}
+;format-charging-suffix-background = ${colors.magenta}
+
+format-charging-suffix = %{T3}%{T-}
+format-charging-suffix-foreground = ${colors.background}
+format-charging-suffix-background = ${colors.magenta}
+
+format-discharging-background = ${colors.magenta}
+format-discharging-foreground = ${colors.background}
+format-discharging-prefix = %{T3}%{T-}
+format-discharging-prefix-foreground = ${colors.magenta}
+format-discharging-prefix-background = ${colors.cyan}
+;format-discharging-suffix = %{T3}%{T-}
+;format-discharging-suffix-foreground = ${colors.magenta}
+;format-discharging-suffix-background = ${colors.magenta}
+
+format-discharging-suffix = %{T3}%{T-}
+format-discharging-suffix-foreground = ${colors.background}
+format-discharging-suffix-background = ${colors.magenta}
+
+format-full-background = ${colors.magenta}
+format-full-foreground = ${colors.background}
+format-full-prefix = %{T3}%{T-}
+format-full-prefix-foreground = ${colors.magenta}
+format-full-prefix-background = ${colors.cyan}
+;format-full-suffix = %{T3}%{T-}
+;format-full-suffix-foreground = ${colors.magenta}
+;format-full-suffix-background = ${colors.magenta}	
+
+format-full-suffix = %{T3}%{T-}
+format-full-suffix-foreground = ${colors.background}
+format-full-suffix-background = ${colors.magenta}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/cpu]
+type = internal/cpu
+format = <label> <ramp-coreload>
+label = "   %percentage-cores%"
 interval = 1
-format-prefix = " "
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+
+format-background = ${colors.yellow}
+format-foreground = ${colors.background}
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.yellow}
+format-prefix-background = ${colors.background}
+
+; format-suffix= "  "
+; format-suffix = %{T3}%{T-}
+; format-suffix-foreground = ${colors.yellow}
+; format-suffix-background = ${colors.yellow}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/cpu_total]
+type = internal/cpu
 format = <label>
-format-foreground = ${colors.foreground-alt}
-exec = python ~/.config/polybar/scripts/polybar-spotify/spotify_status.py -f ' {artist} - {song}'
-; format-underline = #1db954
+label =  %percentage%%
+format-background = ${colors.yellow}
+format-foreground = ${colors.background}
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.yellow}
+format-prefix-background = ${colors.yellow}
 
-[module/xkeyboard]
-type = internal/xkeyboard
-blacklist-0 = num lock
+format-suffix= "  "
+; format-suffix = %{T3}%{T-}
+; format-suffix-foreground = ${colors.yellow}
+; format-suffix-background = ${colors.yellow}
 
-format-prefix =
-format-prefix-foreground = ${colors.foreground-alt}
-; format-prefix-underline = ${colors.secondary}
-
-label-layout = 
-label-layout-underline = 
-
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.secondary}
-; label-indicator-underline = ${colors.secondary}
-
-[module/telegram]
-type = custom/text
-content-foreground = #FFFFFF
-content-background = #fffff
-click-left = "telegram-desktop >/dev/null 2>&1 &"
-content = 
-content-padding =1
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/memory]
+type = internal/memory
+format = <label>
+label = "   ﬙ %gb_used%  "
+interval = 1
+format-background = ${colors.blue}
+format-foreground = ${colors.background}
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.blue}
+format-prefix-background = ${colors.brightmagenta}
+format-suffix = %{T3}%{T-}
+format-suffix-foreground = ${colors.background}
+format-suffix-background = ${colors.blue}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/filesystem]
 type = internal/fs
 interval = 25
 format-mounted = <label-mounted>
-format-mounted-prefix = " "
-format-mounted-foreground = ${colors.foreground-alt}
-; format-mounted-underline = ${colors.color17}
-; format-unmounted-underline = ${colors.background}
+format-mounted-foreground = ${colors.background}
+format-mounted-background = ${colors.brightmagenta}
+
+format-mounted-prefix = %{T3}%{T-}
+format-mounted-prefix-foreground = ${colors.brightmagenta}
+format-mounted-prefix-background = ${colors.orange}
+
+format-mounted-suffix = %{T3}%{T-}
+format-mounted-suffix-foreground = ${colors.brightmagenta}
+format-mounted-suffix-background = ${colors.brightmagenta}
 
 mount-0 = /
 
 ; label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
-label-mounted =  %percentage_used%%
+label-mounted =  "    %percentage_used%%"
 label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
+label-unmounted-foreground = ${colors.background}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = true
+interval = 5
+format-volume = "   <ramp-volume>  <label-volume>   "
+format-muted = <label-muted>
+label-muted = "    Muted  "
+ramp-volume-0 ="   "
+ramp-volume-1 ="   "
+ramp-volume-2 ="   墳"
+format-volume-background = ${colors.cyan}
+format-volume-foreground = ${colors.background}
+format-volume-prefix = %{T3} %{T-}
+format-volume-prefix-foreground = ${colors.cyan}	
+format-volume-prefix-background = ${colors.yellow}
+format-muted-prefix = %{T3} %{T-}
+format-muted-background = ${colors.cyan}
+format-muted-foreground = ${colors.background}
+format-muted-prefix-foreground = ${colors.cyan}	
+format-muted-prefix-background = ${colors.yellow}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/xbacklight]
+type = internal/backlight
+card = intel_backlight
+format = <label>
+label = "     %percentage%%"
+format-background = ${colors.yellow}
+format-foreground = ${colors.background}
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.yellow}
+format-prefix-background = ${colors.green}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/wireless-network]
+type = internal/network
+format-connected =    <label-connected>
+label-connected = %essid% :  %upspeed%   %downspeed%
+interface = wlp0s20f3
+format-disconnected-suffix =%{T3}%{T-}
+format-disconnected-background = ${colors.red}
+format-disconnected-suffix-foreground = ${colors.background}
+format-disconnected-suffix-background = ${colors.red}
+format-disconnected-prefix = %{T3}%{T-}
+format-disconnected-prefix-foreground = ${colors.background}
+format-disconnected-prefix-background = ${colors.background}
+format-connected-suffix =%{T3}%{T-}
+format-connected-background = ${colors.red}
+format-connected-foreground = ${colors.background}
+format-connected-suffix-foreground = ${colors.red}
+format-connected-suffix-background = 282a36
+format-connected-prefix = %{T3}%{T-}
+format-connected-prefix-foreground = ${colors.red}
+format-connected-prefix-background = ${colors.red}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/ip]
+type = internal/network
+interface = wlp0s20f3
+format-connected = "<label-connected>"
+format-disconnected = <label-disconnected>
+label-disconnected = "   Not Connected   "
+label-connected = "     %local_ip%   "
+format-connected-background = #bd93f9	
+format-connected-foreground = ${colors.background}
 
+format-connected-suffix =%{T3}%{T-}
+format-connected-suffix-foreground = #bd93f9
+format-connected-suffix-background = #ff5555
+
+format-connected-prefix = %{T3}%{T-}
+format-connected-prefix-foreground = ${colors.cyan}
+format-connected-prefix-background = #bd93f9
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/bspwm]
 type = internal/bspwm
 
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary-theme}
+label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 label-occupied = %index%
@@ -223,22 +368,25 @@ ws-icon-7 = 8;
 ws-icon-8 = 9;
 ws-icon-9 = 10;
 ws-icon-default = 0
+
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary-theme}
+label-mode-foreground = ${colors.background}
+label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %icon%
-label-focused-background = ${colors.background}
-label-focused-underline = ${colors.foreground-alt}
-label-focused-padding = 2
+label-focused = %index%
+label-focused-background = ${colors.orange}
+label-focused-foreground = ${colors.background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = 3
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%
-label-unfocused-padding = 1
+label-unfocused-padding = 3
+label-unfocused-foreground = ${colors.foreground}
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
@@ -252,318 +400,192 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
-label-separator = 
-label-separator-padding = 2
-label-separator-background = ${colors.background}
-label-separator-foreground = ${colors.foreground-alt}
-
-
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
-
-[module/xbacklight]
-type = internal/backlight
-card = intel_backlight
-
-format = <label>
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-
-label = %percentage%%
-label-foreground = ${colors.foreground-alt}
-
-; Only applies if <ramp> is used
-ramp-0 = 🌕
-ramp-1 = 🌔
-ramp-2 = 🌓
-ramp-3 = 🌒
-
-; Only applies if <bar> is used
-ramp-4 = 🌑
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #fff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
-
-; [module/cpu]
-; type = internal/cpu
-; interval = 2
-; format-prefix = ""
-; format-prefix-foreground = ${colors.foreground}
-; format-underline = #f90000
-; label = %percentage:2%%
-
-[module/cpu]
-type = internal/cpu
-interval = 2
-format-prefix = "  "
-format-foreground = ${colors.foreground-alt}
-format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #f90000
-label = %percentage:2%%
-;label-foreground = ${colors.green}
-; format-underline = #C8E344
-
-ramp-coreload-0 = ▁
-ramp-coreload-1 = ▂
-ramp-coreload-2 = ▃
-ramp-coreload-3 = ▄
-ramp-coreload-4 = ▅
-ramp-coreload-5 = ▆
-ramp-coreload-6 = ▇
-ramp-coreload-7 = █
-
-[module/memory]
-type = internal/memory
-interval = 2
-format-prefix = "﬙ "
-
-format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = ${colors.blue}
-label = %gb_used%
-label-foreground = ${colors.foreground-alt}
-
-[module/wlan]
-type = internal/network
-interface = wlp0s20f3
-interval = 3.0
-
-format-connected = <ramp-signal> <label-connected>
-; format-connected-underline = #9f78e1
-label-connected = %essid%
-label-connected-foreground = ${colors.foreground-alt}
-
-format-disconnected = " no wifi :( "
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
-
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
-
-[module/eth]
-type = internal/network
-interface = eno1
-interval = 3.0
-
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-fo1
-label-connected = %local_ip%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
-
+; label-separator = |
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/date]
 type = internal/date
-interval = 5
+interval = 1.0
+date =  %A %b %e
+time = "      %l:%M %p"
+; format = <label>
+label = "%time%, %date%   "
+format-foreground = ${colors.background}
+format-background = ${colors.green}
+; format-prefix = "%{T3}%{T-}"
+; format-prefix-foreground = ${colors.green}
+; format-prefix-background = ${colors.background}
+;format-suffix = %{T3}%{T-}
+;format-suffix-foreground = ${colors.background-alt}
+;format-suffix-background = ${colors.background}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/username]
+type = custom/script
 
-date-alt =
-date = 
-;date = " %d-%m"
+exec = whoami
 
-; time = %H:%M
-; time = "    %a %b %d      %I:%M %p  "
-; time = "  %a %b %d   %I:%M %p"
-time = " %I:%M %p    %a %b %d"
-time-alt = %H:%M:%S
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+; format-prefix = %{T3}%{T-}
+format-prefix = "    "
+format-prefix-background = ${colors.background}
+format-prefix-foreground = ${colors.foreground}
 
-format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
-format-foreground = ${colors.foreground-alt}
-; format-underline = ${colors.brightred}
+format-suffix="    "
 
-label = %time%
+format-prefix-font= 1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/distro]
+type = custom/script
 
-[module/pulseaudio]
-type = internal/pulseaudio
+exec =  lsb_release -d | awk '{print $2 " " $3}'
+; exec =  uname -r
 
-format-volume = <ramp-volume>  <label-volume>
-label-volume = %percentage%%
-label-volume-foreground = ${colors.foreground-alt}
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+; format-prefix = %{T3}%{T-}
+format-prefix = "    "
+format-prefix-background = ${colors.background}
+format-prefix-foreground = ${colors.green}
 
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-foreground = ${colors.foreground-alt}
+format-suffix="   "
 
-label-muted = 🔇 muted
-label-muted-background = ${colors.background-alt}
-label-muted-foreground = ${colors.yellow}
-
-bar-volume-width = 10
-bar-volume-foreground-0 = ${colors.blue}
-bar-volume-foreground-1 = ${colors.blue}
-bar-volume-foreground-2 = ${colors.blue}
-bar-volume-foreground-3 = ${colors.blue}
-bar-volume-foreground-4 = ${colors.blue}
-bar-volume-foreground-5 = ${colors.green}
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-[module/alsa]
-type = internal/alsa
-
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
-
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = ADP1
-full-at = 99
-
-format-charging = <animation-charging> <label-charging>
-format-charging-foreground = ${colors.foreground-alt}
-label-charging-foreground = ${colors.foreground-alt}
-; format-charging-underline = #ffb52a
-
-format-discharging = <ramp-capacity>  <label-discharging>
-format-discharging-foreground = ${colors.color16}
-label-discharging-foreground = ${colors.foreground-alt}
-; format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = "FULL "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-foreground = ${colors.foreground-alt}
-; format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
-
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
-
-[module/powermenu]
+format-font= 4
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/shutdown-icons]
 type = custom/menu
-
 expand-right = true
 
-format-spacing = 1
+menu-0-0 = ⏻
+menu-0-0-exec = systemctl poweroff
+menu-0-1 = ⏾
+menu-0-1-exec = systemctl hibernate
+menu-0-2 = ﰇ
+menu-0-2-exec = systemctl reboot
+menu-0-3 = 
+menu-0-3-exec = i3-msg exit
 
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+label-open = "        "
+format-background = #f44336
+format-foreground = #f5f5f5
+format-prefix = %{T3}%{T-}
+format-prefix-background = #ff79c6
+format-prefix-foreground = #f44336
 
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
+label-close = " X "
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+label-separator = "  "
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
 
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+format-prefix =
+format-prefix-foreground = ${colors.background}
+; format-prefix-underline = ${colors.secondary}
 
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+label-layout = 
+label-layout-underline = 
 
-[settings]
-screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
-;pseudo-transparency = false
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.red}
+label-indicator-foreground = ${colors.background}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/spotify]
+type = custom/script
+interval = 1
+exec = python ~/.config/polybar/scripts/polybar-spotify/spotify_status.py -f '     {artist} - {song}   '
+format = <label>
+format-foreground = ${colors.background}
+format-background = ${colors.green}
 
-[global/wm]
-margin-top = 5
-margin-bottom = 5
+format-prefix = "%{T3}%{T-}"
+format-prefix-foreground = ${colors.green}
+format-prefix-background = ${colors.background}
 
-; vim:ft=dosini
+format-suffix = %{T3}%{T-}
+format-suffix-foreground = ${colors.green}
+format-suffix-background = ${colors.background}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/info-softwarecounter]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-softwarecounter/info-softwarecounter.py
+interval = 10
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/bluetoothctl]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-bluetoothctl/polybar-bluetoothctl.sh
+tail = true
+click-left = ~/polybar-scripts/system-bluetooth-bluetoothctl.sh --toggle
+format-background=${colors.cyan}
+format-foreground=${colors.background}
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.background}
+format-prefix-background = ${colors.cyan}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/usb-udev]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-usb-udev/usb-udev.sh
+tail = true
+click-left = ~/.config/polybar/scripts/polybar-usb-udev/usb-udev.sh --mount
+click-right = ~/.config/polybar/scripts/polybar-usb-udev/usb-udev.sh --unmount
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/system-usb-mount]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-usb-mount/polybar-usb-mount.sh
+interval = 5
+click-left = ~/.config/polybar/scripts/polybar-usb-mount/polybar-usb-mount.sh --mount
+click-right = ~/.config/polybar/scripts/polybar-usb-mount/polybar-usb-mount.sh --unmount
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/transmission]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-transmission/torrent-status.sh
+interval = 1
+click-left = notify-send "$(transmission-remote -l | grep -e 'Downloading' -e 'Up & Down' -e 'Seeding')"
+click-right = $TERMINAL -e transmission-remote-cli
+
+label = "   %output%   "
+format = <label>
+format-foreground = ${colors.background}
+format-background = ${colors.orange}
+
+format-prefix = "%{T3}%{T-}" 
+format-prefix-foreground = ${colors.orange}
+format-prefix-background = ${colors.background}
+
+format-suffix = "%{T3}%{T-}"
+format-suffix-foreground = ${colors.green}
+format-suffix-background = ${colors.orange}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[module/temperature]
+type = internal/temperature
+interval = 0.5
+base-temperature = 20
+warn-temperature = 70
+
+; Thermal zone to use
+; To list all the zone types, run 
+; $ for i in /sys/class/thermal/thermal_zone*; do echo "$i: $(<$i/type)"; done
+; Default: 0
+thermal-zone = 0
+
+; Full path of temperature sysfs path
+; Use `sensors` to find preferred temperature source, then run
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+; to find path to desired file
+; Default reverts to thermal zone setting
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
+
+label = "    %temperature-c%  "
+format-foreground = ${colors.background}
+format-background = ${colors.orange}
+label-warn-background= ${colors.background}
+label-warn-foreground= ${colors.alert}
+
+format-prefix = %{T3}%{T-}
+format-prefix-foreground = ${colors.orange}
+format-prefix-background = ${colors.yellow}
+
+format-warn-prefix = %{T3}%{T-}
+format-warn-prefix-foreground = ${colors.background}
+format-warn-prefix-background = ${colors.yellow}
+
