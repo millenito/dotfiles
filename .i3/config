@@ -1,9 +1,10 @@
 # Set variables
-# variable with all caps are from environment variables (.zshenv/.bash_profile/.bashrc)
+# =================================================================================================
 set $terminal st
 set $terminal2 urxvt
-set $wallpapers ~/Pictures/DarkOceanic/
+set $wallpapers ~/Pictures/DraculaVaporWave/
 
+# Workspace names
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -15,24 +16,50 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# Set mod key (Mod1=<Alt>, Mod4=<Super>)
+# Mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 
-# set warna
-set $bg-color            #1b2b34
-set $inactive-bg-color   #03031b
-set $text-color          #C0C5CE
-set $inactive-text-color #65737e
-set $urgent-bg-color     #ec5f67
-set $theme-color         #6699CC
-set $theme-color2        #99c794
+# Colors from ~/.Xresources
+set_from_resource $X_bg background
+set_from_resource $X_foreground foreground
+set_from_resource $X_color0     color0
+set_from_resource $X_color1     color1
+set_from_resource $X_color2     color2
+set_from_resource $X_color3     color3
+set_from_resource $X_color4     color4
+set_from_resource $X_color5     color5
+set_from_resource $X_color6     color6
+set_from_resource $X_color7     color7
+set_from_resource $X_color8     color8
+set_from_resource $X_color9     color9
+set_from_resource $X_color10    color10
+set_from_resource $X_color11    color11
+set_from_resource $X_color12    color12
+set_from_resource $X_color13    color13
+set_from_resource $X_color14    color14
+set_from_resource $X_color15    color15
 
+# Primary colors
+set $bg-color            #282A36
+set $inactive-bg-color   #282A36
+set $text-color          #F1FA8C
+set $inactive-text-color #F8F8F2
+set $urgent-bg-color     #FF5555
+set $theme-color         #BD93F9
+set $theme-color2        #FF79C6
+
+# Window border thickness
+set $border 4
+
+# Font
+set $font Noto Sans SemiCondensed 11
+# =================================================================================================
 
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-new_window pixel 2
+new_window pixel $border
 new_float normal
 
 # Hide borders
@@ -41,11 +68,11 @@ hide_edge_borders none
 # change borders
 bindsym $mod+Ctrl+b border none
 bindsym $mod+Shift+b border normal
-bindsym $mod+b border pixel 2
+bindsym $mod+b border pixel $border
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font xft:Noto sans 11
+font xft:$font
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
@@ -64,6 +91,7 @@ bindsym $mod+Ctrl+d exec --no-startup-id bwmenu -C --auto-lock -1 # rofi bitward
 bindsym $mod+Ctrl+c exec --no-startup-id clipmenu # rofi clipboard manager (https://github.com/cdown/clipmenu) (https://bandithijo.com/blog/manajemen-clipboard-dengan-clipmenu#konfigurasi)
 bindsym $mod+Shift+c exec --no-startup-id "clipdel -d '.*'; notify-send 'Cleared clipboard'"
 bindsym $mod+Ctrl+e exec --no-startup-id $SCRIPTS/rofi/rofi-unicode.sh #rofi emoji & clipboard selector (script taken & modified from lukeSmith https://github.com/LukeSmithxyz/voidrice)
+bindsym $mod+Ctrl+v exec --no-startup-id $SCRIPTS/rofi/rofi-mpv-picker.sh #rofi mpv picker
 
 # launch categorized menu
 # bindsym $mod+z exec --no-startup-id morc_menu
@@ -106,7 +134,8 @@ bindsym Mod1+Right exec playerctl next
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id compton -b
 #exec --no-startup-id manjaro-hello
-# exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
 # exec --no-startup-id clipit
@@ -120,7 +149,8 @@ exec slack
 exec_always --no-startup-id sbxkb
 #exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
-exec --no-startup-id xautolock -time 20 -locker blurlock
+# exec --no-startup-id xautolock -time 20 -locker blurlock
+ exec --no-startup-id xautolock -time 20 -locker "betterlockscreen -u $wallpapers --lock dim --text 'I am with you always(Mat 28:20)'"
 # exec_always --no-startup-id ff-theme-util
 # exec_always --no-startup-id fix_xcursor
 exec --no-startup-id unclutter --ignore-scrolling --timeout 1                        # Hide mouse when inactive
@@ -331,7 +361,7 @@ bindsym $mod+s scratchpad show
 # scratcpad terminal
 # exec --no-startup-id $terminal -name SCRATCH (for urxvt)
 exec --no-startup-id $terminal -n SCRATCH -e tmux new-session -s SCRATCHPAD
-for_window [instance="SCRATCH"] move scratchpad, border pixel 1
+for_window [instance="SCRATCH"] move scratchpad, border pixel $border
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
@@ -395,11 +425,11 @@ assign [class="Slack"] $ws9
 assign [class="whats-app-nativefier-d52542"] $ws9 # whatsapp
 
 # Specific applications settings
-for_window [title="alsamixer"] floating enable border pixel 1
+for_window [title="alsamixer"] floating enable border pixel $border
 for_window [class="calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
 for_window [title="File Transfer*"] floating enable
-for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="Galculator"] floating enable border pixel $border
 for_window [class="GParted"] floating enable border normal
 for_window [title="i3_help"] floating enable sticky enable border normal
 for_window [class="Lightdm-settings"] floating enable
@@ -420,12 +450,14 @@ for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="Skype"] floating enable border normal
 for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="Xfburn"] floating enable
-for_window [class="VirtualBox Manager"] border pixel 1
-for_window [class="VirtualBox Machine"] border pixel 1
+for_window [class="VirtualBox Manager"] border pixel $border
+for_window [class="VirtualBox Machine"] border pixel $border
 for_window [class="Gpick"] floating enable
 for_window [class="java-lang-Thread"] floating enable # XDM Download Manager
+for_window [class="TelegramDesktop"] border pixel $border
 for_window [class="mpv"] floating enable resize set 1000 550; exec notify-send 'mod+shift+w for watch mode'
 for_window [class="Spotify"] move to workspace $ws10
+# for_window [title="^Android Emulator -"] floating enable
 
 
 # switch to workspace with urgent window automatically
@@ -445,12 +477,12 @@ bindsym Mod1+F4 mode "$mode_system"
 bindsym XF86PowerOff mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (h)ibernate, sus(p)end, (r)eboot, (s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    # bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym l exec --no-startup-id "betterlockscreen -u $wallpapers --lock dim --text 'I am with you always(Mat 28:20)'", mode "default"
 	bindsym p exec --no-startup-id i3exit suspend, mode "default"
     bindsym u exec --no-startup-id i3exit switch_user, mode "default"
     bindsym e exec --no-startup-id i3exit logout, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    #bindsym r exec --no-startup-id "$SCRIPTS/toggle_vagrants.sh; i3exit reboot", mode "default"
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
     bindsym s exec --no-startup-id i3exit shutdown, mode "default"
 
@@ -492,37 +524,6 @@ mode "resize" {
 # Lock screen
 # bindsym Mod1+l exec --no-startup-id blurlock
 
-# Color palette used for the terminal ( ~/.Xresources file )
-# Colors are gathered based on the documentation:
-# https://i3wm.org/docs/userguide.html#xresources
-# Change the variable name at the place you want to match the color
-# of your terminal like this:
-# [example]
-# If you want your bar to have the same background color as your 
-# terminal background change the line 362 from:
-# background #14191D
-# to:
-# background $term_background
-# Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
-
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 #bar {
 #	i3bar_command i3bar
@@ -557,9 +558,9 @@ set_from_resource $term_color15    color15
 
 # Theme colors
 # class                   border       backgr.      text      indic.   child_border
-  client.focused          $bg-color $bg-color $text-color $theme-color $theme-color
+  client.focused          $X_bg         $X_bg       $text-color $theme-color $theme-color
   client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $inactive-bg-color $inactive-bg-color
-  client.unfocused        $inactive-bg-color $inactive-bg-color $text-color  $inactive-bg-color
+  client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color  $inactive-bg-color
   client.urgent           $urgent-bg-color $urgent-bg-color $text-color $urgent-bg-color
   client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
@@ -591,13 +592,15 @@ smart_borders on
 # Toggle gaps
 bindsym $mod+g exec --no-startup-id $SCRIPTS/disable_gaps.sh
 
-# disable gaps untuk workspace tertentu
+# custom gaps settings untuk workspace tertentu
 workspace $ws3 gaps inner 0
 workspace $ws3 gaps outer 0
 workspace $ws5 gaps inner 0
 workspace $ws5 gaps outer 0
-workspace $ws9 gaps inner 25
-workspace $ws9 gaps outer 10
+workspace $ws9 gaps inner 35
+workspace $ws9 gaps outer 20
+workspace $ws10 gaps inner 15
+workspace $ws10 gaps outer 10
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner, (d) dev mode
