@@ -10,3 +10,6 @@
 
 [mergetool "nvimdiff"]
     cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[core]
+	filemode = false
+	autocrlf = input # Configure Git on Linux to properly handle line endings

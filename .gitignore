@@ -9,3 +9,4 @@
 .config/vlc/vlc-qt-interface.conf
 tags
 .ignore
+scripts/odisys/
