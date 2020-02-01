@@ -17,30 +17,6 @@ XTerm*faceSize:          11
 XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
 
-/* URxvt.foreground:           #ffffff */
-/* URxvt.background:           #1c0F16 */
-/* URxvt.borderColor:          #1c0F16 */
-/* URxvt.borderless:          true */
-/* URxvt.internalBorder: 5 */
-
-/* URxvt.cursorColor:          #ffa1c0 */ 
-/* URxvt.colorBD:              #ffffff */
-/* URxvt.colorIT:              #a761c2 */
-/* URxvt.colorUL:              #6d9cbe */
-/* URxvt.underlineColor:       #333333 */
-/* URxvt.highlightColor:       #ffa1c0 */ 
-/* URxvt.highlightTextColor:   #151515 */
-/* URxvt.cursorBlink:          true */
-/* URxvt.cursorUnderline:      false */
-
-/* *background:                      #1c0F16 */
-/* *foreground:                      #ffffff */
-/* *fading:                          8 */
-/* *fadeColor:                       black */
-/* *cursorColor:                     #ffa1c0 */
-/* *pointerColorBackground:          #2B2C2B */
-/* *pointerColorForeground:          #16A085 */
-
 ! Solarized dark color scheme
 
 /* #define S_base03        #03031b */
@@ -116,8 +92,17 @@ XTerm*selectToClipboard: true
 #define bg_alt #424450 /* vim cursorline (subtle) */
 #define fg #F8F8F2
 #define fg_alt #F1FA8C
-#define accent #BD93F9
+#define primary #BD93F9
+#define secondary #FF79C6
 #define urgent #FF5555
+
+i3wm.bg: bg
+*.bg: bg
+*.bg_alt: bg_alt
+*.fg: fg
+*.fg_alt: fg_alt
+*.primary: primary
+*.urgent: urgent
 
 ! Base16 Oceanic Next
 /* #define base00 #1B2B34 ! oceanic next default background */
@@ -141,7 +126,7 @@ XTerm*selectToClipboard: true
 ! #define bg_alt #1B2B34
 ! #define fg base03
 ! #define fg_alt base05
-! #define accent base0D
+! #define primary base0D
 ! #define urgent base08
 ! *.foreground:   base05
 ! *.background:   base00
@@ -225,33 +210,37 @@ Xcursor.size:                     0
  */
 
 
+#define FT Iosevka Nerd Font
+#define FT_SIZE 10
 rofi.show-icons: true
 rofi.terminal: st
 rofi.ssh-command: {terminal} -e sh -c "tmux new-session -s {host} {ssh-client} {host} || tmux attach -t {host}"
 
+! disable prefix in combi mode
+rofi.combi-hide-mode-prefix:         true
+
 rofi.allow_bold: true
-rofi.width: 30
-rofi.lines: 20
+rofi.bw: 4
+rofi.width: 50
+rofi.lines: 15
 rofi.line-margin: 5
-! rofi.line-padding: 3
-rofi.font: Noto Sans 12
+rofi.line-padding: 7
+rofi.font: Noto Sans SemiCondensed 11
 
 ! Enable the extended coloring options
 rofi.color-enabled: true
 
 ! Property Name     BG       Border   Separator
-rofi.color-window:  bg, accent, #282c34
+rofi.color-window:  bg, primary, #282c34
 
 ! Property Name     BG  FG  BG-alt Head-BG  Head-FG
 rofi.color-normal:  bg, fg, bg, bg_alt, fg_alt
-rofi.color-active:  bg, accent, bg, bg, accent
+rofi.color-active:  bg, primary, bg, bg, primary
 rofi.color-urgent:  bg, urgent, bg, bg, base08
 
 ! Set the desired separator style
 rofi.separator-style: solid
 
-#define FT Hack Nerd Font
-#define FT_SIZE 10
 URxvt.allow_bold:           true
 URxvt*font: xft:FT Mono:size=FT_SIZE
 URxvt*imFont: xft:FT Mono:size=FT_SIZE
