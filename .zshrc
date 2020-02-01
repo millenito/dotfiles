@@ -50,7 +50,6 @@ setopt hist_ignore_all_dups # remove older duplicate entries from history
 setopt hist_reduce_blanks # remove superfluous blanks from history items
 setopt share_history # share history between different instances
 setopt correct_all # autocorrect commands
-
 # auto ls after cd with exa
 autoload -U add-zsh-hook
 autoload -U colors && colors
@@ -148,7 +147,7 @@ SPACESHIP_PROMPT_ORDER=(
   char          # Prompt character
 )
  SPACESHIP_RPROMPT_ORDER=( # Spaceship right prompt
-   # vi_mode       # Vi-mode indicator
+   vi_mode       # Vi-mode indicator
 
 )
 SPACESHIP_CHAR_SYMBOL="❯"
@@ -187,29 +186,29 @@ case $TERM in
 	;;
 esac
 
-# Change cursor shape for different vi modes.
-function zle-keymap-select {
-    if [[ ${KEYMAP} == vicmd ]] ||
-        [[ $1 = 'block' ]]; then
-            echo -ne '\e[1 q'
-
-        elif [[ ${KEYMAP} == main ]] ||
-            [[ ${KEYMAP} == viins ]] ||
-            [[ ${KEYMAP} = '' ]] ||
-            [[ $1 = 'beam' ]]; then
-                    echo -ne '\e[5 q'
-    fi
-}
-zle -N zle-keymap-select
-
-    # Use beam shape cursor on startup.
-    echo -ne '\e[5 q'
-
-    # Use beam shape cursor for each new prompt.
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
+# # Change cursor shape for different vi modes.
+# function zle-keymap-select {
+#     if [[ ${KEYMAP} == vicmd ]] ||
+#         [[ $1 = 'block' ]]; then
+#             echo -ne '\e[1 q'
+#
+#         elif [[ ${KEYMAP} == main ]] ||
+#             [[ ${KEYMAP} == viins ]] ||
+#             [[ ${KEYMAP} = '' ]] ||
+#             [[ $1 = 'beam' ]]; then
+#                     echo -ne '\e[5 q'
+#     fi
+# }
+# zle -N zle-keymap-select
+#
+#     # Use beam shape cursor on startup.
+#     echo -ne '\e[5 q'
+#
+#     # Use beam shape cursor for each new prompt.
+# zle-line-init() {
+#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#     echo -ne "\e[5 q"
+# }
 
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
@@ -218,6 +217,10 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 # export TERM=xterm-256color
 
 alias pacman="sudo pacman"
+alias s="ssh"
+alias p="ping"
+alias g="git"
+alias trc="transmission-remote-cli"
 
 # enable nvidia drivers
 alias nvidia="sudo primusrun glxgears"
@@ -239,12 +242,41 @@ alias dot='cd "$DOTFILES"'
 alias note='cd "$NOTES"'
 
 # localan php53 & php70
-alias p5='cd "$P5"'
-alias p7='cd "$P7"'
+# alias p5='cd "$P5"'
+# alias p7='cd "$P7"'
 alias p5up='cd "$P5" && vagrant up'
 alias p7up='cd "$P7" && vagrant up'
 alias p5halt='cd "$P5" && vagrant halt'
 alias p7halt='cd "$P7" && vagrant halt'
+
+p5(){
+    cd "${P5}/$1"
+}
+
+p7(){
+    cd "${P7}/$1"
+}
+
+compdef '_files -W $P5' p5
+compdef '_files -W $P7' p7
+
+launchl(){
+    CURDIR="${PWD##*/}"
+    echo $PWD
+
+    case "$(pwd)" in
+        *"$P5"*)
+            [ ! $(docker ps | grep php5apache) ] && docker start php5apache
+            $BROWSER "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
+        *"$P7"*)
+            [ ! $(docker ps | grep php7apache) ] && docker start php7apache
+            $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+    esac
+}
+
+# start docker development server
+alias ds5='docker start php5apache'
+alias ds7='docker start php7apache'
 
 # use neovim if available
 if type nvim > /dev/null 2>&1; then
@@ -274,16 +306,6 @@ tma(){ if [[ $# -eq 0 ]]; then tmux attach; else tmux attach -t "$1"; fi } # Att
 tmn(){ if [[ $# -eq 0 ]]; then tmux new-session; else tmux new-session -s "$1"; fi} # Create new unnamed session or use gived name
 tmk(){ if [[ $# -eq 0 ]]; then tmux kill-server; else tmux kill-session -t "$1"; fi } # Kill all session or kill named session
 
-export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
-export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-v:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-export FZF_ALT_C_COMMAND="fd --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
-export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-
-export NNN_BMS='h:~;a:/hdd/Anime'	
-export NNN_CONTEXT_COLORS='1234'	
-export NNN_USE_EDITOR=1
-export NNN_OPS_PROG=1
-
 # fuzzy_cd_anywhere (cd kemanapun dengan fzf dengan parameter (ex: fcda anime))
 function fcda() {
   local file
@@ -305,7 +327,7 @@ function fcda() {
 fv() {
   local files
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
+  [[ -n "$files" ]] && ${EDITOR:-/usr/bin/vim} "${files[@]}"
 }
 
 # fuzzy_cd (buke fzf dan cd ke directory yang dipilih)
@@ -313,9 +335,7 @@ fcd() {
 	alias fzf_alt_c_command=$FZF_ALT_C_COMMAND
 	alias fzf_alt_c_opts=fzf $FZF_ALT_C_OPTS
   local dir
-  dir="$(
-  fzf_alt_c_command $@ | fzf_alt_c_opts
-  )" || return
+  dir="$( fzf_alt_c_command $@ | fzf_alt_c_opts)" || return
   cd "$dir" || return
 }
 
@@ -333,21 +353,34 @@ fgl() {
     fi
 }
 
+# Fuzzy script (cari script dengan fzf dan buka dengan editor)
+fs() { du -aL $SCRIPTS "${PROJECTS}/learning/shell-script" | awk '{print $2}' | fzf | xargs -r $EDITOR ; }
+
+# Fuzzy projects (cd ke folder projects2)
+fp() 
+{     
+    if type fd > /dev/null 2>&1; then
+        cd $(fd --type d --follow --exclude '*.git*' . $PROJECTS | fzf)
+    else
+        cd $(find -L $PROJECTS -type d | fzf)
+    fi
+}
+
 # # ex - archive extractor
 # # usage: ex <file>
 ex ()
 {
   if [ -f $1 ] ; then
     case $1 in
-      *.tar.bz2)   tar xvjf $1   ;;
-      *.tar.gz)    tar xzvf $1   ;;
+      *.tar.bz2)   tar xvjf $1 -c $1  ;;
+      *.tar.gz)    tar xzvf $1 -c $1   ;;
       *.bz2)       bunzip2 $1   ;;
       *.rar)       unrar x $1     ;;
       *.gz)        gunzip $1    ;;
-      *.tar)       tar xvf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xvzf $1   ;;
-      *.zip)       unzip $1     ;;
+      *.tar)       tar xvf $1 -c $1    ;;
+      *.tbz2)      tar xjf $1 -c $1  ;;
+      *.tgz)       tar xvzf $1 -c $1  ;;
+      *.zip)       unzip $1 -d $1     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;

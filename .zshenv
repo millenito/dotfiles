@@ -9,19 +9,20 @@ export BROWSER=/usr/bin/google-chrome-stable
 export TERMINAL=st
 
 # set personal path variables
-export P5=$HOME/vagrant-localan/PHP53/ # vagrant localan php5
-export P7=$HOME/vagrant-localan/PHP70/ # vagrant localan php7
-export PROJECTS=$HOME/projects/
+export PROJECTS="$HOME/projects"
+export P5="$PROJECTS/localhost/PHP53/" # vagrant localan php5
+export P7="$PROJECTS/localhost/PHP70/" # vagrant localan php7
 
-export DOTFILES=$HOME/dotfiles/ # dotfiles repo
-export NOTES=$HOME/notes # notes directory
-export SCRIPTS=$HOME/scripts
+export DOTFILES="$HOME/dotfiles/" # dotfiles repo
+export NOTES="$HOME/notes/" # notes directory
+export SCRIPTS="$HOME/scripts"
 
 # fzf commands & options
-export FZF_DEFAULT_COMMAND="rg --files -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
-export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=grid --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right' --bind='f3:execute(bat --style=numbers {} || less -f {}),ctrl-g:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
-export FZF_ALT_C_COMMAND="fd --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
-export FZF_ALT_C_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_DEFAULT_COMMAND="rg --files --follow -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
+export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview '(highlight -O ansi -l {} 2> /dev/null || (bat --style=grid --color=always {} || cat {}) || tree -C {}) 2> /dev/null | head -200' --preview-window='right' --bind='f3:execute(bat --style=numbers --color=always {} || less -f {}),ctrl-g:toggle-preview,ctrl-v:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+export FZF_ALT_C_OPTS="--ansi --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
 # nnn file manager
 export NNN_BMS='h:~;a:/hdd/Anime'   
@@ -29,9 +30,17 @@ export NNN_CONTEXT_COLORS='1234'
 export NNN_USE_EDITOR=1
 export NNN_OPS_PROG=1
 
-# clipmenu
-export CM_LAUNCHER=$SCRIPTS/rofi/rofi-clipmenu.sh
-export CM_DIR=/tmp/clipmenu
+# transmission
+export TRANS_DEFAULT_DIR="/hdd/Anime"
 
+# clipmenu
+export CM_LAUNCHER="$SCRIPTS/rofi/rofi-clipmenu.sh"
+export CM_DIR="/tmp/clipmenu"
+
+export ANDROID_PATH="$HOME/Android/Sdk"
+
+export PATH="$HOME/Android/Sdk/tools/bin:$PATH"
+export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+export PATH="$HOME/Android/Sdk/emulator:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-export PATH=$PATH:~/scripts
+export PATH=$PATH:$SCRIPTS
