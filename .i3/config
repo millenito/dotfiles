@@ -65,6 +65,9 @@ new_float normal
 # Hide borders
 hide_edge_borders none
 
+# Align window titles center
+title_align center
+
 # change borders
 bindsym $mod+Ctrl+b border none
 bindsym $mod+Shift+b border normal
@@ -117,7 +120,7 @@ bindsym Ctrl+Down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
 bindsym Ctrl+Right exec --no-startup-id  pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
 
 bindsym $mod+Left exec playerctl previous
-bindsym $mod+space exec playerctl play-pause
+bindsym $mod+space exec --no-startup-id $SCRIPTS/rofi/rofi-playerctl-picker.sh
 bindsym $mod+Up exec playerctl stop
 bindsym $mod+Right exec playerctl next
 bindsym Mod1+Left exec playerctl previous
@@ -169,8 +172,8 @@ bindsym $mod+F8 exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' -
 # Start Applications
 bindsym $mod+F1 exec pamac-manager
 bindsym $mod+F2 exec $BROWSER
-# bindsym $mod+F3 exec dbeaver
-bindsym $mod+F3 exec dbeaver-ce
+bindsym $mod+F3 exec dbeaver
+# bindsym $mod+F3 exec dbeaver-ce
 bindsym $mod+F4 exec postman
 bindsym $mod+F5 exec VirtualBox Manager; workspace $ws5
 bindsym $mod+apostrophe exec $terminal2 -e ranger # single quote (')
