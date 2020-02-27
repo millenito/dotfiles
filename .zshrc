@@ -261,14 +261,13 @@ compdef '_files -W $P5' p5
 compdef '_files -W $P7' p7
 
 launchl(){
-    CURDIR="${PWD##*/}"
-    echo $PWD
-
     case "$(pwd)" in
         *"$P5"*)
+            CURDIR=$(pwd | sed "s|"${P5}"||g")
             [ ! $(docker ps | grep php5apache) ] && docker start php5apache
             $BROWSER "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
         *"$P7"*)
+            CURDIR=$(pwd | sed "s|"${P7}"||g")
             [ ! $(docker ps | grep php7apache) ] && docker start php7apache
             $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
     esac

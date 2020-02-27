@@ -17,9 +17,10 @@ text/plain=nvim.desktop
 x-scheme-handler/mailto=exo-mail-reader.desktop
 message/rfc822=userapp-Thunderbird.desktop
 application/pdf=org.pwmt.zathura-pdf-poppler.desktop
-application/x-bittorrent=org.qbittorrent.qBittorrent.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
 x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/magnet=torrent-scr.desktop;
+application/x-bittorrent=torrent-scr.desktop;
 
 [Added Associations]
 x-scheme-handler/http=google-chrome.desktop;
@@ -38,5 +39,5 @@ image/png=viewnior.desktop;gpicview.desktop;
 text/plain=nvim.desktop;
 message/rfc822=userapp-Thunderbird.desktop;
 application/pdf=org.pwmt.zathura-pdf-poppler.desktop
-application/x-bittorrent=org.qbittorrent.qBittorrent.desktop
+application/x-bittorrent=torrent-scr.desktop
 

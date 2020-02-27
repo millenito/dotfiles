@@ -1,0 +1,1 @@
+/usr/share/java/sqlworkbenchj/sqlwbconsole.sh

@@ -7,7 +7,7 @@ die(${1});
 endsnippet
 
 snippet pridie "print_r($...) ;die();" b
-print_r($${1});die();
+echo '<pre>',print_r($${1},1),'</pre>';die();
 endsnippet
 
 snippet vardie "var_dump($...);die();" b

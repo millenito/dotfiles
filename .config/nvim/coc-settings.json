@@ -15,8 +15,9 @@
     },
     "coc.preferences.hoverTarget": "float",
     "coc.preferences.formatOnType": true,
-    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json"],
-    "git.addGlameToVirtualText": true,
+    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json","dart"],
+    "git.enableGutters": true,
+    "git.addGBlameToVirtualText": true,
 	"git.realtimeGutters": true,
     "git.virtualTextPrefix": "          ",
     "eslint.trace.server": "verbose",
@@ -26,16 +27,14 @@
     "prettier.formatterPriority": 1,
     "prettier.disableLanguages": ["html", "smarty"],
 	"emmet.includeLanguages": {"blade": "html"},
-    "phpls.enable": false,
+    "sql.lintOnSave": true,
+    "sql.lintOnChange": true,
     "languageserver": {
-        "intelephense": {
-            "command": "intelephense",
-            "args": ["--stdio"],
-            "filetypes": ["php"],
-            "initializationOptions": {
-                "storagePath": "/tmp/intelephense"
-            }
+        "bash": {
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"],
+            "ignoredRootPaths": ["~"]
         }
     },
-    "git.enableGutters": true
 }

@@ -95,6 +95,7 @@ bindsym $mod+Ctrl+c exec --no-startup-id clipmenu # rofi clipboard manager (http
 bindsym $mod+Shift+c exec --no-startup-id "clipdel -d '.*'; notify-send 'Cleared clipboard'"
 bindsym $mod+Ctrl+e exec --no-startup-id $SCRIPTS/rofi/rofi-unicode.sh #rofi emoji & clipboard selector (script taken & modified from lukeSmith https://github.com/LukeSmithxyz/voidrice)
 bindsym $mod+Ctrl+v exec --no-startup-id $SCRIPTS/rofi/rofi-mpv-picker.sh #rofi mpv picker
+bindsym $mod+Ctrl+m exec --no-startup-id $SCRIPTS/rofi/rofi-man-viewer.sh #rofi man pages viewer
 
 # launch categorized menu
 # bindsym $mod+z exec --no-startup-id morc_menu

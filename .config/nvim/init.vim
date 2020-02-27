@@ -11,7 +11,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall
-endif
+else
 
 let g:pluginsDir = '~/.config/nvim/vim-plug-pluggins'
 call plug#begin(pluginsDir)
@@ -29,25 +29,13 @@ Plug 'rhysd/git-messenger.vim'
 
 " Syntax & Code
 Plug 'diepm/vim-rest-console', { 'for': 'rest' }
-Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] }                                         " bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
-Plug 'sheerun/vim-polyglot', { 'on': [] }                                                                " Language pack for syntax checking
+Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] }                         " Bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
+Plug 'sheerun/vim-polyglot'                                                                " Language pack for syntax checking,
 Plug 'blueyed/smarty.vim'                                                                  " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
-Plug 'honza/vim-snippets', { 'on': [] }                                                                  " kumpulan snippets berbagai bahasa
-Plug 'bonsaiben/bootstrap-snippets', { 'on': [] }                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
-let coc_commands = ['<Plug>(coc-diagnostic-prev)',
-            \ '<Plug>(coc-diagnostic-next)',
-            \ '<Plug>(coc-definition)',
-            \ '<Plug>(coc-type-definition)',
-            \ '<Plug>(coc-implementation)',
-            \ '<Plug>(coc-references)',
-            \ '<Plug>(coc-format-selected)',
-            \ '<Plug>(coc-git-commit)',
-            \ '<Plug>(coc-git-nextchunk)',
-            \ '<Plug>(coc-git-prevchunk)',
-            \ 'CocCommand',
-            \ 'CocAction']
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'on': coc_commands}                                 " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
-" Plug 'cosminadrianpopescu/vim-sql-workbench'
+Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
+Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                                            " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
+Plug 'cosminadrianpopescu/vim-sql-workbench', { 'on': 'SWSqlBufferConnect' }
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'on': 'MarkdownPreview', 'for': 'markdown' }  " Preview file markdown secara real-time
@@ -69,7 +57,7 @@ let nerdcommenter_commands = [ '<plug>NERDCommenterToggle',
             \ '<plug>NERDCommenterYank',
             \ '<plug>NERDCommenterAppend',
             \ '<plug>NERDCommenterAltDelims' ]
-Plug 'scrooloose/nerdcommenter', { 'on' : nerdcommenter_commands }                                         				   " Better code commenter
+Plug 'scrooloose/nerdcommenter', { 'on' : nerdcommenter_commands }                         " Better code commenter
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'tpope/vim-surround'                                                                  " manipulasi text dengan kurung (){}[]''<>
 Plug 'tpope/vim-repeat'                                                                    " membuat key repeat (.) bisa digunakan untuk mapping plugins
@@ -89,8 +77,8 @@ let fzf_commands = [ 'Files',
                 \ '<plug>(fzf-complete-file-ag)',
                 \ '<plug>(fzf-complete-line)' ]
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': fzf_commands}                          " Remove this if already install fzf
-Plug 'junegunn/fzf.vim', {'on': fzf_commands}                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': fzf_commands}       " Remove this if already install fzf
+Plug 'junegunn/fzf.vim', {'on': fzf_commands}                                              " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
 Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
@@ -103,13 +91,16 @@ Plug 'mengelbrecht/lightline-bufferline'                                        
 Plug 'ayu-theme/ayu-vim'                                                                   " Color theme ayu pada vim
 Plug 'drewtempelmeyer/palenight.vim'                                                       " Color theme palenight
 Plug 'morhetz/gruvbox'                                                                     " Color theme gruvbox
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'whatyouhide/vim-gotham'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'                                     " Color theme solarized (for neovim)
 Plug 'millenito/oceanic-next-darker' 													   " Personal fork of Oceanic Next Color theme
 Plug 'cocopon/iceberg.vim'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
-Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle'}                                                                  " Memberi warna pada rgb/hex
-Plug 'terryma/vim-smooth-scroll'                                                           " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
+" Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle'}                                                                  " Memberi warna pada rgb/hex
+Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
+Plug 'psliwka/vim-smoothie'                                                                " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
 Plug 'RRethy/vim-illuminate'                                                               " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
@@ -117,11 +108,12 @@ Plug 'michaeljsmith/vim-indent-object'                                          
 Plug 'tweekmonster/startuptime.vim', { 'on' : 'StartupTime' }
 call plug#end()
 
+endif
 " # Color and bling
 set termguicolors                                                                          " Enable color in gui vim
 set t_Co=256                                                                               " Enable 256 True color in terminal vim
 set laststatus=2                                                                           " for vim lightline
-set showtabline=2                                                                          " Show tabline for lightline bufferline
+" set showtabline=2                                                                          " Show tabline for lightline bufferline
 set noshowmode                                                                             " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
 set cmdheight=1
 
@@ -153,10 +145,20 @@ set cmdheight=1
 
 " colorscheme challenger_deep
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-colorscheme OceanicNextDarker
+au ColorScheme dracula hi MatchWord ctermbg=Green ctermfg=White guibg=Green guifg=White gui=bold cterm=bold
+let g:dracula_bold = 1
+let g:dracula_italic = 1
+let g:dracula_underline = 1
+let g:dracula_undercurl = 1
+colorscheme dracula
+
+" colorscheme gotham
+" colorscheme gotham256
+
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" let g:oceanic_next_terminal_bold = 1
+" let g:oceanic_next_terminal_italic = 1
+" colorscheme OceanicNextDarker
 
 " Map leader to space/spasi"
 let mapleader = " "
@@ -181,9 +183,9 @@ syntax on                                " Memastikan syntax untuk color theme s
 " disable relativenumber & cursorline in insert mode / disable all line numbers on focusout
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber  noshowmode
-  autocmd BufLeave,winLeave,FocusLost  			    * set number norelativenumber 
-  autocmd InsertEnter               				* set norelativenumber number 
+  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber  noshowmode "cursorline
+  autocmd BufLeave,winLeave,FocusLost  			    * set number norelativenumber "nocursorline
+  autocmd InsertEnter               				* set norelativenumber number  "nocursorline
 augroup END
 
 augroup autoreadfile
@@ -201,11 +203,14 @@ autocmd VimResized * wincmd =
 
 " set command mode autocomplete
 set wildmenu           " turn on command line completion wild style
-set wildmode=list,full " tab completion di command mode sama seperti di terminal
+" set wildmode=list:full " tab completion di command mode sama seperti di terminal
+" set wildmode=longest:full " tab completion di command mode sama seperti di terminal
+set wildmode=longest:full,full
 
 " # Finding text (/ | ?)
 set incsearch                   " Highlight text while search
-set ignorecase smartcase
+set ignorecase smartcase        " ignore case when searching except when text have capital
+set wrapscan
 " set nohlsearch
 set completeopt=longest,menuone " better autocompletion
 noremap <silent> <esc> :nohl<CR>
@@ -262,6 +267,9 @@ command! Qa qa
 " Close vim
 nmap <C-q> :q<cr>
 
+" Toggle paste mode
+set pastetoggle=<F2>
+
 " remap Join & show documentation jadi harus tahan shift+alt
 noremap <A-J> J
 xnoremap <A-J> J
@@ -300,15 +308,19 @@ augroup phpFunction
 augroup END
 
 " Insert new line above/below cursor
-nnoremap <silent> ]<cr> :set paste<CR>m`o<Esc>``:set nopaste<CR>
-nnoremap <silent> [<cr> :set paste<CR>m`O<Esc>``:set nopaste<CR>
+nnoremap <silent> <cr> :set paste<CR>m`o<Esc>``:set nopaste<CR>
+nnoremap <silent> <bs> :set paste<CR>m`O<Esc>``:set nopaste<CR>
+
+" Fix for using <cr> key (Enter) in quickfix window because of previous mapping
+autocmd CmdwinEnter * nnoremap <CR> <CR>
+autocmd BufReadPost quickfix nnoremap <CR> <CR>
 
 " Delete new line above/below cursor
 nnoremap <silent> ]d m`:silent +g/\m^\s*$/d<CR>``:noh<CR>
 nnoremap <silent> [d m`:silent -g/\m^\s*$/d<CR>``:noh<CR>
 
 " # Clipboard (primary) & Saving
-set clipboard=unnamedplus " Mengubah register default vim (saat p) menjadi dari primary register
+set clipboard=unnamedplus,unnamed " Mengubah register default vim (saat p) menjadi dari primary register
 noremap Y y$
 noremap <C-c> "+
 inoremap <C-v> <C-r>+
@@ -317,11 +329,15 @@ noremap <C-s> :update<CR>
 vnoremap <C-s> <Esc>:update<CR>
 inoremap <C-s> <Esc>:update<CR>
 
+" Persisten undo after closing file
+set undodir=~/.config/nvim/undodir
+set undofile
+
 " Folds
-set foldmethod=indent " fold by indents
-set foldcolumn=1 "defines 1 col at window left, to indicate folding
+set foldmethod=syntax " fold by indents
+" set foldcolumn=1 "defines 1 col at window left, to indicate folding
 let javaScript_fold=1 "activate folding by JS syntax
-set foldlevelstart=99 "start file with all folds opened
+set foldlevelstart=999 "start file with all folds opened
 
 " Toggle fold & toggle folds recursively in cursor
 noremap - za
@@ -336,8 +352,6 @@ if !exists(':TmuxNavigatorProcessList')
     noremap <C-l> <C-w>l
 endif
 noremap <C-w>f <C-w>\|<C-w>_ |" zoom maximize split pane dengan cara di resize sampe mentok (untuk normalin lagi <C-w>0)
-noremap <M-s> :sp<cr>
-noremap <M-v> :vsp<cr>
 set splitbelow "split dari :sp muncul di bawah
 set splitright "split dari :vsp muncul di kanan
 
@@ -382,6 +396,11 @@ nmap <silent> 7' :b7<cr>
 nmap <silent> 8' :b8<cr>
 nmap <silent> 9' :b9<cr>
 " nmap <silent> 0' :b10<cr>
+
+" List semua buffer sambil menunggu buffer untuk dipilih (mengganti pane atau buka split/vsplit baru)
+noremap 'w :ls<CR>:b<Space>
+noremap 's :ls<CR>:sb<Space>
+noremap 'v :ls<CR>:vertical sb<Space>
 
 " # Functions & Scripts
 " Zoom split window yang sedang fokus jadi 1 tab
@@ -438,11 +457,11 @@ endfunction
 " Convert markdown ke file .html ke directory khusus untuk html yang berada di directory utama $NOTES (/home/nito/notes)
 " dengan struktur yang sama dengan file markdown (otomatis buat folder yang diperlukan)
 function! ConvertHTMLPandoc()
-	let notesdir = $NOTES
+    let notesdir = $NOTES
 	let converteddir = notesdir . "/_html"
 	let realfile = expand('%:p')
 
-	if realfile == $NOTES . "/index.md"
+	if realfile == notesdir . "/index.md"
 		let indexhtml = converteddir . '/' . expand('%:t:r') . '.html'
 		execute "AsyncRun pandoc " . realfile . " -o " . indexhtml . " --template=uikit.html --toc"
 	else
@@ -493,7 +512,7 @@ function! PreviewMdHTML()
 endfunction
 
 " Saat write pada file markdown hapus cache pdf dari zaread agar nanti bisa dibuat baru | buka file dengan zathura
-au BufWritePost *.md call ConvertHTMLPandoc()
+au BufWritePost $NOTES/**.md call ConvertHTMLPandoc()
 " au BufWritePost *.md call ConvertPDFPandoc()
 au Filetype markdown noremap <leader>z :call PreviewMdPDF()<cr><cr>
 
@@ -526,6 +545,27 @@ augroup mdSettings
 	au Filetype markdown inoremap ,m <mark></mark> <++><Esc>F/hi
 	au Filetype markdown nnoremap ,m bi<mark><Esc>ea</mark><Esc>
 augroup END
+
+augroup dartSettings
+    au BufRead,BufEnter dart.snippets setlocal tabstop=2 shiftwidth=2
+    au Filetype dart setlocal tabstop=2 shiftwidth=2
+    au BufEnter,BufRead,VimEnter *.dart call Flutter_coc()
+
+    function! Flutter_coc()
+        if exists(':CocCommand')
+            nnoremap <C-s> :update<cr>:CocCommand flutter.dev.hotReload<cr>
+            xnoremap <C-s> <esc>:update<cr>:CocCommand flutter.dev.hotReload<cr>
+            inoremap <C-s> <esc>:update<cr>:CocCommand flutter.dev.hotReload<cr>
+            nnoremap <leader>R :CocCommand flutter.dev.hotRestart<cr>
+            noremap <leader>f :CocList --input=flutter commands<cr>
+        endif
+    endfunction
+augroup end
+
+augroup tomlSettings
+    au BufRead,BufEnter toml.snippets setlocal tabstop=2 shiftwidth=2
+    au Filetype toml setlocal tabstop=2 shiftwidth=2
+augroup end
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
 let g:node_host_prog=0
@@ -581,9 +621,12 @@ let g:lightline = {
 " let g:lightline.colorscheme = 'gruvbox'
 " let g:lightline.colorscheme = 'solarized'
 " let g:lightline.colorscheme = 'iceberg'
-let g:lightline.colorscheme = 'oceanicnextdarker'
+" let g:lightline.colorscheme = 'oceanicnextdarker'
+let g:lightline.colorscheme = 'dracula'
+" let g:lightline.colorscheme = 'gotham'
 " let g:lightline = { 'colorscheme': 'challenger_deep'}
-let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
+" let g:lightline.tabline          = {'left': [['buffers']], 'right': [['tabinfo']]}
+let g:lightline.tabline          = { 'right': [['tabinfo']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
 let g:lightline#bufferline#filename_modifier = ':t'
@@ -643,7 +686,8 @@ endfunction
 
 " Dirvish
 " Gunakan dirvish dan disable netrw kalo ada dirvish
-function! LoadDirvishNetrw()
+autocmd VimEnter * call Load_Dirvish_Netrw()
+function! Load_Dirvish_Netrw()
     if exists(':Dirvish')
         let g:loaded_netrw       = 1
         let g:loaded_netrwPlugin = 0
@@ -765,11 +809,9 @@ function! LoadDirvishNetrw()
     endif
 endfunction
 
-autocmd VimEnter * call LoadDirvishNetrw()
-
 "noremap <leader>t :NERDTreeToggle<CR>
 noremap <silent> <leader>e :call NerdTreeSync(":NERDTreeToggle")<cr>
-silent! map <F2> :NERDTreeFind<CR>
+" silent! map <F2> :NERDTreeFind<CR>
 " noremap <silent> <leader>E :call NerdTreeSync(":NERDTreeTabsToggle")<cr>
 
 augroup nerdtreeSettings
@@ -779,8 +821,8 @@ augroup nerdtreeSettings
     au FileType nerdtree nmap <silent><buffer> h :call nerdtree#ui_glue#invokeKeyMap(g:NERDTreeMapActivateNode)<CR>
     
     " Open selected file in split/vertical split using <C-s>/<C-v>
-    au FileType nerdtree nmap <silent><buffer> <M-s> :call nerdtree#ui_glue#invokeKeyMap("i")<CR>
-    au FileType nerdtree nmap <silent><buffer> <M-v> :call nerdtree#ui_glue#invokeKeyMap("s")<CR>
+    au FileType nerdtree nmap <silent><buffer> <C-s> :call nerdtree#ui_glue#invokeKeyMap("i")<CR>
+    au FileType nerdtree nmap <silent><buffer> <C-v> :call nerdtree#ui_glue#invokeKeyMap("s")<CR>
 
     " Move between git changes (modified) with ]h/[h (nerdtree-git-plugin)
     au FileType nerdtree nmap <silent><buffer> [h :call nerdtree#ui_glue#invokeKeyMap("[c")<CR>
@@ -895,9 +937,9 @@ imap <C-c> <plug>NERDCommenterInsert
 
 if exists(':Files')
     let g:fzf_action = {
-                \ 'Alt-t': 'tab split',
-                \ 'Alt-s': 'split',
-                \ 'Alt-v': 'vsplit' }
+                \ 'Ctrl-t': 'tab split',
+                \ 'Ctrl-s': 'split',
+                \ 'Ctrl-v': 'vsplit' }
 
     " let g:fzf_buffers_jump = 1
 
@@ -940,38 +982,12 @@ if exists(':Files')
 
     " Git log format
     let g:fzf_commits_log_options = '--graph --color=always --format="%C(bold blue)<%an>%Creset%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %Cred-%h-%Creset" --abbrev-commit'
-    let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8 --bind ctrl-g:toggle-preview"
+    " let $FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --inline-info --color=dark,bg:8 --bind ctrl-g:toggle-preview"
 
     if has('nvim-0.4.0')
-        let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-        function! FloatingFZF()
-            let buf = nvim_create_buf(v:false, v:true)
-            call setbufvar(buf, '&signcolumn', 'no')
-
-            let height = &lines - 3
-            let width = float2nr(&columns - (&columns * 2 / 5))
-            let col = float2nr((&columns - width) / 2)
-
-            let opts = {
-                        \ 'relative': 'editor',
-                        \ 'row': 1,
-                        \ 'col': col,
-                        \ 'width': width,
-                        \ 'height': height
-                        \ }
-
-            let win = nvim_open_win(buf, v:true, opts)
-            call setwinvar(win, '&number', 0)
-        endfunction
+        let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Normal', 'rounded': v:false } }
     endif
 endif
-
-" " Vim smooth scroll
-" noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-" noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 " vim-yoink
 nmap <A-p> <plug>(YoinkPostPasteSwapBack)
@@ -1022,98 +1038,97 @@ noremap <silent> <A-g> :Goyo<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
-" Set filetype apa aja colorhighlighting akan aktif
-" let g:colorizer_auto_filetype='css,html,xdefaults,conf,config,yaml,dosini,cfg,tmux,vim'
-map <F3> :ColorToggle<cr>
-
 " CoC
-if exists(':CocCommand')
-    let g:coc_global_extensions = ["coc-yank",
-                \ "coc-snippets",
-                \ "coc-prettier",
-                \ "coc-pairs",
-                \ "coc-git",
-                \ "coc-eslint",
-                \ "coc-emmet",
-                \ "coc-phpls",
-                \ "coc-json",
-                \ "coc-html"]
+au VimEnter * call Load_Coc()
+function! Load_Coc()
+    if exists(':CocCommand')
+        let g:coc_global_extensions = ["coc-yank",
+                    \ "coc-snippets",
+                    \ "coc-explorer",
+                    \ "coc-prettier",
+                    \ "coc-highlight",
+                    \ "coc-pairs",
+                    \ "coc-git",
+                    \ "coc-eslint",
+                    \ "coc-emmet",
+                    \ "coc-phpls",
+                    \ "coc-json",
+                    \ "coc-html",
+                    \ "coc-flutter",
+                    \ "coc-sql",
+                    \ "coc-java"]
 
-    " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
-    let g:coc_filetype_map = {
-                \ 'smarty': 'html',
-                \ 'blade': 'html',
-                \ 'javascriptreact': 'javascript'
-                \ }
+        " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
+        let g:coc_filetype_map = {
+                    \ 'smarty': 'html',
+                    \ 'blade': 'html',
+                    \ 'javascriptreact': 'javascript'
+                    \ }
 
-    " Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
-    au FileType vim let b:coc_pairs_disabled = ['"']
-    au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
+        " Coc pairs disable (") untuk config vim & enable (*)(~) untuk markdown
+        au FileType vim let b:coc_pairs_disabled = ['"']
+        au FileType markdown let b:coc_pairs = [["*", "*"],["~", "~"]]
 
-    " Highlight symbol under cursor on CursorHold
-    " if exists('CocActionAsync')
-    "     autocmd CursorHold * silent call CocActionAsync('highlight')
-    " endif
+        " Highlight symbol under cursor on CursorHold
+        autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
-    inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    inoremap <silent><expr> <c-space> coc#refresh()
+        " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
+        inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        inoremap <silent><expr> <c-space> coc#refresh()
 
-    " loncat diagnostic coc
-    noremap <silent> [c <Plug>(coc-diagnostic-prev)
-    noremap <silent> ]c <Plug>(coc-diagnostic-next)
+        " loncat diagnostic coc
+        noremap <silent> [c <Plug>(coc-diagnostic-prev)
+        noremap <silent> ]c <Plug>(coc-diagnostic-next)
 
-    " Coc go-to definition/type/implementation/references
-    nmap <silent> <leader>cd  <Plug>(coc-definition)
-    nmap <silent> <leader>ct <Plug>(coc-type-definition)
-    nmap <silent> <leader>ci <Plug>(coc-implementation)
-    nmap <silent> <leader>cr <Plug>(coc-references)
+        " Coc go-to definition/type/implementation/references
+        nmap <silent> <leader>cd  <Plug>(coc-definition)
+        nmap <silent> <leader>ct <Plug>(coc-type-definition)
+        nmap <silent> <leader>ci <Plug>(coc-implementation)
+        nmap <silent> <leader>cr <Plug>(coc-references)
 
-    " format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
-    xmap <leader>f  <Plug>(coc-format-selected)
-    nmap <leader>f  <Plug>(coc-format-selected)
-    noremap <leader>F :call CocAction('format')<CR>
+        " format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
+        xmap <leader>f  <Plug>(coc-format-selected)
+        nmap <leader>f  <Plug>(coc-format-selected)
+        noremap <leader>F :call CocAction('format')<CR>
 
-    " coc do code action & quick fix
-    nmap <leader>ca  <Plug>(coc-codeaction)
-    nmap <leader>cf  <Plug>(coc-fix-current)
+        " coc do code action & quick fix
+        nmap <leader>ca  <Plug>(coc-codeaction)
+        nmap <leader>cf  <Plug>(coc-fix-current)
 
-    " coc-git navigate ke sebelumnya/berikutnya
-    nmap ]h <Plug>(coc-git-nextchunk)
-    nmap [h <Plug>(coc-git-prevchunk)
+        " coc-git navigate ke sebelumnya/berikutnya
+        nmap ]h <Plug>(coc-git-nextchunk)
+        nmap [h <Plug>(coc-git-prevchunk)
 
-    " coc-git undo hunk | hunk preview (diff dari yang sebelum diubah) | lihat commit dari git blame di baris cursor
-    nmap <silent> <leader>hu :CocCommand git.chunkUndo<cr>
-    nmap <leader>hp <Plug>(coc-git-chunkinfo)
-    nmap <leader>gb <Plug>(coc-git-commit)
+        " coc-git undo hunk | hunk preview (diff dari yang sebelum diubah) | lihat commit dari git blame di baris cursor
+        nmap <silent> <leader>hu :CocCommand git.chunkUndo<cr>
+        nmap <leader>hp <Plug>(coc-git-chunkinfo)
+        nmap <leader>gb <Plug>(coc-git-commit)
 
-    " coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
-    noremap <silent> <A-K> :call <SID>show_documentation()<CR>
+        " coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
+        noremap <silent> <A-K> :call <SID>show_documentation()<CR>
 
-    function! s:show_documentation()
-        if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-        else
-            call CocAction('doHover')
-        endif
-    endfunction
+        function! s:show_documentation()
+            if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+            else
+                call CocAction('doHover')
+            endif
+        endfunction
 
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~ '\s'
+        endfunction
 
-    augroup load_coc
-        autocmd!
-        autocmd InsertEnter * call plug#load('coc.nvim', 'bootstrap-snippets', 'vim-snippets')
-                    \| autocmd! load_coc
-    augroup END
-else
-    noremap <silent> <A-K> K
-endif
+        " Coc-Flutter
+        au Filetype dart command! Flutter CocList --input=flutter commands
+    else
+        noremap <silent> <A-K> K
+    endif
 
+endfunction
 " markdown code fence language alias
 let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']
 " let g:vim_markdown_folding_style_pythonic = 1
@@ -1166,7 +1181,8 @@ let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
 			   \ {'n': '$NOTES/index.md'},
                \ {'t': '$DOTFILES/.tmux.conf'},
 			   \ {'z': '$DOTFILES/.zshrc'},
-               \ {'r': '~/.config/nvim/restapi'} ]
+               \ {'r': '~/.config/nvim/restapi'},
+               \ {'d': '~/database.sql'} ]
 
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
@@ -1211,3 +1227,39 @@ let g:startify_custom_header = s:filter_header([
 \'      Best Text Editor in the world',
 \'',
 \])
+
+let g:sw_exe = '/usr/share/java/sqlworkbenchj/sqlwbconsole.sh'
+" let g:sw_cache = '/.cache/sw'
+let g:sw_highlight_resultsets = 0
+let g:sw_command_timer = 1
+
+
+augroup sw_maps
+    autocmd!
+
+    au BufRead,BufNewFile,BufEnter,BufWinEnter,WinNew,WinEnter,SessionLoadPost *__SQLResult__* set ft=sql
+
+    " nnoremap <leader>dn :SWSqlBufferConnect .sql <Left><Left><Left><Left><Left>
+    nnoremap <leader>dn :call Database_New()<cr>
+    au Filetype sql nnoremap <Leader>ds :SWSqlBufferShareConnection 
+
+    " Clear Output buffer
+    au Filetype sql nnoremap <Leader>dw :SWSqlWipeoutResultsSets<cr> :echo output window cleared!<cr>
+
+    " Find Object
+    au Filetype sql nnoremap <Leader>df :SWSearchObject 
+    au Filetype sql nnoremap <Leader>daf :SWSearchObjectAdvanced<cr>
+    au Filetype sql nnoremap <F4> :SWSqlObjectInfo<cr>
+    au Filetype sql nnoremap <Leader><F4> :SWSqlObjectSource<cr>
+
+    " Echo out current connection
+    au Filetype sql nnoremap <Leader><F1> :echo(sw#server#get_buffer_url(bufname('%')))<cr> 
+
+    " Open database connection on newtab with connections list
+    function! Database_New()
+        let buffname = input("Pilih nama buffer untuk koneksi database: ", "")
+        let buffname = buffname. ".sql"
+        execute "tabnew" | Bdelete
+        execute "SWSqlBufferConnect " . buffname | r ~/database.sql
+    endfunction
+augroup END
