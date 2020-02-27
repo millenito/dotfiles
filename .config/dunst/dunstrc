@@ -1,6 +1,6 @@
 [global]
-    frame_width = 1
-    frame_color = "#03031b"
+    frame_width = 4
+    frame_color = "#BD93F9"
     
     font = Noto Sans Nerd Font 12
     
@@ -142,10 +142,10 @@
     startup_notification = false
     
     # dmenu path.
-    dmenu = /usr/bin/dmenu -p dunst:
+    dmenu = /usr/bin/rofi -dmenu -p dunst:
     
     # Browser for opening urls in context menu.
-    browser = google-chrome-stable
+    browser = $BROWSER
 
     # Align icons left/right/off
     icon_position = left
@@ -181,18 +181,19 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#03031b"
-    foreground = "#C0C5CE"
-    timeout = 5
+    background = "#282A36"
+    foreground = "#F8F8F2"
+    timeout = 3
 
 [urgency_normal]
-    background = "#03031b"
-    foreground = "#C0C5CE"
-    timeout = 5
+    background = "#282A36"
+    foreground = "#F8F8F2"
+    timeout = 3
 
 [urgency_critical]
-    background = "#D62929"
-    foreground = "#C0C5CE"
+    background = "#282A36"
+    foreground = "#F8F8F2"
+    frame_color = "#FF5555"
     timeout = 0
 
 
