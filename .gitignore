@@ -10,3 +10,4 @@
 tags
 .ignore
 scripts/odisys/
+.config/mpv/watch_later/*
