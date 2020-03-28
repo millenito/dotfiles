@@ -520,7 +520,7 @@ augroup mdSettings
 	autocmd!
 	au BufRead,BufEnter index.md setlocal nofoldenable          " disable folding saat pertama kali masuk pada index personal notes saya
 	au BufRead,BufEnter index.md noremap <buffer> <cr> f]2lgf   " buka catatan di baris cursor dengan enter (pada index.md)
-	au Filetype markdown setlocal conceallevel=2 wrap linebreak " writing mode setup
+    au Filetype markdown setlocal conceallevel=0 wrap linebreak " writing mode setup
 
 	" gerak atas/bawah pada satu kalimat yang sudah di wrap
 	au Filetype markdown noremap j gj
