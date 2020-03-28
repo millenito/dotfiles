@@ -16,6 +16,7 @@ export P7="$PROJECTS/localhost/PHP70/" # vagrant localan php7
 export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
 export SCRIPTS="$HOME/scripts"
+export KULIAH="$HOME/Documents/Kuliah/Semester 4"
 
 # fzf commands & options
 export FZF_DEFAULT_COMMAND="rg --files --follow -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
