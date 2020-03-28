@@ -5,7 +5,7 @@ READER=/usr/bin/zathura
 
 MANS=$(man -k .)
 
-CHOOSEN=$(echo "$MANS" | rofi -dmenu -i -p "Select man page ($(echo "$MANS" | wc -l))")
+CHOOSEN=$(echo "$MANS" | rofi -dmenu -i -matching regex -p "Select man page ($(echo "$MANS" | wc -l))")
 
 if ! [ -x $(command -v "$READER") ]; then
     echo "$READER" not installed
