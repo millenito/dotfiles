@@ -164,11 +164,10 @@ exec --no-startup-id $SCRIPTS/launch_polybar.sh                                 
 # exec_always alttab -d 1 -font "xft:Noto sans-12" -fg "$text-color" -bg "$bg-color" -frame "$theme-color" -t 150x150 -i 150x100
 # exec_always alttab -d 1 -font "xft:Noto sans-12" -t 150x150 -i 150x100               # alttab (https://github.com/sagb/alttab) or yay -S alttab
 exec --no-startup-id $SCRIPTS/random_wallpaper.sh $wallpapers 600               # randomize wallpaper every 60 seconds
-bindsym $mod+F8 exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
+# bindsym $mod+F8 exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
 # exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
 # Hide polybar tray window using (https://github.com/tadly/hideIt.sh)
 # exec --no-startup-id $SCRIPTS/hide_tray.sh
-# exec "i3-msg restart"
 
 # Start Applications
 bindsym $mod+F1 exec pamac-manager
@@ -184,10 +183,10 @@ bindsym $mod+F10 exec spotify
 bindsym $mod+p exec --no-startup-id "killall compton; notify-send 'transparency off'"
 bindsym $mod+Shift+p exec --no-startup-id $SCRIPTS/restart_compton.sh
 bindsym $mod+Ctrl+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym Print --release exec "notify-send 'Select area for the CLIPBOARD screenshot'; scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'; notify-send 'Screenshot copied to clipboard'"
+bindsym Print --release exec "flameshot gui || (notify-send 'Select area for the CLIPBOARD screenshot'; scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'; notify-send 'Screenshot copied to clipboard')"
 bindsym Shift+Print exec "scrot /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'; notify-send 'Fullscreen screenshot copied to clipboard'"
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot 
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # open notes as pdf / html
@@ -597,6 +596,8 @@ smart_borders on
 bindsym $mod+g exec --no-startup-id $SCRIPTS/disable_gaps.sh
 
 # custom gaps settings untuk workspace tertentu
+workspace $ws2 gaps inner 0
+workspace $ws2 gaps outer 0
 workspace $ws3 gaps inner 0
 workspace $ws3 gaps outer 0
 workspace $ws5 gaps inner 0
