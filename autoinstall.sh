@@ -7,6 +7,16 @@ BACKUP="original-dotfiles"
 #[ -d ~/scripts ] && cp -R ~/scripts/ ~/"${BACKUP}"/ && rm -rf ~/scripts/
 #ln -sfv $(pwd)/scripts ~
 
+#[ -f ~/.gitconfig ] && cp ~/.gitconfig ~/"${BACKUP}"/
+#ln -sfv $(pwd)/.gitconfig ~
+
+#[ -f ~/.Xresources ] && cp ~/.Xresources ~/"${BACKUP}"/
+#ln -sfv $(pwd)/.Xresources ~
+#xrdb ~/.Xresources
+
+#[ -f ~/.xinitrc ] && cp ~/.xinitrc ~/"${BACKUP}"/
+#ln -sfv $(pwd)/.xinitrc ~
+
 #[ -f ~/.profile ] && cp ~/.profile ~/"${BACKUP}"/
 #ln -sfv $(pwd)/.profile ~
 
@@ -21,6 +31,9 @@ BACKUP="original-dotfiles"
 
 #[ -f ~/.zshenv ] && cp ~/.zshenv ~/"${BACKUP}"/
 #ln -sfv $(pwd)/.zshenv ~
+
+#[ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/"${BACKUP}"/
+#ln -sfv $(pwd)/.ideavimrc ~
 
 # Vim (Text Editor)
 if [[ ! $(command -v /usr/bin/vim 2>&1) ]]; then
@@ -40,14 +53,27 @@ if [[ ! $(command -v polybar 2>&1) ]]; then
     read -p $'\e[1;93mInstall Polybar? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
         sudo pacman -S polybar jq udisks2 noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra || exit 1
-        yay -S ttf-symbola nerd-fonts-ubuntu-mono 
-        command -v bluetoothctl >/dev/null 2>&1 || sudo pacman -S bluez-utils
+        yay -S ttf-symbola nerd-fonts-ubuntu-mono  || exit 1
+        command -v bluetoothctl >/dev/null 2>&1 || sudo pacman -S bluez-utils || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Polybar configs? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     [ -d ~/.config/polybar/ ] && cp -R ~/.config/polybar/ ~/"${BACKUP}"/.config && rm -rf ~/.config/polybar/
     ln -sfv $(pwd)/.config/polybar/ ~/.config/
+fi
+
+# Mpv (Video Player)
+if [[ ! $(command -v polybar 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Mpv? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S mpv || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Mpv configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -d ~/.config/mpv/ ] && cp -R ~/.config/mpv/ ~/"${BACKUP}"/.config && rm -rf ~/.config/mpv/
+    ln -sfv $(pwd)/.config/mpv/ ~/.config/
 fi
 
 # Transmission (Torrent client)
@@ -62,6 +88,7 @@ read -p $'\e[1;93mCopy Transmission configs? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     [ -d ~/.config/transmission-daemon/ ] && cp -R ~/.config/transmission-daemon/ ~/"${BACKUP}"/.config && rm -rf ~/.config/transmission-daemon/
     ln -sfv $(pwd)/.config/transmission-daemon/ ~/.config/
+    ln -sfv $(pwd)/.local/share/applications/torrent-scr.desktop ~/.local/share/applications/
 fi
 
 if [ -z $(echo $SHELL | grep zsh) ]; then
