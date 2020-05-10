@@ -247,7 +247,7 @@ URxvt*imFont: xft:FT Mono:size=FT_SIZE
 URxvt*boldFont: xft:FT Mono:style=Bold:size=FT_SIZE
 URxvt*italicFont: xft:FT Mono:style=Italic:size=FT_SIZE
 URxvt*boldItalicFont: xft:FT Mono:style-Bold Italic:size=FT_SIZE
-URxvt*letterSpace: -1
+! URxvt*letterSpace: -1
 
 st.allow_bold:           true
 st.font: FT:size=FT_SIZE:antialias=true:autohint=true
