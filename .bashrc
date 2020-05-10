@@ -175,7 +175,7 @@ alias p5halt='cd "$P5" && vagrant halt'
 alias p7halt='cd "$P7" && vagrant halt'
 
 # vim mode (pencet ESC untuk masuk normal mode vim)
-set -o vi
+#set -o vi
 
 # use neovim if available
 if type nvim > /dev/null 2>&1; then
