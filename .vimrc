@@ -15,7 +15,7 @@ filetype plugin indent on                                          " Load plugin
 syntax on                                                          " Enable syntax highlighting.
 set title                                                          " Proper window title
 set encoding=utf8                                                  " Enable utf8 support
-set mouse=a                                                        " Enable mouse support
+"set mouse=a                                                        " Enable mouse support
 set visualbell t_vb=" "                                            " No visual bell
 
 set autoindent                                                     " Indent according to previous line.
@@ -66,7 +66,7 @@ endif
 let mapleader = " "
 
 " <Esc> remove search highlighting
-noremap <silent> <esc> :nohl<CR>
+"noremap <silent> <esc> :nohl<CR>
 
 " Fast escape (no delay)
 vnoremap <Esc> <C-c>
@@ -122,16 +122,16 @@ cnoremap  <M-BS> <C-W>
 cnoremap  <C-n> <Down>
 cnoremap  <C-p> <Up>
 
-" Autocomplete parenthesis, brackets and braces
-inoremap ( ()<Left>
-inoremap [ []<Left>
-inoremap { {}<Left>
-
-" Autocomplete quotes
-inoremap	'  '<Esc>:call QuoteInsertionWrapper("'")<CR>a
-inoremap	"  "<Esc>:call QuoteInsertionWrapper('"')<CR>a
-inoremap	`  `<Esc>:call QuoteInsertionWrapper('`')<CR>a
-
+" " Autocomplete parenthesis, brackets and braces
+" inoremap ( ()<Left>
+" inoremap [ []<Left>
+" inoremap { {}<Left>
+"
+" " Autocomplete quotes
+" inoremap	'  '<Esc>:call QuoteInsertionWrapper("'")<CR>a
+" inoremap	"  "<Esc>:call QuoteInsertionWrapper('"')<CR>a
+" inoremap	`  `<Esc>:call QuoteInsertionWrapper('`')<CR>a
+"
 " hide banner and '.' in netrw
 let g:netrw_banner = 0
 let g:netrw_list_hide = '^\./$'
