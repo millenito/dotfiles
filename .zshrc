@@ -97,6 +97,7 @@ bindkey "\C-f" vi-forward-char
 bindkey "\C-b" vi-backward-char
 bindkey "^[f" vi-forward-word
 bindkey "^[b" vi-backward-word
+bindkey '^[[Z' undo     # Shift+tab undo last action
 
 # 10ms for key sequences
 KEYTIMEOUT=1
@@ -186,6 +187,9 @@ case $TERM in
 	;;
 esac
 
+# Random man page everytime a terminal opens
+man $(find /usr/share/man/man1 -type f | shuf | head -1) | head -25 
+
 # # Change cursor shape for different vi modes.
 # function zle-keymap-select {
 #     if [[ ${KEYMAP} == vicmd ]] ||
@@ -216,7 +220,6 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 # biar kalo masuk ssh bisa di clear
 # export TERM=xterm-256color
 
-alias pacman="sudo pacman"
 alias s="ssh"
 alias p="ping"
 alias g="git"
