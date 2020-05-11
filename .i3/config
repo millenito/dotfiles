@@ -158,16 +158,8 @@ exec_always --no-startup-id sbxkb
 # exec_always --no-startup-id ff-theme-util
 # exec_always --no-startup-id fix_xcursor
 exec --no-startup-id unclutter --ignore-scrolling --timeout 1                        # Hide mouse when inactive
-exec --no-startup-id $SCRIPTS/keyboard_scripts.sh                               # keyboard change scripts
-exec --no-startup-id $SCRIPTS/launch_polybar.sh                                 # polybar
-# exec --no-startup-id $SCRIPTS/toggle_vagrants.sh                                # launch localan vagrants
-# exec_always alttab -d 1 -font "xft:Noto sans-12" -fg "$text-color" -bg "$bg-color" -frame "$theme-color" -t 150x150 -i 150x100
-# exec_always alttab -d 1 -font "xft:Noto sans-12" -t 150x150 -i 150x100               # alttab (https://github.com/sagb/alttab) or yay -S alttab
-exec --no-startup-id $SCRIPTS/random_wallpaper.sh $wallpapers 600               # randomize wallpaper every 60 seconds
-# bindsym $mod+F8 exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
-# exec --no-startup-id "hideIt.sh --name '^Polybar tray window$' --region 0x1080+10+-40"
-# Hide polybar tray window using (https://github.com/tadly/hideIt.sh)
-# exec --no-startup-id $SCRIPTS/hide_tray.sh
+exec --no-startup-id $SCRIPTS/pindah_monitor_dirumah.sh                              # Launch polybar and keyboard scripts and set monitor accordingly with home setup
+exec --no-startup-id $SCRIPTS/random_wallpaper.sh $wallpapers 600                    # randomize wallpaper every 60 seconds
 
 # Start Applications
 bindsym $mod+F1 exec pamac-manager
@@ -214,6 +206,37 @@ bindsym $mod+period exec --no-startup-id "pkill xcape; $SCRIPTS/keyboard_scripts
 
 # change keyboard back to normal
 bindsym $mod+Shift+period exec --no-startup-id "setxkbmap -option; pkill xcape; notify-send 'Normal Keyboard mode' 'Same keyboard layout as other laptops'"
+
+bindsym Mod3+h exec xdotool mousemove_relative --sync -- -20 0
+bindsym Mod3+j exec xdotool mousemove_relative --sync -- 0 20
+bindsym Mod3+k exec xdotool mousemove_relative --sync -- 0 -20
+bindsym Mod3+l exec xdotool mousemove_relative --sync -- 20 0
+
+# move faster
+bindsym Mod3+Shift+k exec xdotool mousemove_relative --sync -- 0 -70
+bindsym Mod3+Shift+j exec xdotool mousemove_relative --sync -- 0 70
+bindsym Mod3+Shift+h exec xdotool mousemove_relative --sync -- -70 0
+bindsym Mod3+Shift+l exec xdotool mousemove_relative --sync -- 70 0
+
+# move precisely
+bindsym Mod3+Ctrl+k exec xdotool mousemove_relative --sync -- 0 -10
+bindsym Mod3+Ctrl+j exec xdotool mousemove_relative --sync -- 0 10
+bindsym Mod3+Ctrl+h exec xdotool mousemove_relative --sync -- -10 0
+bindsym Mod3+Ctrl+l exec xdotool mousemove_relative --sync -- 10 0
+
+# left click
+bindsym Mod3+Return exec xdotool click 1
+
+# middle click
+bindsym Mod3+semicolon exec xdotool click 2
+
+# right click
+bindsym Mod3+apostrophe exec xdotool click 3
+
+# scroll up
+bindsym Mod3+p exec xdotool click 4 
+# scroll down
+bindsym Mod3+n exec xdotool click 5
 
 # mouse mode move cursor with keyboard (requires xdotool)
 bindsym $mod+m mode "mouse mode"; exec "notify-send 'Mouse Mode' 'Use hjkl keys to move cursor'"
@@ -283,8 +306,8 @@ mode "mouse mode" {
 }
 
 # # vim anywhere
-# bindsym $mod+v exec --no-startup-id $terminal --name=vimclip -e vimclip
-# for_window [instance="vimclip"] floating enable
+bindsym $mod+v exec --no-startup-id $terminal2 --name vimclip -e vimclip
+for_window [title="vimclip"] floating enable border pixel $border
 
 # focus_follows_mouse no
 
@@ -349,7 +372,7 @@ bindsym $mod+Shift+y floating enable; sticky enable; resize set 900 800
 bindsym $mod+Shift+w sticky enable; resize set 700 400;move right 280px,move down 151px exec "notify-send 'mpv watch mode' 'Always on top'"
 
 # buka url youtube di dalam clipboard dengan mpv butuh youtube-dl (https://github.com/ytdl-org/youtube-dl) & xclip (https://github.com/astrand/xclip)
-bindsym $mod+v exec $SCRIPTS/mpv-youtube "$(xclip -selection clipboard -o | cut -d '&' -f 1)"
+bindsym $mod+shift+v exec $SCRIPTS/mpv-youtube "$(xclip -selection clipboard -o | cut -d '&' -f 1)"
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -362,8 +385,8 @@ bindsym $mod+Shift+s move scratchpad
 bindsym $mod+s scratchpad show
 
 # scratcpad terminal
-# exec --no-startup-id $terminal -name SCRATCH (for urxvt)
-exec --no-startup-id $terminal -n SCRATCH -e tmux new-session -s SCRATCHPAD
+exec --no-startup-id $terminal2 -name SCRATCH -e tmux new-session -s SCRATCHPAD 
+# exec --no-startup-id $terminal -n SCRATCH -e tmux new-session -s SCRATCHPAD (St)
 for_window [instance="SCRATCH"] move scratchpad, border pixel $border
 
 #navigate workspaces next / previous
@@ -405,6 +428,12 @@ bindsym $mod+Ctrl+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Ctrl+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Ctrl+9 move container to workspace $ws8; workspace $ws9
 bindsym $mod+Ctrl+0 move container to workspace $ws8; workspace $ws10
+
+# Move focused container to another RandR (monitor) output
+bindsym $mod+Shift+Ctrl+h move container to output left
+bindsym $mod+Shift+Ctrl+j move container to output up
+bindsym $mod+Shift+Ctrl+k move container to output down
+bindsym $mod+Shift+Ctrl+l move container to output right
 
 # resize i3 container without resize mode (script by lukeSmith https://github.com/LukeSmithxyz/voidrice)
 bindsym $mod+Ctrl+h exec --no-startup-id $SCRIPTS/i3resize.sh left
@@ -460,6 +489,7 @@ for_window [class="java-lang-Thread"] floating enable # XDM Download Manager
 for_window [class="TelegramDesktop"] border pixel $border
 for_window [class="mpv"] floating enable resize set 1000 550; exec notify-send 'mod+shift+w for watch mode'
 for_window [class="Spotify"] move to workspace $ws10
+for_window [instance="sun-awt-X11-XFramePeer"] floating enable border pixel $border
 # for_window [title="^Android Emulator -"] floating enable
 
 
@@ -590,7 +620,7 @@ gaps outer -1
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace) 
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
-smart_borders on
+# smart_borders on
 
 # Toggle gaps
 bindsym $mod+g exec --no-startup-id $SCRIPTS/disable_gaps.sh
