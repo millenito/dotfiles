@@ -5,17 +5,25 @@
 !  Right shift to backspace
 ! keycode 62 = BackSpace
 
-! Caps Lock as Mode_switch (vim-like control)
+! Map Right alt to Mod3 (for use with i3wm)
+! keycode 108 = Alt_R
+! remove mod1 = Alt_R
+! add mod3 = Alt_R
+
+! Control or Right alt as Mode_switch (vim-like control)
 ! hjkl = arrow keys
 ! 0, $ = home, end
 ! f, b = page up, page down
+keycode 108 = Mode_switch
 keycode 37 = Mode_switch
 keysym h = h H Left
 keysym l = l L Right
 keysym k = k K Up
 keysym j = j J Down
-keysym b = b B Prior
-keysym f = f F Next
+! keysym b = b B Prior
+! keysym f = f F Next
+keysym b = b B Left
+keysym f = f F Right
 keysym 0 = 0 parenright Home
 keysym dollar = 4 dollar End
 keysym c = c C Caps_Lock
@@ -23,6 +31,15 @@ keysym c = c C Caps_Lock
 keysym a = a A Home
 keysym e = e E End
 
+! Space as Mod3 modifier
+! clear mod3
+! clear mod4
+! add mod3 = Hyper_L
+! add mod4 = Super_L Super_R
+! keycode 65 = Hyper_L
+! remove mod4 = Hyper_L
+! keycode any = space
+!
 ! Swap Menu with Right Control (No need to press fn for menu on some laptops)
 ! keycode 105 = Menu
 ! keycode 135 = Control_R
