@@ -568,12 +568,6 @@ augroup tomlSettings
 augroup end
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
-let g:node_host_prog=0
-let g:ruby_host_prog=0
-let g:python_host_skip_check=1
-let g:python3_host_skip_check=1
-let g:loaded_python_provider = 0
-let g:loaded_python3_provider=0
 
 " # Plugins
 
@@ -1056,6 +1050,7 @@ function! Load_Coc()
                     \ "coc-html",
                     \ "coc-flutter",
                     \ "coc-sql",
+                    \ "coc-python",
                     \ "coc-java"]
 
         " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
@@ -1075,7 +1070,13 @@ function! Load_Coc()
         " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
         inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
         inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        if has('patch8.1.1068')
+            " Use `complete_info` if your (Neo)Vim version supports it.
+            inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        else
+            imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        endif
         inoremap <silent><expr> <c-space> coc#refresh()
 
         " loncat diagnostic coc
@@ -1083,10 +1084,13 @@ function! Load_Coc()
         noremap <silent> ]c <Plug>(coc-diagnostic-next)
 
         " Coc go-to definition/type/implementation/references
-        nmap <silent> <leader>cd  <Plug>(coc-definition)
+        nmap <silent> <leader>cd <Plug>(coc-definition)
         nmap <silent> <leader>ct <Plug>(coc-type-definition)
         nmap <silent> <leader>ci <Plug>(coc-implementation)
         nmap <silent> <leader>cr <Plug>(coc-references)
+
+        " Rename symbol
+        nmap <silent> <leader>cR <Plug>(coc-rename)
 
         " format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
         xmap <leader>f  <Plug>(coc-format-selected)
