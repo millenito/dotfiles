@@ -1050,6 +1050,7 @@ function! Load_Coc()
                     \ "coc-html",
                     \ "coc-flutter",
                     \ "coc-sql",
+                    \ "coc-sh",
                     \ "coc-python",
                     \ "coc-java"]
 
