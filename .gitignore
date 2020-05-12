@@ -5,6 +5,7 @@
 !.config/nvim/init.vim
 !.config/nvim/coc-settings.json
 !.config/coc/ultisnips/
+!.config/coc/extensions/package.json
 .config/QtProject.conf
 .config/vlc/vlc-qt-interface.conf
 tags
