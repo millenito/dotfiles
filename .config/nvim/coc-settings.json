@@ -15,7 +15,7 @@
     },
     "coc.preferences.hoverTarget": "float",
     "coc.preferences.formatOnType": true,
-    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json","dart"],
+    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json","dart","python"],
     "git.enableGutters": true,
     "git.addGBlameToVirtualText": true,
 	"git.realtimeGutters": true,
