@@ -67,12 +67,12 @@ if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
 fi
 read -p $'\e[1;93mCopy Nvim configs? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-    [[ ! $(command -v node -v 2>&1) ]] && sudo pacman -S nodejs yarn || exit 1
+    [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && sudo pacman -S nodejs yarn npm || exit 1
     [ -d ~/.config/nvim/ ] && cp ~/.config/nvim/ ~/"${BACKUP}"/ && rm -f ~/.config/nvim/
     [ -d ~/.config/coc/ ] && cp ~/.config/coc/ ~/"${BACKUP}"/ && rm -f ~/.config/coc/
     ln -sfv $(pwd)/.config/nvim/ ~/.config/ && nvim -es -V -u ~/.config/nvim/init.vim -i NONE -c "PlugInstall" -c "qa"
-    ln -sfv $(pwd)/.config/coc/ ~/.config/ && yarn --cwd ~/.config/coc/extensions/ install
-    sudo yarn global add bash-language-server
+    ln -sfv $(pwd)/.config/coc/ ~/.config/ && npm install --prefix ~/.config/coc/extensions/
+    sudo npm i -g bash-language-server
 fi
 
 #### Polybar (Status bar) ###############################################################
