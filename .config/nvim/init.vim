@@ -270,11 +270,6 @@ nmap <C-q> :q<cr>
 " Toggle paste mode
 set pastetoggle=<F2>
 
-" remap Join & show documentation jadi harus tahan shift+alt
-noremap <A-J> J
-xnoremap <A-J> J
-" noremap <A-K> K
-
 " qq to record, Q to replay
 nnoremap Q @q
 
@@ -378,8 +373,6 @@ au TabLeave * let g:lasttab = tabpagenr()
 noremap <silent> <leader>a :exe "tabn ".g:lasttab<cr>
 
 " # Buffers
-nmap <silent> J :call NerdTreeSync(":bp")<cr>
-nmap <silent> K :call NerdTreeSync(":bn")<cr>
 noremap <silent> 'n :call NerdTreeSync(":bn")<cr>
 noremap <silent> 'p :call NerdTreeSync(":bp")<cr>
 noremap <silent> 'a :call NerdTreeSync(":b#")<cr>
@@ -1129,10 +1122,7 @@ function! Load_Coc()
 
         " Coc-Flutter
         au Filetype dart command! Flutter CocList --input=flutter commands
-    else
-        noremap <silent> <A-K> K
     endif
-
 endfunction
 " markdown code fence language alias
 let g:vim_markdown_fenced_languages = ['js=javascript','bash=sh']
