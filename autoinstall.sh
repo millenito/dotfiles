@@ -49,7 +49,7 @@ BACKUP="original-dotfiles"
 if [[ ! $(command -v /usr/bin/vim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Vim? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S gvim  || exit 1 # Because gvim includes vim with clipboard support in arch
+        sudo pacman -S gvim ctags || exit 1 # Because gvim includes vim with clipboard support in arch
     fi
 fi
 read -p $'\e[1;93mCopy Vim configs? (Y/N)\e[0m: ' confirm
@@ -68,6 +68,7 @@ fi
 read -p $'\e[1;93mCopy Nvim configs? (will install nodejs, npm & yarn for coc plugin) (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && sudo pacman -S nodejs yarn npm || exit 1
+    sudo pacman -S ctags || exit 1
     [ -d ~/.config/nvim/ ] && cp ~/.config/nvim/ ~/"${BACKUP}"/ && rm -f ~/.config/nvim/
     [ -d ~/.config/coc/ ] && cp ~/.config/coc/ ~/"${BACKUP}"/ && rm -f ~/.config/coc/
     ln -sfv $(pwd)/.config/nvim/ ~/.config/ && nvim -es -V -u ~/.config/nvim/init.vim -i NONE -c "PlugInstall" -c "qa"
@@ -123,6 +124,50 @@ if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     [ -d ~/.config/transmission-daemon/ ] && cp -R ~/.config/transmission-daemon/ ~/"${BACKUP}"/.config && rm -rf ~/.config/transmission-daemon/
     ln -sfv $(pwd)/.config/transmission-daemon/ ~/.config/
     ln -sfv $(pwd)/.local/share/applications/torrent-scr.desktop ~/.local/share/applications/
+fi
+
+#### CLI Tools ##########################################################################
+#########################################################################################
+
+#### bat #############################################################################
+if [[ ! $(command -v bat 2>&1) ]]; then
+    read -p $'\e[1;93mInstall bat? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S bat || exit 1
+    fi
+fi
+
+#### fzf #############################################################################
+if [[ ! $(command -v fzf 2>&1) ]]; then
+    read -p $'\e[1;93mInstall fzf? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S fzf || exit 1
+    fi
+fi
+
+#### translate-shell ####################################################################
+if [[ ! $(command -v trans 2>&1) ]]; then
+    read -p $'\e[1;93mInstall translate-shell? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S translate-shell rlwrap || exit 1
+    fi
+fi
+
+#### howdoi #############################################################################
+if [[ ! $(command -v howdoi 2>&1) ]]; then
+    read -p $'\e[1;93mInstall howdoi? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        yay -S howdoi || exit 1
+    fi
+fi
+
+#### tldr #############################################################################
+if [[ ! $(command -v tldr 2>&1) ]]; then
+    read -p $'\e[1;93mInstall tldr? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        yay -S tldr-bash-git || exit 1
+        tldr --update
+    fi
 fi
 
 echo -e "\e[1;93mAll Done! please reboot your computer or restart Xorg"
