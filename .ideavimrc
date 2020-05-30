@@ -51,8 +51,8 @@ xnoremap < <gv
 xnoremap > >gv
 
 " Insert new line above/below cursor
-nmap ]<cr> o<Esc>k
-nmap [<cr> O<Esc>j
+nmap <cr> o<Esc>k
+nmap <bs> O<Esc>j
 
 " Y yank rest of line
 noremap Y y$
@@ -68,8 +68,8 @@ noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
 " # tab
-nmap J :action PreviousTab<CR>
-nmap K :action NextTab<CR>
+nmap 'n :action PreviousTab<CR>
+nmap 'n :action NextTab<CR>
 
 " vim-subversive
 nmap siw viwp
