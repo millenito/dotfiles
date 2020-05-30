@@ -56,6 +56,7 @@ font-2 = UbuntuMono Nerd Font:size=16;4
 font-3 = NotoSans Nerd Font-Regular:size=11
 font-4 = Symbola:style=Regular:size=12
 font-5 = Noto Sans CJK JP:style=SemiBold:size=11:antialias=true;0		# (Japanese) Band names, etc.
+; font-6 = NotoColorEmoji:style=Regular:scale=10
 
 modules-left = bspwm i3 xkeyboard
 modules-center = windowtitle
@@ -101,6 +102,7 @@ font-2 = UbuntuMono Nerd Font:size=16;3
 font-3 = NotoSans Nerd Font-Regular:size=12
 font-4 = Symbola:style=Regular:size=12
 font-5 = Noto Sans CJK JP:style=SemiBold:size=11:antialias=true;0		# (Japanese) Band names, etc.
+; font-6 = NotoColorEmoji:style=Regular:scale=10
 
 modules-left = bluetoothctl ip wireless-network 
 modules-center =  spotify
@@ -587,7 +589,7 @@ thermal-zone = 0
 ; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
 ; to find path to desired file
 ; Default reverts to thermal zone setting
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
 label = "    %temperature-c%  "
 format-foreground = ${colors.background}
