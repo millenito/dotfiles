@@ -111,6 +111,45 @@ if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     ln -sfv $(pwd)/.config/mpv/ ~/.config/
 fi
 
+#### Ranger (File Manager) ##############################################################
+if [[ ! $(command -v ranger 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Ranger? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S ranger atool file highlight poppler python-ueberzug atool pdftoppm || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Ranger configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -d ~/.config/ranger/ ] && cp -R ~/.config/ranger/ ~/"${BACKUP}"/.config && rm -rf ~/.config/ranger/
+    ln -sfv $(pwd)/.config/ranger/ ~/.config/
+fi
+
+#### Zathura (Document Viewer) ##########################################################
+if [[ ! $(command -v zathura 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Zathura? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S zathura zathura-pdf-poppler zathura-cb zathura-djvu || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Zathura configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -d ~/.config/zathura/ ] && cp -R ~/.config/zathura/ ~/"${BACKUP}"/.config && rm -rf ~/.config/zathura/
+    ln -sfv $(pwd)/.config/zathura/ ~/.config/
+fi
+
+#### Sxiv (Image Viewer) ################################################################
+if [[ ! $(command -v sxiv 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Sxiv? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S sxiv || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Sxiv configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -d ~/.config/sxiv/ ] && cp -R ~/.config/sxiv/ ~/"${BACKUP}"/.config && rm -rf ~/.config/sxiv/
+    ln -sfv $(pwd)/.config/sxiv/ ~/.config/
+fi
+
 #### Transmission (Torrent client) #####################################################
 if [[ ! $(command -v transmission-remote 2>&1) ]]; then
     read -p $'\e[1;93mInstall Transmission? (Y/N)\e[0m: ' confirm
