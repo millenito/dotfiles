@@ -15,20 +15,21 @@
     },
     "coc.preferences.hoverTarget": "float",
     "coc.preferences.formatOnType": true,
-    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json","dart","python"],
+    "coc.preferences.formatOnSaveFiletypes": ["json", "JSON", "Json", "dart", "python"],
     "git.enableGutters": true,
     "git.addGBlameToVirtualText": true,
-	"git.realtimeGutters": true,
+    "git.realtimeGutters": true,
     "git.virtualTextPrefix": "          ",
     "eslint.trace.server": "verbose",
     "html.format.enable": true,
     "prettier.tabWidth": 4,
-	"prettier.printWidth": 160,
+    "prettier.printWidth": 160,
     "prettier.formatterPriority": 1,
     "prettier.disableLanguages": ["html", "smarty"],
-	"emmet.includeLanguages": {"blade": "html"},
+    "emmet.includeLanguages": { "blade": "html" },
     "sql.lintOnSave": true,
     "sql.lintOnChange": true,
+    "java.home": "/usr/lib/jvm/java-11-openjdk",
     "languageserver": {
         "bash": {
             "command": "bash-language-server",
@@ -36,5 +37,5 @@
             "filetypes": ["sh"],
             "ignoredRootPaths": ["~"]
         }
-    },
+    }
 }
