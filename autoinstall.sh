@@ -23,6 +23,9 @@ BACKUP="original-dotfiles"
 #[ -f ~/.bashrc ] && cp ~/.bashrc ~/"${BACKUP}"/
 #ln -sfv $(pwd)/.bashrc ~
 
+[ -f ~/.config/mimeapps.list ] && cp ~/.config/mimeapps.list ~/"${BACKUP}"/.config/
+ln -sfv $(pwd)/.config/mimeapps.list ~/.config/
+
 #### Zsh ################################################################################
 #echo -e "\e[1;93mConfiguring zsh"
 #if [[ ! $(command -v zsh 2>&1) ]]; then
@@ -83,6 +86,19 @@ if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     git clone git@github.com:millenito/st.git && cd st && make && sudo make install && cd ..
 fi
 
+#### Compton (Compositor) ##############################################################
+if [[ ! $(command -v compton 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Compton? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S picom || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Compton configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -f ~/.config/compton.conf ] && cp ~/.config/compton.conf ~/"${BACKUP}"/.config && rm -f ~/.config/compton.conf
+    ln -sfv $(pwd)/.config/compton.conf ~/.config
+fi
+
 #### Polybar (Status bar) ###############################################################
 if [[ ! $(command -v polybar 2>&1) ]]; then
     read -p $'\e[1;93mInstall Polybar? (Y/N)\e[0m: ' confirm
@@ -109,6 +125,19 @@ read -p $'\e[1;93mCopy Mpv configs? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     [ -d ~/.config/mpv/ ] && cp -R ~/.config/mpv/ ~/"${BACKUP}"/.config && rm -rf ~/.config/mpv/
     ln -sfv $(pwd)/.config/mpv/ ~/.config/
+fi
+
+#### Tmux (Terminal Multiplexer) ########################################################
+if [[ ! $(command -v tmux 2>&1) ]]; then
+    read -p $'\e[1;93mInstall Tmux? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S tmux || exit 1
+    fi
+fi
+read -p $'\e[1;93mCopy Tmux configs? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    [ -f ~/.tmux.conf ] && cp ~/.tmux.conf ~/"${BACKUP}"/ && rm -f ~/.tmux.conf
+    ln -sfv $(pwd)/.tmux.conf ~
 fi
 
 #### Ranger (File Manager) ##############################################################
@@ -209,4 +238,5 @@ if [[ ! $(command -v tldr 2>&1) ]]; then
     fi
 fi
 
+echo -e "\e[1;93mPreviously existing config files are moved to $BACKUP"
 echo -e "\e[1;93mAll Done! please reboot your computer or restart Xorg"
