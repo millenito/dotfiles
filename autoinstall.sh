@@ -23,8 +23,8 @@ BACKUP="original-dotfiles"
 #[ -f ~/.bashrc ] && cp ~/.bashrc ~/"${BACKUP}"/
 #ln -sfv $(pwd)/.bashrc ~
 
-[ -f ~/.config/mimeapps.list ] && cp ~/.config/mimeapps.list ~/"${BACKUP}"/.config/
-ln -sfv $(pwd)/.config/mimeapps.list ~/.config/
+#[ -f ~/.config/mimeapps.list ] && cp ~/.config/mimeapps.list ~/"${BACKUP}"/.config/
+#ln -sfv $(pwd)/.config/mimeapps.list ~/.config/
 
 #### Zsh ################################################################################
 #echo -e "\e[1;93mConfiguring zsh"
@@ -235,6 +235,14 @@ if [[ ! $(command -v tldr 2>&1) ]]; then
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
         yay -S tldr-bash-git || exit 1
         tldr --update
+    fi
+fi
+
+#### LSD (LSDeluxe) ####################################################################
+if [[ ! $(command -v lsd 2>&1) ]]; then
+    read -p $'\e[1;93mInstall lsd? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        pacman -S lsd || exit 1
     fi
 fi
 
