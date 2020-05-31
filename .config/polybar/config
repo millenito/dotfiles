@@ -26,7 +26,7 @@ white           = ${xrdb:color7}
 brightwhite     = ${xrdb:color15}
 
 orange          = ${xrdb:color16}
-background = ${xrdb:background}
+background = #00000000
 background-alt = ${xrdb:background}
 foreground = ${xrdb:foreground}
 primary = ${colors.blue}
@@ -121,7 +121,7 @@ type = internal/xwindow
 format =  <label>   
 label = "   %title:0:76:..%   "
 format-background = ${colors.blue}
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 
 ; format-padding=4
 format-prefix = "%{T3}%{T-}"
@@ -147,7 +147,7 @@ format-discharging = <label-discharging>
 label-discharging = "     %percentage%%   "
 
 format-charging-background = ${colors.magenta}
-format-charging-foreground = ${colors.background}
+format-charging-foreground = ${colors.background-alt}
 format-charging-prefix = %{T3}%{T-}
 format-charging-prefix-foreground = ${colors.magenta}
 format-charging-prefix-background = ${colors.cyan}
@@ -156,11 +156,11 @@ format-charging-prefix-background = ${colors.cyan}
 ;format-charging-suffix-background = ${colors.magenta}
 
 format-charging-suffix = %{T3}%{T-}
-format-charging-suffix-foreground = ${colors.background}
+format-charging-suffix-foreground = ${colors.background-alt}
 format-charging-suffix-background = ${colors.magenta}
 
 format-discharging-background = ${colors.magenta}
-format-discharging-foreground = ${colors.background}
+format-discharging-foreground = ${colors.background-alt}
 format-discharging-prefix = %{T3}%{T-}
 format-discharging-prefix-foreground = ${colors.magenta}
 format-discharging-prefix-background = ${colors.cyan}
@@ -169,11 +169,11 @@ format-discharging-prefix-background = ${colors.cyan}
 ;format-discharging-suffix-background = ${colors.magenta}
 
 format-discharging-suffix = %{T3}%{T-}
-format-discharging-suffix-foreground = ${colors.background}
+format-discharging-suffix-foreground = ${colors.background-alt}
 format-discharging-suffix-background = ${colors.magenta}
 
 format-full-background = ${colors.magenta}
-format-full-foreground = ${colors.background}
+format-full-foreground = ${colors.background-alt}
 format-full-prefix = %{T3}%{T-}
 format-full-prefix-foreground = ${colors.magenta}
 format-full-prefix-background = ${colors.cyan}
@@ -182,7 +182,7 @@ format-full-prefix-background = ${colors.cyan}
 ;format-full-suffix-background = ${colors.magenta}	
 
 format-full-suffix = %{T3}%{T-}
-format-full-suffix-foreground = ${colors.background}
+format-full-suffix-foreground = ${colors.background-alt}
 format-full-suffix-background = ${colors.magenta}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/cpu]
@@ -200,7 +200,7 @@ ramp-coreload-6 = ▇
 ramp-coreload-7 = █
 
 format-background = ${colors.yellow}
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-prefix = %{T3}%{T-}
 format-prefix-foreground = ${colors.yellow}
 format-prefix-background = ${colors.background}
@@ -216,7 +216,7 @@ type = internal/cpu
 format = <label>
 label =  %percentage%%
 format-background = ${colors.yellow}
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-prefix = %{T3}%{T-}
 format-prefix-foreground = ${colors.yellow}
 format-prefix-background = ${colors.yellow}
@@ -233,19 +233,19 @@ format = <label>
 label = "   ﬙ %gb_used%  "
 interval = 1
 format-background = ${colors.blue}
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-prefix = %{T3}%{T-}
 format-prefix-foreground = ${colors.blue}
 format-prefix-background = ${colors.brightmagenta}
 format-suffix = %{T3}%{T-}
-format-suffix-foreground = ${colors.background}
+format-suffix-foreground = ${colors.background-alt}
 format-suffix-background = ${colors.blue}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/filesystem]
 type = internal/fs
 interval = 25
 format-mounted = <label-mounted>
-format-mounted-foreground = ${colors.background}
+format-mounted-foreground = ${colors.background-alt}
 format-mounted-background = ${colors.brightmagenta}
 
 format-mounted-prefix = %{T3}%{T-}
@@ -261,7 +261,7 @@ mount-0 = /
 ; label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-mounted =  "    %percentage_used%%"
 label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.background}
+label-unmounted-foreground = ${colors.background-alt}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -274,13 +274,13 @@ ramp-volume-0 ="   "
 ramp-volume-1 ="   "
 ramp-volume-2 ="   墳"
 format-volume-background = ${colors.cyan}
-format-volume-foreground = ${colors.background}
+format-volume-foreground = ${colors.background-alt}
 format-volume-prefix = %{T3} %{T-}
 format-volume-prefix-foreground = ${colors.cyan}	
 format-volume-prefix-background = ${colors.yellow}
 format-muted-prefix = %{T3} %{T-}
 format-muted-background = ${colors.cyan}
-format-muted-foreground = ${colors.background}
+format-muted-foreground = ${colors.background-alt}
 format-muted-prefix-foreground = ${colors.cyan}	
 format-muted-prefix-background = ${colors.yellow}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -290,7 +290,7 @@ card = intel_backlight
 format = <label>
 label = "     %percentage%%"
 format-background = ${colors.yellow}
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-prefix = %{T3}%{T-}
 format-prefix-foreground = ${colors.yellow}
 format-prefix-background = ${colors.green}
@@ -300,18 +300,21 @@ type = internal/network
 format-connected =    <label-connected>
 label-connected = %essid% :  %upspeed%   %downspeed%
 interface = wlp0s20f3
+
 format-disconnected-suffix =%{T3}%{T-}
 format-disconnected-background = ${colors.red}
-format-disconnected-suffix-foreground = ${colors.background}
+format-disconnected-suffix-foreground = ${colors.background-alt}
 format-disconnected-suffix-background = ${colors.red}
+
 format-disconnected-prefix = %{T3}%{T-}
-format-disconnected-prefix-foreground = ${colors.background}
+format-disconnected-prefix-foreground = ${colors.background-alt}
 format-disconnected-prefix-background = ${colors.background}
 format-connected-suffix =%{T3}%{T-}
+
 format-connected-background = ${colors.red}
-format-connected-foreground = ${colors.background}
+format-connected-foreground = ${colors.background-alt}
 format-connected-suffix-foreground = ${colors.red}
-format-connected-suffix-background = 282a36
+format-connected-suffix-background = ${colors.background}
 format-connected-prefix = %{T3}%{T-}
 format-connected-prefix-foreground = ${colors.red}
 format-connected-prefix-background = ${colors.red}
@@ -324,7 +327,7 @@ format-disconnected = <label-disconnected>
 label-disconnected = "   Not Connected   "
 label-connected = "     %local_ip%   "
 format-connected-background = #bd93f9	
-format-connected-foreground = ${colors.background}
+format-connected-foreground = ${colors.background-alt}
 
 format-connected-suffix =%{T3}%{T-}
 format-connected-suffix-foreground = #bd93f9
@@ -344,7 +347,7 @@ pin-workspaces = false
 
 label-focused = %name%
 label-focused-background = ${colors.orange}
-label-focused-foreground = ${colors.background}
+label-focused-foreground = ${colors.background-alt}
 label-focused-underline= ${colors.orange}
 label-focused-padding = 2
 
@@ -388,13 +391,13 @@ ws-icon-default = 0
 ;pin-workspaces = true
 
 label-mode-padding = 2
-label-mode-foreground = ${colors.background}
+label-mode-foreground = ${colors.background-alt}
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
 label-focused-background = ${colors.orange}
-label-focused-foreground = ${colors.background}
+label-focused-foreground = ${colors.background-alt}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = 3
 
@@ -405,7 +408,7 @@ label-unfocused-foreground = ${colors.foreground}
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
-label-visible-background = ${colors.background}
+label-visible-background = ${colors.background-alt}
 label-visible-foreground = ${colors.orange}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
@@ -425,25 +428,25 @@ date =  %A %b %e
 time = "      %l:%M %p"
 ; format = <label>
 label = "%time%, %date%   "
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-background = ${colors.green}
 ; format-prefix = "%{T3}%{T-}"
 ; format-prefix-foreground = ${colors.green}
-; format-prefix-background = ${colors.background}
+; format-prefix-background = ${colors.background-alt}
 ;format-suffix = %{T3}%{T-}
-;format-suffix-foreground = ${colors.background-alt}
-;format-suffix-background = ${colors.background}
+;format-suffix-foreground = ${colors.background-alt-alt}
+;format-suffix-background = ${colors.background-alt}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/username]
 type = custom/script
 
 exec = whoami
 
-format-background = ${colors.background}
+format-background = ${colors.background-alt}
 format-foreground = ${colors.foreground}
 ; format-prefix = %{T3}%{T-}
 format-prefix = "    "
-format-prefix-background = ${colors.background}
+format-prefix-background = ${colors.background-alt}
 format-prefix-foreground = ${colors.foreground}
 
 format-suffix="    "
@@ -456,11 +459,11 @@ type = custom/script
 exec =  lsb_release -d | awk '{print $2 " " $3}'
 ; exec =  uname -r
 
-format-background = ${colors.background}
+format-background = ${colors.background-alt}
 format-foreground = ${colors.foreground}
 ; format-prefix = %{T3}%{T-}
 format-prefix = "    "
-format-prefix-background = ${colors.background}
+format-prefix-background = ${colors.background-alt}
 format-prefix-foreground = ${colors.green}
 
 format-suffix="   "
@@ -495,7 +498,7 @@ type = internal/xkeyboard
 blacklist-0 = num lock
 
 format-prefix =
-format-prefix-foreground = ${colors.background}
+format-prefix-foreground = ${colors.background-alt}
 ; format-prefix-underline = ${colors.secondary}
 
 label-layout = 
@@ -504,14 +507,14 @@ label-layout-underline =
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.red}
-label-indicator-foreground = ${colors.background}
+label-indicator-foreground = ${colors.background-alt}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/spotify]
 type = custom/script
 interval = 1
 exec = python ~/.config/polybar/scripts/polybar-spotify/spotify_status.py -f '     {artist} - {song}   '
 format = <label>
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-background = ${colors.green}
 
 format-prefix = "%{T3}%{T-}"
@@ -533,9 +536,9 @@ exec = ~/.config/polybar/scripts/polybar-bluetoothctl/polybar-bluetoothctl.sh
 tail = true
 click-left = ~/polybar-scripts/system-bluetooth-bluetoothctl.sh --toggle
 format-background=${colors.cyan}
-format-foreground=${colors.background}
+format-foreground=${colors.background-alt}
 format-prefix = %{T3}%{T-}
-format-prefix-foreground = ${colors.background}
+format-prefix-foreground = ${colors.background-alt}
 format-prefix-background = ${colors.cyan}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/usb-udev]
@@ -561,7 +564,7 @@ click-right = $TERMINAL -e transmission-remote-cli
 
 label = "   %output%   "
 format = <label>
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-background = ${colors.orange}
 
 format-prefix = "%{T3}%{T-}" 
@@ -592,9 +595,9 @@ thermal-zone = 0
 hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
 label = "    %temperature-c%  "
-format-foreground = ${colors.background}
+format-foreground = ${colors.background-alt}
 format-background = ${colors.orange}
-label-warn-background= ${colors.background}
+label-warn-background= ${colors.background-alt}
 label-warn-foreground= ${colors.alert}
 
 format-prefix = %{T3}%{T-}
@@ -602,6 +605,6 @@ format-prefix-foreground = ${colors.orange}
 format-prefix-background = ${colors.yellow}
 
 format-warn-prefix = %{T3}%{T-}
-format-warn-prefix-foreground = ${colors.background}
+format-warn-prefix-foreground = ${colors.background-alt}
 format-warn-prefix-background = ${colors.yellow}
 
