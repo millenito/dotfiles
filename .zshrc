@@ -213,16 +213,13 @@ man $(find /usr/share/man/man1 -type f | shuf | head -1) | head -25
 #     echo -ne "\e[5 q"
 # }
 
-# better yaourt colors
-export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-
-# biar kalo masuk ssh bisa di clear
-# export TERM=xterm-256color
-
 alias s="ssh"
 alias p="ping"
 alias g="git"
 alias trc="transmission-remote-cli"
+
+alias lg="ls | grep"
+alias lag="ls -a | grep"
 
 # enable nvidia drivers
 alias nvidia="sudo primusrun glxgears"
