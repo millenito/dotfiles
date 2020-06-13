@@ -2,9 +2,9 @@
   "dependencies": {
     "coc-emmet": ">=1.1.4",
     "coc-eslint": ">=1.2.7",
-    "coc-explorer": ">=0.7.7",
-    "coc-flutter": ">=1.2.4",
-    "coc-git": "^1.7.13",
+    "coc-explorer": ">=0.7.11",
+    "coc-flutter": ">=1.3.3",
+    "coc-git": ">=1.7.15",
     "coc-highlight": ">=1.2.5",
     "coc-html": ">=1.2.4",
     "coc-java": ">=1.4.11",
@@ -13,9 +13,9 @@
     "coc-phpls": ">=2.1.8",
     "coc-prettier": ">=1.1.14",
     "coc-python": ">=1.2.12",
-    "coc-sh": ">=0.4.0",
-    "coc-snippets": ">=2.1.26",
-    "coc-sql": ">=0.2.22",
+    "coc-sh": ">=0.5.1",
+    "coc-snippets": ">=2.1.28",
+    "coc-sql": ">=0.2.24",
     "coc-yank": ">=1.1.4"
   }
 }
