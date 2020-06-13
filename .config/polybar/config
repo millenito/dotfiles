@@ -55,11 +55,11 @@ font-1 = UbuntuMono Nerd Font Mono:size=18;3
 font-2 = UbuntuMono Nerd Font:size=16;4
 font-3 = NotoSans Nerd Font-Regular:size=11
 font-4 = Symbola:style=Regular:size=12
-font-5 = Noto Sans CJK JP:style=SemiBold:size=11:antialias=true;0		# (Japanese) Band names, etc.
+font-5 = Noto Sans CJK JP:style=Bold:size=12:antialias=true;0		# (Japanese) Band names, etc.
 ; font-6 = NotoColorEmoji:style=Regular:scale=10
 
-modules-left = bspwm i3 xkeyboard
-modules-center = windowtitle
+modules-left = windowtitle xkeyboard
+modules-center = bspwm i3 
 modules-right =  transmission date xbacklight pulseaudio battery system-usb-mount 
 
 ; font-0 = Hack Nerd Font :pixelsize=10;5:style=Regular
@@ -119,14 +119,14 @@ cursor-scroll = ns-resize
 [module/windowtitle]
 type = internal/xwindow
 format =  <label>   
-label = "   %title:0:76:..%   "
+label = "  %title:0:76:..%   "
 format-background = ${colors.blue}
 format-foreground = ${colors.background-alt}
 
 ; format-padding=4
-format-prefix = "%{T3}%{T-}"
-format-prefix-foreground = ${colors.blue}
-format-prefix-background = ${colors.background}
+; format-prefix = "%{T3}%{T-}"
+; format-prefix-foreground = ${colors.blue}
+; format-prefix-background = ${colors.background}
 
 format-suffix = %{T3}%{T-}
 format-suffix-foreground = ${colors.blue}
@@ -155,9 +155,9 @@ format-charging-prefix-background = ${colors.cyan}
 ;format-charging-suffix-foreground = ${colors.magenta}
 ;format-charging-suffix-background = ${colors.magenta}
 
-format-charging-suffix = %{T3}%{T-}
-format-charging-suffix-foreground = ${colors.background-alt}
-format-charging-suffix-background = ${colors.magenta}
+; format-charging-suffix = %{T3}%{T-}
+; format-charging-suffix-foreground = ${colors.background-alt}
+; format-charging-suffix-background = ${colors.magenta}
 
 format-discharging-background = ${colors.magenta}
 format-discharging-foreground = ${colors.background-alt}
@@ -168,22 +168,23 @@ format-discharging-prefix-background = ${colors.cyan}
 ;format-discharging-suffix-foreground = ${colors.magenta}
 ;format-discharging-suffix-background = ${colors.magenta}
 
-format-discharging-suffix = %{T3}%{T-}
-format-discharging-suffix-foreground = ${colors.background-alt}
-format-discharging-suffix-background = ${colors.magenta}
+; format-discharging-suffix = %{T3}%{T-}
+; format-discharging-suffix-foreground = ${colors.background-alt}
+; format-discharging-suffix-background = ${colors.magenta}
 
 format-full-background = ${colors.magenta}
 format-full-foreground = ${colors.background-alt}
 format-full-prefix = %{T3}%{T-}
 format-full-prefix-foreground = ${colors.magenta}
 format-full-prefix-background = ${colors.cyan}
+
 ;format-full-suffix = %{T3}%{T-}
 ;format-full-suffix-foreground = ${colors.magenta}
 ;format-full-suffix-background = ${colors.magenta}	
 
-format-full-suffix = %{T3}%{T-}
-format-full-suffix-foreground = ${colors.background-alt}
-format-full-suffix-background = ${colors.magenta}
+; format-full-suffix = %{T3}%{T-}
+; format-full-suffix-foreground = ${colors.background-alt}
+; format-full-suffix-background = ${colors.magenta}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/cpu]
 type = internal/cpu
@@ -237,9 +238,9 @@ format-foreground = ${colors.background-alt}
 format-prefix = %{T3}%{T-}
 format-prefix-foreground = ${colors.blue}
 format-prefix-background = ${colors.brightmagenta}
-format-suffix = %{T3}%{T-}
-format-suffix-foreground = ${colors.background-alt}
-format-suffix-background = ${colors.blue}
+; format-suffix = %{T3}%{T-}
+; format-suffix-foreground = ${colors.background-alt}
+; format-suffix-background = ${colors.blue}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/filesystem]
 type = internal/fs
@@ -353,7 +354,7 @@ label-focused-padding = 2
 
 label-occupied = %name%
 label-occupied-padding = 2
-label-occupied-background = ${colors.background}
+label-occupied-background = ${colors.background-alt}
 label-occupied-foreground = ${colors.orange}
 label-occupied-underline = ${self.label-focused-underline}
 
@@ -363,6 +364,7 @@ label-urgent-padding = 2
 
 label-empty = %name%
 label-empty-foreground = ${colors.foreground}
+label-empty-background = ${colors.background-alt}
 label-empty-padding = 2
 
 ; Separator in between workspaces
