@@ -175,15 +175,18 @@ zstyle :prompt:pure:path color yellow
 # Sumber: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#s5
 case $TERM in
 	st*)
+        DISABLE_AUTO_TITLE="true"
 	precmd () {
 		# menampilkan direktori aktif (kondisi default)
-		print -Pn "\e]0;st:%~\a"
+        print -Pn "\e]0;st: %~\a"
 	}
 	preexec () {
 		# menampilkan program yang sedang berjalan
 		print -Pn "\e]0;st:$1\a"
 	}
 	;;
+    *)
+    DISABLE_AUTO_TITLE="false" ;;
 esac
 
 # Random man page everytime a terminal opens
