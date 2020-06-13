@@ -86,6 +86,13 @@ if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     git clone git@github.com:millenito/st.git && cd st && make && sudo make install && cd ..
 fi
 
+#### Rofi (Dmenu Replacement) ###########################################################
+read -p $'\e[1;93mInstall Rofi? (Y/N)\e[0m: ' confirm
+if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+    sudo pacman -S rofi
+    [ -d ~/.config/rofi/ ] && cp -R ~/.config/rofi/ ~/"${BACKUP}"/.config && rm -rf ~/.config/rofi/
+fi
+
 #### Compton (Compositor) ##############################################################
 if [[ ! $(command -v compton 2>&1) ]]; then
     read -p $'\e[1;93mInstall Compton? (Y/N)\e[0m: ' confirm
@@ -242,7 +249,24 @@ fi
 if [[ ! $(command -v lsd 2>&1) ]]; then
     read -p $'\e[1;93mInstall lsd? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        pacman -S lsd || exit 1
+        sudo pacman -S lsd || exit 1
+    fi
+fi
+
+#### Clippmenu #########################################################################
+if [[ ! $(command -v clipmenu 2>&1) ]]; then
+    read -p $'\e[1;93mInstall clipmenu? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S clipmenu || exit 1
+    fi
+fi
+
+#### bitwarden-rofi #########################################################################
+if [[ ! $(command -v bwmenu 2>&1) ]]; then
+    read -p $'\e[1;93mInstall bitwarden-rofi? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        yay -S bitwarden-rofi-git || exit 1
+        echo -e "\e[1;32mRemember to unlock login using bitwarden-cli (bw login <email> <password>)"
     fi
 fi
 
