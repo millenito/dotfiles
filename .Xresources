@@ -92,8 +92,8 @@ XTerm*selectToClipboard: true
 #define bg_alt #424450 /* vim cursorline (subtle) */
 #define fg #F8F8F2
 #define fg_alt #F1FA8C
-#define primary #BD93F9
-#define secondary #FF79C6
+#define secondary #BD93F9
+#define primary #FF79C6
 #define urgent #FF5555
 
 i3wm.bg: bg
@@ -219,13 +219,17 @@ rofi.ssh-command: {terminal} -e sh -c "tmux new-session -s {host} {ssh-client} {
 ! disable prefix in combi mode
 rofi.combi-hide-mode-prefix:         true
 
+rofi.modi: combi
+rofi.combi-modi: window,drun,run,ssh
+rofi.display-combi: Go
+
 rofi.allow_bold: true
 rofi.bw: 4
 rofi.width: 50
 rofi.lines: 15
 rofi.line-margin: 5
 rofi.line-padding: 7
-rofi.font: Noto Sans SemiCondensed 11
+rofi.font: FT 12
 
 ! Enable the extended coloring options
 rofi.color-enabled: true
