@@ -12,20 +12,21 @@ getmount() { \
     [ "$mp" = "" ] && exit 1
     if [ ! -d "$mp" ]; then
         mkdiryn=$(printf "No\\nYes" | rofi -dmenu -i -p "$mp does not exist. Create it?") || exit 1
-        [ "$mkdiryn" = "Yes" ] && (mkdir -p "$mp" || sudo -A mkdir -p "$mp")
+        [ "$mkdiryn" = "Yes" ] && (mkdir -p "$mp" || sudo -A mkdir -p "$mp" || pkexec mkdir -p "$mp")
     fi
 }
 
 mountusb() { \
     chosen="$(echo "$usbdrives" | rofi -dmenu -i -p "Mount which drive?")" || exit 1
     chosen="$(echo "$chosen" | awk '{print $1}')"
-    sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
+    sudo -A mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." || \
+        pkexec mount "$chosen" 2>/dev/null && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
     alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not ( -path *%s -prune ) ",$3}')
     getmount "/mnt /media /mount /home -maxdepth 5 -type d $alreadymounted"
     partitiontype="$(lsblk -no "fstype" "$chosen")"
     case "$partitiontype" in
-        "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
-        *) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
+        "vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000 || pkexec mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
+        *) sudo -A mount "$chosen" "$mp" || pkexec mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" "$mp";;
     esac
     notify-send "💻 USB mounting" "$chosen mounted to $mp."
 }
