@@ -243,6 +243,7 @@ alias nmconn="nmcli dev wifi connect"
 alias dot='cd "$DOTFILES"'
 alias note='cd "$NOTES"'
 alias kul='cd "$KULIAH"'
+alias scr='cd "$SCRIPTS"'
 
 # localan php53 & php70
 # alias p5='cd "$P5"'
