@@ -9,7 +9,6 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0" &
 xrdb merge .Xresources &
 
 ## Wallpaper
-# sh ~/.fehbg &
 $SCRIPTS/random_wallpaper.sh $wallpapers 600 &
 
 # Compositing
@@ -40,7 +39,7 @@ light-locker &
 eval $(awk -F'=' '/Exec=/ {print $2}' ~/.config/autostart/lxrandr-autostart.desktop) &
 
 ## Notify about package updates
-update-checker 7200 &
+$SCRIPTS/update-checker 7200 &
 
 ## Polkit agent
 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
@@ -58,6 +57,3 @@ telegram-desktop &
 
 # Open java gui apps
 wmname LG3D
-
-## Welcome message
-sleep 1 && notify-send "Welcome to Manjaro-bspwm! " "Press super + F1 to show keybindings" &

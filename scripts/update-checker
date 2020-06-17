@@ -1,0 +1,26 @@
+#! /bin/sh
+interval=${1:-21600}
+
+connection()
+{
+    curl -s --max-time 10 google.com >/dev/null 2>&1
+}
+
+checker()
+{
+while true; do
+    $SCRIPTS/update-notifier
+    sleep "$interval"
+done
+}
+
+waiter()
+{
+if ! connection ; then
+    sleep 10 && waiter
+else
+    checker
+fi
+}
+
+waiter
