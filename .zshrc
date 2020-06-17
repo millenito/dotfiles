@@ -221,8 +221,8 @@ alias p="ping"
 alias g="git"
 alias trc="transmission-remote-cli"
 
-alias lg="ls | grep"
-alias lag="ls -a | grep"
+alias lg="ls -l | grep"
+alias lag="ls -al | grep"
 
 # enable nvidia drivers
 alias nvidia="sudo primusrun glxgears"
