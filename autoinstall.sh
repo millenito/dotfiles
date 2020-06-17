@@ -48,6 +48,17 @@ BACKUP="original-dotfiles"
 #[ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/"${BACKUP}"/
 #ln -sfv $(pwd)/.ideavimrc ~
 
+#### Bspwm & sxhkd ######################################################################
+if [[ $(command -v bspwm 2>&1) ]]; then
+    read -p $'\e[1;93mCopy bspwm & sxhkd configs? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        [ -d ~/.config/bspwm/ ] && cp -R ~/.config/bspwm/ ~/"${BACKUP}"/.config && rm -rf ~/.config/bspwm/
+        ln -sfv $(pwd)/.config/bspwm/ ~/.config/
+        [ -d ~/.config/sxhkd/ ] && cp -R ~/.config/sxhkd/ ~/"${BACKUP}"/.config && rm -rf ~/.config/sxhkd/
+        ln -sfv $(pwd)/.config/sxhkd/ ~/.config/
+    fi
+fi
+
 #### Vim (Text Editor) ##################################################################
 if [[ ! $(command -v /usr/bin/vim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Vim? (Y/N)\e[0m: ' confirm
