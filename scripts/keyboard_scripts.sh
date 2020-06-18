@@ -18,5 +18,10 @@ xmodmap $SCRIPTS/.xmodmap
 
 # xcape (https://github.com/alols/xcape)
 # buat caps lock (sekarang sudah di tukar sama control) menjadi escape kalo ditekan sendiri dan menjadi control kalo dengan key lain
-# xcape -e 'Control_L=Escape;Alt_L=BackSpace' -t 200
+killall xcape
 xcape -e 'Control_L=Escape' -t 200
+
+# xcape -e 'Control_L=Escape;Alt_L=BackSpace' -t 200
+
+# bind super+shift+ctrl+alt+space menjadi super untuk di bind di sxhkd
+xcape -e 'Super_L=Super_L|Shift_L|Control_L|Alt_L|space' -t 200

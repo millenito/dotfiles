@@ -260,7 +260,7 @@ super + s
     $SCRIPTS/bspwm/scratchpad.sh
 
 # Launch GUI Programs
-# Browser, Thunar, Spotify, Dbeaver, Filezilla, pAvucontrol, Pamac
+# GUI: Browser, Thunar, Spotify, Dbeaver, Filezilla, pAvucontrol, Pamac
 super + o ; {b,t,s,d,f,a,p}
     {$BROWSER, \
     thunar, \
@@ -269,10 +269,10 @@ super + o ; {b,t,s,d,f,a,p}
     filezilla, \
     pavucontrol, \
     pamac-manager
-    }
 
+    }
 # Launch CLI/TUI Programs
-# Ranger, Transmission, Htop, Gotop
+# CLI/TUI: Ranger, Transmission, Htop, Gotop
 super + c ; {r,t,h,g,b}
     {$TERMINAL -e ranger, \
     $TERMINAL -e transmission-remote-cli, \
@@ -297,10 +297,9 @@ Print
 alt + Tab
     rofi -show window
 
-# ROFI Menu, findeR, Emoji, mpV Picker, Man viewer, sxhkd Keys, Mount, Umount, Bitwarden-cli, Clipboard
-super + d ; {d,r,e,v,m,k,M,u,b,c}
-    {rofi -show, \
-    $SCRIPTS/rofi/rofi-finder.sh, \
+# ROFI: findeR, Emoji, mpV Picker, Man viewer, sxhkd Keys, Mount, Umount, Bitwarden-cli, Clipboard
+super + d ; {r,e,v,m,k,M,u,b,c}
+    {$SCRIPTS/rofi/rofi-finder.sh, \
     $SCRIPTS/rofi/rofi-unicode.sh, \
     $SCRIPTS/rofi/rofi-mpv-picker.sh, \
     $SCRIPTS/rofi/rofi-man-viewer.sh, \
@@ -310,6 +309,10 @@ super + d ; {d,r,e,v,m,k,M,u,b,c}
     bwmenu -C --auto-lock -1, \
     clipmenu
     }
+
+# "Super" to open rofi menu (binds in $SCRIPTS/keyboard_scripts.sh using xcape)
+super + shift + ctrl + alt + space
+    rofi -show
 
 # Empty clipboard
 super + shift + c
