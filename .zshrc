@@ -216,6 +216,7 @@ man $(find /usr/share/man/man1 -type f | shuf | head -1) | head -25
 #     echo -ne "\e[5 q"
 # }
 
+alias pacman="sudo pacman"
 alias s="ssh"
 alias p="ping"
 alias g="git"
