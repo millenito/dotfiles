@@ -1,6 +1,6 @@
 #! /bin/sh
 gap=8
-panel_gap=-5
+panel_gap=-7
 export gap
 export panel_gap
 
@@ -20,19 +20,32 @@ bspc config bottom_padding $panel_gap
 ###This creates and names desktops for multiple monitors.
 $SCRIPTS/bspwm/workspaces_multimonitor &
 
+MONITOR=$(bspc query -M | wc -l)
+
 #Various settings
-#bspc subscribe node_{remove,add} | while read _; do $SCRIPTS/dwm_stack_layout.sh; done # Master and slave Stack layout
+# bspc subscribe node_{remove,add} | while read _; do $SCRIPTS/dwm_stack_layout.sh; done # Master and slave Stack layout
+
+bspc config directional_focus_tightness low # Cycle from tiling window to floating window with mod+hjkl
+bspc config gapless_monocle false           # Default setup uses negative padding, and gapless monocle looks really weird like that
+bspc config honor_size_hints true           # Honor size hints: do not make windows smaller than they wish to be
+bspc config paddingless_monocle false
+
+# Make new windows spawn in right side and make them spawn from the longest position of the previous window
 bspc config automatic_scheme alternate
 bspc config initial_polarity second_child
-bspc config directional_focus_tightness low # Cycle from tiling window to floating window with mod+hjkl
-bspc config gapless_monocle false  #Default setup uses negative padding, and gapless monocle looks really weird like that
-bspc config borderless_monocle  false
-bspc config single_monocle true
-bspc config paddingless_monocle false
-bspc config remove_disabled_monitors true
+
+# Clean Monitors
+bspc config remove_disabled_monitors true 
 bspc config remove_unplugged_monitors true
-## Honor size hints: do not make windows smaller than they wish to be
-#bspc config honor_size_hints true 
+
+# Enable borders in monocle mode if there is multiple monitors connected
+if [ $MONITOR -gt 1 ]; then
+    bspc config single_monocle false
+    bspc config borderless_monocle false
+else
+    bspc config single_monocle true
+    bspc config borderless_monocle true
+fi
 
 ##Color settings
 bspc config normal_border_color "#44475a"
