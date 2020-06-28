@@ -15,11 +15,11 @@ then
             s/.*Uploading.*/L/g;
             s/.*%.*/M/g" |
             sort -h | uniq -c | sed " # Now we replace the standin letters with icons.
-                s/A/🛑/g;
-                s/B/⌛️/g;
-                s/L/🔼/g;
-                s/M/🔽/g;
-                s/N/✅/g;
+                s/A//g;
+                s/B//g;
+                s/L//g;
+                s/M//g;
+                s/N//g;
                 s/Z//g" | awk '{print $2, " " $1}' | sed -e "s/ $//g" -e :a -e '$!N; s/\n/  /; ta')
 
     echo "${DOWNLOADING} ${ICONS}"
