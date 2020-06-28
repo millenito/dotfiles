@@ -39,7 +39,7 @@ Plug 'cosminadrianpopescu/vim-sql-workbench', { 'on': 'SWSqlBufferConnect' }
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'on': 'MarkdownPreview', 'for': 'markdown' }  " Preview file markdown secara real-time
-Plug 'godlygeek/tabular', { 'on': ['Tab','Tabular'] }                                                                   " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
+Plug 'godlygeek/tabular', { 'on': ['Tab','Tabular','Tabularize'] }                         " Untuk mensejajarkan apapun (berguna untuk pembuatan dan format table di markdown)
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }                                      " Tambahan syntax dan fitur-fitur untuk file markdown
 Plug 'lvht/tagbar-markdown', { 'for': 'markdown' }                                         " tambahan fitur plugin tagbar untuk menampilkan header pada file markdown
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }                                                 " membuat zenmode (mode fokus) untuk menulis tanpa gangguan dan distraksi
@@ -428,7 +428,7 @@ autocmd vimenter $DOTFILES/.zshrc,~/.zshrc let &shell='/bin/zsh -i'
 autocmd BufWritePost $DOTFILES/.zshrc,~/.zshrc !zgen reset
 
 " menjalankan "xrdb .Xresources" setiap kali .Xresource/.Xdefaults di save 
-autocmd BufWritePost ~/.Xresources,~/dotfiles/.Xresources,~/.Xdefaults !xrdb %
+autocmd BufWritePost ~/.Xresources,$DOTFILES/.Xresources,~/.Xdefaults !xrdb %
 
 " autocmd CursorHold * :checktime
 
@@ -537,6 +537,33 @@ augroup mdSettings
 	au Filetype markdown nnoremap ,e bi***<Esc>ea***<Esc>
 	au Filetype markdown inoremap ,m <mark></mark> <++><Esc>F/hi
 	au Filetype markdown nnoremap ,m bi<mark><Esc>ea</mark><Esc>
+augroup END
+
+augroup latexSettings
+    au BufRead,BufNewFile *.tex set filetype=tex " Prevent plaintex filetype
+    au Filetype tex setlocal wrap linebreak " writing mode setup
+
+    " Cleans latex build files after exiting vim
+    autocmd VimLeave *.tex !$SCRIPTS/latexclear.sh %
+
+    " Preview converted pdf Latex files (*.tex) using zathura
+    au Filetype tex noremap <leader>p :call PreviewLatexPDF()<cr><cr>
+
+    function! PreviewLatexPDF()
+        let filedir = expand('%:p:h')
+        let file = expand('%:t:r')
+        let convertedfile = filedir . '/' . file . '.pdf'
+        echo convertedfile
+        if !empty(glob(convertedfile))
+            execute "!zathura " . convertedfile . " &"
+        else
+            if exists(':CocCommand')
+                execute ":update"
+                execute "!zathura " . convertedfile . " &"
+            endif
+        endif
+    endfunction
+
 augroup END
 
 augroup dartSettings
@@ -1045,6 +1072,7 @@ function! Load_Coc()
                     \ "coc-sql",
                     \ "coc-sh",
                     \ "coc-python",
+                    \ "coc-texlab",
                     \ "coc-java"]
 
         " filetype yang akan di deteksi oleh coc (javascriptreact = javascript)
@@ -1105,7 +1133,7 @@ function! Load_Coc()
         nmap <leader>gb <Plug>(coc-git-commit)
 
         " coc previewa definition, kalo gak ketemu maka default ke (K) dari vim yaitu buka documentation sesuai kata yg di cursor
-        noremap <silent> <A-K> :call <SID>show_documentation()<CR>
+        noremap <silent> K :call <SID>show_documentation()<CR>
 
         function! s:show_documentation()
             if (index(['vim','help'], &filetype) >= 0)
@@ -1179,7 +1207,18 @@ let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
                \ {'r': '~/.config/nvim/restapi'},
                \ {'d': '~/database.sql'} ]
 
-let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
+" Dapatkan Git modified file dari git repo untuk Startify
+function! s:gitModified()
+    let files = systemlist('git ls-files -m 2>/dev/null')
+    return map(files, "{'line': v:val, 'path': v:val}")
+endfunction
+
+" Dapatkan file & directory dari current directory untuk Startify
+function! s:filesdirlist()
+    let files = systemlist('ls --classify')
+    return map(files, "{'line': v:val, 'path': v:val}")
+endfunction
+
 let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
 " Tutup Nerd Tree saat save session dengan startify
 let g:startify_session_before_save = [ 
@@ -1189,9 +1228,11 @@ let g:startify_session_before_save = [
     \ ]
 " Urutan menu yang muncul di startify
 let g:startify_lists = [
-      \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'files',     'header': ['   Recent Files']   },
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': function('s:filesdirlist'), 'header': ['   Files 📁 (' . getcwd() . ')']},
+      \ { 'type': function('s:gitModified'), 'header': ['   Git Modified 🔧 ']},
+      \ { 'type': 'sessions',  'header': ['   Sessions ⏰']       },
+      \ { 'type': 'files',     'header': ['   Recent Files 🌱 ']   },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks 📑']      },
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 

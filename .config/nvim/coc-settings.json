@@ -30,6 +30,9 @@
     "sql.lintOnSave": true,
     "sql.lintOnChange": true,
     "java.home": "/usr/lib/jvm/java-11-openjdk",
+    "latex.forwardSearch.executable": "zathura",
+    "latex.forwardSearch.args": ["--synctex-forward", "%l:1:%f", "%p"],
+    "latex.build.onSave": true,
     "languageserver": {
         "bash": {
             "command": "bash-language-server",
