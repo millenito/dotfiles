@@ -202,7 +202,7 @@ if [[ ! $(command -v transmission-remote 2>&1) ]]; then
     read -p $'\e[1;93mInstall Transmission? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
         sudo pacman -S transmission-cli || exit 1
-        yay -S transmission-remote-cli-git || exit 1
+        yay -S tremc-git || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Transmission configs? (Y/N)\e[0m: ' confirm
@@ -215,7 +215,23 @@ fi
 #### CLI Tools ##########################################################################
 #########################################################################################
 
-#### bat #############################################################################
+#### ripgrep ############################################################################
+if [[ ! $(command -v rg 2>&1) ]]; then
+    read -p $'\e[1;93mInstall rg? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S ripgrep || exit 1
+    fi
+fi
+
+#### fd ################################################################################
+if [[ ! $(command -v fd 2>&1) ]]; then
+    read -p $'\e[1;93mInstall fd? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        sudo pacman -S fd || exit 1
+    fi
+fi
+
+#### bat ###############################################################################
 if [[ ! $(command -v bat 2>&1) ]]; then
     read -p $'\e[1;93mInstall bat? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
@@ -223,7 +239,7 @@ if [[ ! $(command -v bat 2>&1) ]]; then
     fi
 fi
 
-#### fzf #############################################################################
+#### fzf ###############################################################################
 if [[ ! $(command -v fzf 2>&1) ]]; then
     read -p $'\e[1;93mInstall fzf? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
