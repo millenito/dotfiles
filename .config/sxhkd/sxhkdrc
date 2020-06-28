@@ -113,10 +113,11 @@ super + shift + {1-9,0}
 super + shift + {n,p}
     bspc node -d {next,prev} -f
 
-# Go to last desktop
-super + a
+# Focus last window / desktop
+super + {_,shift +} a
+    {bspc node -f $(bspc wm -d | jshon -e focusHistory -a -e nodeId | grep -vx 0 | tac | sed "2q;d"), \
     bspc desktop -f last
-
+    }
 ## Alternative: i3 style behavior (focus nth, desktop of the focused monitor)
 #super + {1-9,0}
 #	focusdesktopofthismonitor {1-9}
@@ -134,14 +135,11 @@ super + a
 super + {_,shift + }Tab
 	bspc desktop -f {next,prev}.local
 
-#Focus windows by direction, if there's no windows then focus monitor on that direction. Works with multihead
-super +  {h,j,k,l}
+# Focus windows by direction, if there's no windows then focus monitor on that direction. Works with multihead
+super + {h,j,k,l}
     $SCRIPTS/bspwm/focusmover {west,south,north,east}
     #bspc node -f {west,south,north,east} || bspc monitor -f {west,south,north,east}
 
-#super +  {Left,Down,Up,Right}
-    #focusmover {west,south,north,east}
-        	
 # Move tiled windows. Moving a tiled window to 
 # preselected one moves into preselection instead. 
 # Moving out of the screen should move the window to next monitor if possible
@@ -228,15 +226,15 @@ super + ctrl + button4
 # app where your mouse was when you opened the menu. Smartsplit only chooses
 # biggest dimension of the window, MouseLaunch only cares which edge is closer.
 # mod5 is alt_gr (first key right from space) on most keyboards. 
-mod5 + @button1
-    MouseLaunch ; mygtkmenui -- .config/GTKmenu/LaunchMenu
+#mod5 + @button1
+    #MouseLaunch ; mygtkmenui -- .config/GTKmenu/LaunchMenu
 #	smartsplit ; dboxmenu
 
 # Spawn window manipulation menu
 # Mod1 is alt
 #    BspwmWindowMenu
-mod1 + @button1
-    mygtkmenui -- .config/GTKmenu/BspwmWindowMenui
+#mod1 + @button1
+    #mygtkmenui -- .config/GTKmenu/BspwmWindowMenui
 
 
 #
