@@ -5,8 +5,10 @@ set statusbar-h-padding 0
 set statusbar-v-padding 0
 set window-title-basename true
 set statusbar-basename true
-set font "Hack 11"
+set font "Noto Sans 11"
 set incremental-search true
+set synctex true
+set synctex-editor-command "code -g %{input}:%{line}"
 
 map r reload
 map R rotate
