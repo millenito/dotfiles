@@ -274,7 +274,8 @@ launchl(){
         *"$P7"*)
             CURDIR=$(pwd | sed "s|"${P7}"||g")
             [ ! $(docker ps | grep php7apache) ] && docker start php7apache
-            $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+            # $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+            $BROWSER "http://localhost:8080/${CURDIR}" >/dev/null 2>&1 & ;;
     esac
 }
 
@@ -304,11 +305,13 @@ alias cls='colorls'
 # alias zaread='"$DOTFILES"/.i3/scripts/zaread' # read doc/docx/ppt/odf/ppt/pptx files with zathura (https://github.com/millenito/zaread)
 
 # tmux
-alias tm='tmux'
-alias tml='tmux ls'
-tma(){ if [[ $# -eq 0 ]]; then tmux attach; else tmux attach -t "$1"; fi } # Attach to last tmux session or attach to named session
-tmn(){ if [[ $# -eq 0 ]]; then tmux new-session; else tmux new-session -s "$1"; fi} # Create new unnamed session or use gived name
-tmk(){ if [[ $# -eq 0 ]]; then tmux kill-server; else tmux kill-session -t "$1"; fi } # Kill all session or kill named session
+if type tmux > /dev/null 2>&1; then
+    alias tm='tmux'
+    alias tml='tmux ls'
+    tma(){ if [[ $# -eq 0 ]]; then tmux attach; else tmux attach -t "$1"; fi } # Attach to last tmux session or attach to named session
+    tmn(){ if [[ $# -eq 0 ]]; then tmux new-session; else tmux new-session -s "$1"; fi} # Create new unnamed session or use gived name
+    tmk(){ if [[ $# -eq 0 ]]; then tmux kill-server; else tmux kill-session -t "$1"; fi } # Kill all session or kill named session
+fi
 
 # fuzzy_cd_anywhere (cd kemanapun dengan fzf dengan parameter (ex: fcda anime))
 function fcda() {
@@ -360,7 +363,7 @@ fgl() {
 # Fuzzy script (cari script dengan fzf dan buka dengan editor)
 fs() { du -aL $SCRIPTS "${PROJECTS}/learning/shell-script" | awk '{print $2}' | fzf | xargs -r $EDITOR ; }
 
-# Fuzzy projects (cd ke folder projects2)
+# Fuzzy projects (cd ke folder projects2 dan buka session tmux baru bernama localhost)
 fp() 
 {     
     if type fd > /dev/null 2>&1; then
@@ -368,6 +371,7 @@ fp()
     else
         cd $(find -L $PROJECTS -type d | fzf)
     fi
+    [ -n $(type tmux > /dev/null 2>&1) ] && [ -z "$TMUX" ] && tmn projects
 }
 
 # # ex - archive extractor
