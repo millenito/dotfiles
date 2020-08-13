@@ -164,7 +164,7 @@ super + shift + ctrl + {h,j,k,l}
 # Layout manipulation/desktop level controls
 # ______________    
 
-# Toggle monocle mode
+# Toggle window monocle mode
 super + w
 	bspc desktop -l next
 	
@@ -259,24 +259,26 @@ super + s
 
 # Launch GUI Programs
 # GUI: Browser, Thunar, Spotify, Dbeaver, Filezilla, pAvucontrol, Pamac
-super + o ; {b,t,s,d,f,a,p}
+super + o ; {b,t,s,d,f,a,p,question}
     {$BROWSER, \
     thunar, \
     spotify, \
     dbeaver, \
     filezilla, \
     pavucontrol, \
-    pamac-manager
-
+    pamac-manager, \
+    $SCRIPTS/rofi/rofi-bindings.sh gui
     }
+
 # Launch CLI/TUI Programs
 # CLI/TUI: Ranger, Transmission, Htop, Gotop
-super + c ; {r,t,h,g,b}
+super + c ; {r,t,h,g,b,question}
     {$TERMINAL -e ranger, \
-    $TERMINAL -e transmission-remote-cli, \
+    $TERMINAL -e tremc, \
     $TERMINAL -e htop, \
     $TERMINAL -e gotop, \
-    $TERMINAL -e bashtop
+    $TERMINAL -e bashtop, \
+    $SCRIPTS/rofi/rofi-bindings.sh cli
     }
 
 # Toggle compositor
@@ -296,16 +298,17 @@ alt + Tab
     rofi -show window
 
 # ROFI: findeR, Emoji, mpV Picker, Man viewer, sxhkd Keys, Mount, Umount, Bitwarden-cli, Clipboard
-super + d ; {r,e,v,m,k,M,u,b,c}
+super + d ; {r,e,v,m,k,M,u,b,c,question}
     {$SCRIPTS/rofi/rofi-finder.sh, \
     $SCRIPTS/rofi/rofi-unicode.sh, \
     $SCRIPTS/rofi/rofi-mpv-picker.sh, \
     $SCRIPTS/rofi/rofi-man-viewer.sh, \
-    $SCRIPTS/rofi/rofi-sxhkd-bindings.sh, \
+    $SCRIPTS/rofi/rofi-bindings.sh sxhkd, \
     $SCRIPTS/rofi/rofi-mount.sh, \
     $SCRIPTS/rofi/rofi-umount.sh, \
     bwmenu -C --auto-lock -1, \
-    clipmenu
+    clipmenu, \
+    $SCRIPTS/rofi/rofi-bindings.sh rofi
     }
 
 # "Super" to open rofi menu (binds in $SCRIPTS/keyboard_scripts.sh using xcape)
