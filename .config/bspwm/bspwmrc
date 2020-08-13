@@ -23,8 +23,9 @@ $SCRIPTS/bspwm/workspaces_multimonitor &
 MONITOR=$(bspc query -M | wc -l)
 
 #Various settings
-# bspc subscribe node_{remove,add} | while read _; do $SCRIPTS/dwm_stack_layout.sh; done # Master and slave Stack layout
+# bspc subscribe node_{remove,add} | while read _; do $SCRIPTS/bspwm/dwm_stack_layout.sh; done # Master and slave Stack layout
 
+# while read -r _; do bspc node @/2 -B; done < <(bspc subscribe node_add node_swap node_remove node_geometry)
 bspc config directional_focus_tightness low # Cycle from tiling window to floating window with mod+hjkl
 bspc config gapless_monocle false           # Default setup uses negative padding, and gapless monocle looks really weird like that
 bspc config honor_size_hints true           # Honor size hints: do not make windows smaller than they wish to be
@@ -57,7 +58,11 @@ bspc config border_width 3
 bspc config focus_follows_pointer true
 bspc config pointer_follows_monitor true
 bspc config pointer_follows_focus true
-#bspc config pointer_follows_focus true #Some keybindings automatically enable and disable this setting
+
+# Move floating windows with mouse while holding Super
+bspc config pointer_modifier mod4
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
 
 #Settings for manual splitting
 #bspc config split_ratio         0.50
