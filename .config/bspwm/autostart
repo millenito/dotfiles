@@ -49,10 +49,17 @@ gnome-keyring-daemon &
 thunar --daemon &
 /usr/lib/mate-notification-daemon/mate-notification-daemon &
 
+# clipmenu (Clipboard Manager)
+clipmenud &
+
+# Keyboard Scripts
 $SCRIPTS/keyboard_scripts.sh
+
+# Bar
 $SCRIPTS/launch_polybar.sh
 #limepanel &
 
+# GUI Apps
 telegram-desktop &
 
 # Open java gui apps
