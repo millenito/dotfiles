@@ -217,6 +217,12 @@ noremap <silent> <esc> :nohl<CR>
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<DOWN>" |" Ctrl+j autocomplete go down / next
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>" |" Ctrl+k autocomplete go up / previous
 
+" Use rg for vimgrep if installed
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
 " Movement in insert mode
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
@@ -333,6 +339,7 @@ set foldmethod=syntax " fold by indents
 " set foldcolumn=1 "defines 1 col at window left, to indicate folding
 let javaScript_fold=1 "activate folding by JS syntax
 set foldlevelstart=999 "start file with all folds opened
+au Filetype git setlocal foldlevel=0
 
 " Toggle fold & toggle folds recursively in cursor
 noremap - za
@@ -1219,7 +1226,8 @@ function! s:filesdirlist()
     return map(files, "{'line': v:val, 'path': v:val}")
 endfunction
 
-let g:startify_change_to_dir = 1 " Ganti ke directory setiap buka file dengan startify
+let g:startify_change_to_dir = 0 " Stay in cwd when opening files through Startify
+
 " Tutup Nerd Tree saat save session dengan startify
 let g:startify_session_before_save = [ 
     \ 'echo "Cleaning up before saving.."',
