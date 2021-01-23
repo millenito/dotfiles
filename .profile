@@ -1,6 +1,8 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export EDITOR=/usr/bin/nvim
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+export EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
+export READER=/usr/bin/zathura
 export BROWSER=/usr/bin/google-chrome-stable
 export TERMINAL=st
 # Uncomment if not using tmux
@@ -14,7 +16,7 @@ export P7="$PROJECTS/localhost/PHP70/" # vagrant localan php7
 export DOTFILES="$HOME/dotfiles-copy/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
 export SCRIPTS="$HOME/scripts"
-export KULIAH="$HOME/Documents/Kuliah/Semester 4"
+export KULIAH="$HOME/Documents/Kuliah/Semester 5"
 
 # fzf commands & options
 if type rg > /dev/null 2>&1; then
@@ -32,6 +34,7 @@ export NNN_BMS='h:~;a:/hdd/Anime'
 export NNN_CONTEXT_COLORS='1234'    
 export NNN_USE_EDITOR=1
 export NNN_OPS_PROG=1
+export NNN_FIFO=/tmp/nnn.fifo
 
 # transmission
 export TRANS_DEFAULT_DIR="/hdd/Anime"
