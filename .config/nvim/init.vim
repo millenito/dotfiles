@@ -61,24 +61,8 @@ Plug 'scrooloose/nerdcommenter', { 'on' : nerdcommenter_commands }              
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'tpope/vim-surround'                                                                  " manipulasi text dengan kurung (){}[]''<>
 Plug 'tpope/vim-repeat'                                                                    " membuat key repeat (.) bisa digunakan untuk mapping plugins
-let fzf_commands = [ 'Files', 
-                \ 'Buffers', 
-                \ 'BLines',
-                \ 'Lines',
-                \ 'Rg',
-                \ 'BTags',
-                \ 'Tags',
-                \ 'Commits',
-                \ 'BCommits',
-                \ 'Helptags',
-                \ 'Colors',
-                \ '<plug>(fzf-complete-word)',
-                \ '<plug>(fzf-complete-path)',
-                \ '<plug>(fzf-complete-file-ag)',
-                \ '<plug>(fzf-complete-line)' ]
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': fzf_commands}       " Remove this if already install fzf
-Plug 'junegunn/fzf.vim', {'on': fzf_commands}                                              " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'}                           " Remove this if already install fzf
+Plug 'junegunn/fzf.vim'                                                                    " Fuzzy file searcher/text finder/buffer searcher/line searcher/tags searcher/commit log finder now on vim
 Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
@@ -956,7 +940,7 @@ imap <C-c> <plug>NERDCommenterInsert
 
 " silent! call repeat#set("\<Plug>NERDCommenterToggle", v:count)
 
-if exists(':Files')
+if !empty(glob(pluginsDir . '/fzf.vim'))
     let g:fzf_action = {
                 \ 'Ctrl-t': 'tab split',
                 \ 'Ctrl-s': 'split',
