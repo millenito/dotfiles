@@ -20,6 +20,7 @@ call plug#begin(pluginsDir)
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeTabsToggle'] }   
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 Plug 'justinmk/vim-dirvish'                                                                " File explorer pengganti netrw
+Plug 'kristijanhusak/vim-dirvish-git'
 
 " Git
 Plug 'tpope/vim-fugitive'                                                                  " Git commands in vim (commit, push, status, blame, etc) 
@@ -579,6 +580,10 @@ augroup tomlSettings
 augroup end
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
+let g:loaded_python_provider = 0
+let g:loaded_python3_provider = 0
+let g:python_host_prog = ''
+let g:python3_host_prog = ''
 
 " # Plugins
 
