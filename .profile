@@ -13,10 +13,10 @@ export PROJECTS="$HOME/projects"
 export P5="$PROJECTS/localhost/PHP53/" # vagrant localan php5
 export P7="$PROJECTS/localhost/PHP70/" # vagrant localan php7
 
-export DOTFILES="$HOME/dotfiles-copy/" # dotfiles repo
+export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
 export SCRIPTS="$HOME/scripts"
-export KULIAH="$HOME/Documents/Kuliah/Semester 5"
+export KULIAH="$HOME/Documents/Kuliah/Semester 6"
 
 # fzf commands & options
 if type rg > /dev/null 2>&1; then
@@ -49,4 +49,5 @@ export PATH="$HOME/Android/Sdk/tools/bin:$PATH"
 export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 export PATH="$HOME/Android/Sdk/emulator:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$PATH:$SCRIPTS
