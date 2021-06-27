@@ -1,52 +1,62 @@
 #!/usr/bin/env bash
 
+# If using ubuntu or debian
+if type apt >/dev/null 2>&1; then
+	DISTRO="debian"
+	installpkg(){ sudo apt-get install -y "$1"; }
+else
+# else using arch or manjaro
+	DISTRO="arch"
+	installpkg(){ sudo pacman -S "$1"; }
+fi
+
 BACKUP="original-dotfiles"
 
 [ ! -d ~/"${BACKUP}"/ ] && mkdir ~/"${BACKUP}"/ && mkdir ~/"${BACKUP}"/.config
 
-#[ -d ~/scripts ] && cp -R ~/scripts/ ~/"${BACKUP}"/ && rm -rf ~/scripts/
-#ln -sfv $(pwd)/scripts ~
+[ -d ~/scripts ] && cp -R ~/scripts/ ~/"${BACKUP}"/ && rm -rf ~/scripts/
+ln -sfv $(pwd)/scripts ~
 
-#[ -f ~/.gitconfig ] && cp ~/.gitconfig ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.gitconfig ~
+[ -f ~/.gitconfig ] && cp ~/.gitconfig ~/"${BACKUP}"/
+ln -sfv $(pwd)/.gitconfig ~
 
-#[ -f ~/.Xresources ] && cp ~/.Xresources ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.Xresources ~
-#xrdb ~/.Xresources
+[ -f ~/.Xresources ] && cp ~/.Xresources ~/"${BACKUP}"/
+ln -sfv $(pwd)/.Xresources ~
+xrdb ~/.Xresources
 
-#[ -f ~/.xinitrc ] && cp ~/.xinitrc ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.xinitrc ~
+[ -f ~/.xinitrc ] && cp ~/.xinitrc ~/"${BACKUP}"/
+ln -sfv $(pwd)/.xinitrc ~
 
-#[ -f ~/.profile ] && cp ~/.profile ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.profile ~
+[ -f ~/.profile ] && cp ~/.profile ~/"${BACKUP}"/
+ln -sfv $(pwd)/.profile ~
 
-#[ -f ~/.bashrc ] && cp ~/.bashrc ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.bashrc ~
+[ -f ~/.bashrc ] && cp ~/.bashrc ~/"${BACKUP}"/
+ln -sfv $(pwd)/.bashrc ~
 
-#[ -f ~/.config/mimeapps.list ] && cp ~/.config/mimeapps.list ~/"${BACKUP}"/.config/
-#ln -sfv $(pwd)/.config/mimeapps.list ~/.config/
+[ -f ~/.config/mimeapps.list ] && cp ~/.config/mimeapps.list ~/"${BACKUP}"/.config/
+ln -sfv $(pwd)/.config/mimeapps.list ~/.config/
 
-#### Zsh ################################################################################
-#echo -e "\e[1;93mConfiguring zsh"
-#if [[ ! $(command -v zsh 2>&1) ]]; then
-#    sudo pacman -S zsh  || exit 1
-#fi
-#
-#if [ -z $(echo $SHELL | grep zsh) ]; then
-#    echo -e "\e[1;93mSetting Zsh as default shell for user $USER"
-#    sudo chsh -s $(which zsh) $USER || exit 1
-#fi
-#
-#[ ! -d ~/.zgen ] && git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
-#
-#[ -f ~/.zshrc ] && cp ~/.zshrc ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.zshrc ~
-#
-#[ -f ~/.zshenv ] && cp ~/.zshenv ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.zshenv ~
-#
-#[ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/"${BACKUP}"/
-#ln -sfv $(pwd)/.ideavimrc ~
+### Zsh ################################################################################
+echo -e "\e[1;93mConfiguring zsh"
+if [[ ! $(command -v zsh 2>&1) ]]; then
+    installpkg zsh  || exit 1
+fi
+
+if [ -z $(echo $SHELL | grep zsh) ]; then
+    echo -e "\e[1;93mSetting Zsh as default shell for user $USER"
+    sudo chsh -s $(which zsh) $USER || exit 1
+fi
+
+[ ! -d ~/.zgen ] && git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+
+[ -f ~/.zshrc ] && cp ~/.zshrc ~/"${BACKUP}"/
+ln -sfv $(pwd)/.zshrc ~
+
+[ -f ~/.zshenv ] && cp ~/.zshenv ~/"${BACKUP}"/
+ln -sfv $(pwd)/.zshenv ~
+
+[ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/"${BACKUP}"/
+ln -sfv $(pwd)/.ideavimrc ~
 
 #### Bspwm & sxhkd ######################################################################
 if [[ $(command -v bspwm 2>&1) ]]; then
@@ -63,7 +73,7 @@ fi
 if [[ ! $(command -v /usr/bin/vim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Vim? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S gvim ctags || exit 1 # Because gvim includes vim with clipboard support in arch
+        installpkg gvim ctags || exit 1 # Because gvim includes vim with clipboard support in arch
     fi
 fi
 read -p $'\e[1;93mCopy Vim configs? (Y/N)\e[0m: ' confirm
@@ -76,13 +86,23 @@ fi
 if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Nvim? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        yay -S neovim python-neovim  || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            installpkg ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip || exit 1
+            git clone git@github.com:neovim/neovim.git && cd neovim && make CMAKE_BUILD_TYPE=Release && sudo make install || exit 1
+            installpkg python-neovim python3-neovim || exit 1
+        else
+            yay -S neovim python-neovim  || exit 1
+        fi
     fi
 fi
 read -p $'\e[1;93mCopy Nvim configs? (will install nodejs, npm & yarn for coc plugin) (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-    [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && sudo pacman -S nodejs yarn npm || exit 1
-    sudo pacman -S ctags || exit 1
+    if [[ $DISTRO = 'debian' ]]; then
+            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_15.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
+        else
+            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && installpkg nodejs yarn npm || exit 1
+    fi
+    installpkg ctags || exit 1
     [ -d ~/.config/nvim/ ] && cp ~/.config/nvim/ ~/"${BACKUP}"/ && rm -f ~/.config/nvim/
     [ -d ~/.config/coc/ ] && cp ~/.config/coc/ ~/"${BACKUP}"/ && rm -f ~/.config/coc/
     ln -sfv $(pwd)/.config/nvim/ ~/.config/ && nvim -es -V -u ~/.config/nvim/init.vim -i NONE -c "PlugInstall" -c "qa"
@@ -93,14 +113,19 @@ fi
 #### St (Terminal) ######################################################################
 read -p $'\e[1;93mInstall personal build of St? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-    yay -S nerd-fonts-iosevka
+    if [[ $DISTRO = 'debian' ]]; then
+            wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip && mkdir Iosevka && unzip Iosevka.zip -d Iosevka && sudo mv Iosevka /usr/local/share/fonts && rm -rf Iosevka.zip Iosevka
+        else
+            yay -S nerd-fonts-iosevka
+    fi
     git clone git@github.com:millenito/st.git && cd st && make && sudo make install && cd ..
+    sudo fc-cache -f -v
 fi
 
 #### Rofi (Dmenu Replacement) ###########################################################
 read -p $'\e[1;93mInstall Rofi? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-    sudo pacman -S rofi
+    installpkg rofi
     [ -d ~/.config/rofi/ ] && cp -R ~/.config/rofi/ ~/"${BACKUP}"/.config && rm -rf ~/.config/rofi/
 fi
 
@@ -108,7 +133,7 @@ fi
 if [[ ! $(command -v compton 2>&1) ]]; then
     read -p $'\e[1;93mInstall Compton? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S picom || exit 1
+        installpkg picom || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Compton configs? (Y/N)\e[0m: ' confirm
@@ -121,9 +146,9 @@ fi
 if [[ ! $(command -v polybar 2>&1) ]]; then
     read -p $'\e[1;93mInstall Polybar? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S polybar jq udisks2 noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra || exit 1
+        installpkg polybar jq udisks2 noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra || exit 1
         yay -S ttf-symbola nerd-fonts-ubuntu-mono  || exit 1
-        command -v bluetoothctl >/dev/null 2>&1 || sudo pacman -S bluez-utils || exit 1
+        command -v bluetoothctl >/dev/null 2>&1 || installpkg bluez-utils || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Polybar configs? (Y/N)\e[0m: ' confirm
@@ -136,7 +161,7 @@ fi
 if [[ ! $(command -v polybar 2>&1) ]]; then
     read -p $'\e[1;93mInstall Mpv? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S mpv || exit 1
+        installpkg mpv || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Mpv configs? (Y/N)\e[0m: ' confirm
@@ -149,7 +174,7 @@ fi
 if [[ ! $(command -v tmux 2>&1) ]]; then
     read -p $'\e[1;93mInstall Tmux? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S tmux || exit 1
+        installpkg tmux || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Tmux configs? (Y/N)\e[0m: ' confirm
@@ -162,7 +187,7 @@ fi
 if [[ ! $(command -v ranger 2>&1) ]]; then
     read -p $'\e[1;93mInstall Ranger? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S ranger atool file highlight poppler python-ueberzug atool pdftoppm || exit 1
+        installpkg ranger atool file highlight poppler python-ueberzug atool pdftoppm || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Ranger configs? (Y/N)\e[0m: ' confirm
@@ -175,7 +200,7 @@ fi
 if [[ ! $(command -v zathura 2>&1) ]]; then
     read -p $'\e[1;93mInstall Zathura? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S zathura zathura-pdf-poppler zathura-cb zathura-djvu || exit 1
+        installpkg zathura zathura-pdf-poppler zathura-cb zathura-djvu || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Zathura configs? (Y/N)\e[0m: ' confirm
@@ -188,7 +213,7 @@ fi
 if [[ ! $(command -v sxiv 2>&1) ]]; then
     read -p $'\e[1;93mInstall Sxiv? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S sxiv || exit 1
+        installpkg sxiv || exit 1
     fi
 fi
 read -p $'\e[1;93mCopy Sxiv configs? (Y/N)\e[0m: ' confirm
@@ -201,7 +226,7 @@ fi
 if [[ ! $(command -v transmission-remote 2>&1) ]]; then
     read -p $'\e[1;93mInstall Transmission? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S transmission-cli || exit 1
+        installpkg transmission-cli || exit 1
         yay -S tremc-git || exit 1
     fi
 fi
@@ -219,7 +244,7 @@ fi
 if [[ ! $(command -v rg 2>&1) ]]; then
     read -p $'\e[1;93mInstall rg? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S ripgrep || exit 1
+        installpkg ripgrep || exit 1
     fi
 fi
 
@@ -227,7 +252,11 @@ fi
 if [[ ! $(command -v fd 2>&1) ]]; then
     read -p $'\e[1;93mInstall fd? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S fd || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            installpkg fd-find || exit 1
+        else
+            installpkg fd || exit 1
+        fi
     fi
 fi
 
@@ -235,7 +264,11 @@ fi
 if [[ ! $(command -v bat 2>&1) ]]; then
     read -p $'\e[1;93mInstall bat? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S bat || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            wget https://github.com/sharkdp/bat/releases/download/v0.18.0/bat_0.18.0_amd64.deb && sudo dpkg -i bat_0.18.0_amd64.deb && rm bat_0.18.0_amd64.deb || exit 1
+        else
+            installpkg bat || exit 1
+        fi
     fi
 fi
 
@@ -243,7 +276,7 @@ fi
 if [[ ! $(command -v fzf 2>&1) ]]; then
     read -p $'\e[1;93mInstall fzf? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S fzf || exit 1
+        installpkg fzf || exit 1
     fi
 fi
 
@@ -251,7 +284,7 @@ fi
 if [[ ! $(command -v trans 2>&1) ]]; then
     read -p $'\e[1;93mInstall translate-shell? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S translate-shell rlwrap || exit 1
+        installpkg translate-shell rlwrap || exit 1
     fi
 fi
 
@@ -267,7 +300,11 @@ fi
 if [[ ! $(command -v tldr 2>&1) ]]; then
     read -p $'\e[1;93mInstall tldr? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        yay -S tldr-bash-git || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            installpkg tldr || exit 1
+        else
+            yay -S tldr-bash-git || exit 1
+        fi
         tldr --update
     fi
 fi
@@ -276,7 +313,7 @@ fi
 if [[ ! $(command -v lsd 2>&1) ]]; then
     read -p $'\e[1;93mInstall lsd? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S lsd || exit 1
+        installpkg lsd || exit 1
     fi
 fi
 
@@ -284,7 +321,7 @@ fi
 if [[ ! $(command -v clipmenu 2>&1) ]]; then
     read -p $'\e[1;93mInstall clipmenu? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        sudo pacman -S clipmenu || exit 1
+        installpkg clipmenu || exit 1
     fi
 fi
 
