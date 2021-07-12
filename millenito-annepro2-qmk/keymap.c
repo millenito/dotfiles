@@ -7,6 +7,11 @@ enum anne_pro_layers {
   _BASE_LAYER,
   _FN1_LAYER,
   _FN2_LAYER,
+  _GAME_LAYER,
+};
+
+enum combos {
+    GAME_MODE_RCTRL_G
 };
 
 // Key symbols are based on QMK. Use them to remap your keyboard
@@ -88,9 +93,36 @@ enum anne_pro_layers {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN1_LAYER), MO(_FN2_LAYER), KC_TRNS
  ),
+ /*
+  * Layer _GAME_LAYER 
+  * ,-----------------------------------------------------------------------------------------.
+  * | ` |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |    Bksp   |
+  * |-----------------------------------------------------------------------------------------+
+  * | Tab    |  q  |  w  |  e  |  r  |  t  |  y  |  u  |  i  |  o  |  p  |  [  |  ]  |   \    |
+  * |-----------------------------------------------------------------------------------------+
+  * | Ctrl    |  a  |  s  |  d  |  f  |  g  |  h  |  j  |  k  |  l  |  ;  |  '  |    Enter    |
+  * |-----------------------------------------------------------------------------------------+
+  * | Shift      |  z  |  x  |  c  |  v  |  b  |  n  |  m  |  ,  |  .  |  /  |    Shift       |
+  * |-----------------------------------------------------------------------------------------+
+  * | Ctrl  |  FN1 |  Alt  |               space             |  L1  |  FN1  |  FN2  | Ctrl  |
+  * \-----------------------------------------------------------------------------------------/
+  */
+ [_GAME_LAYER] = KEYMAP(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, MO(_FN1_LAYER), KC_TRNS, KC_SPC, KC_LGUI, KC_TRNS, KC_TRNS, KC_TRNS
+ ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
 
+// M + G to switch to game mode (normal space, move win to RALT, win becomes layer1 hold)
+const uint16_t PROGMEM game_mode_combo[] = {KC_M, KC_G, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+    [GAME_MODE_RCTRL_G] = COMBO_ACTION(game_mode_combo)
+};
 
 void matrix_init_user(void) {
 
@@ -109,6 +141,16 @@ void keyboard_post_init_user(void) {
     // Additionally, it also chooses the first LED profile by default. Refer to the "profiles" array in main.c in
     // annepro2-shine to see the order. Replace "i" with the index of your preferred profile. (i.e the RED profile is index 0)
     // annepro2LedSetProfile(i);
+}
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch(combo_index) {
+        case GAME_MODE_RCTRL_G:
+            if (pressed) {
+                layer_invert(_GAME_LAYER);
+            }
+            break;
+    }
 }
 
 layer_state_t layer_state_set_user(layer_state_t layer) {

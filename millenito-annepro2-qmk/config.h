@@ -6,3 +6,6 @@
 
 // Send mod if released without pressing another key
 #define RETRO_TAPPING
+
+// Define amount of combos to be used
+#define COMBO_COUNT 1 
