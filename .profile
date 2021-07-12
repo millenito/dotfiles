@@ -17,6 +17,7 @@ export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
 export SCRIPTS="$HOME/scripts"
 export KULIAH="$HOME/Documents/Kuliah/Semester 6"
+export QMK="$HOME/Downloads/annepro2_qmk/annepro-qmk" # annepro2 keyboard qmk build dir
 
 # fzf commands & options
 if type rg > /dev/null 2>&1; then

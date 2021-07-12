@@ -247,6 +247,8 @@ alias dot='cd "$DOTFILES"'
 alias note='cd "$NOTES"'
 alias kul='cd "$KULIAH"'
 alias scr='cd "$SCRIPTS"'
+alias qmk='cd "$QMK" && make annepro2/c18'
+alias qmk_flash="sudo ./annepro2_tools annepro2_c18_millenito-annepro2-qmk.bin"
 
 # localan php53 & php70
 # alias p5='cd "$P5"'
