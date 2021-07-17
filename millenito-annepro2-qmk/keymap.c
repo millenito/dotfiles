@@ -54,11 +54,11 @@ enum combos {
   * ,-----------------------------------------------------------------------------------------.
   * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |  DELETE   |
   * |-----------------------------------------------------------------------------------------+
-  * | Tab    |  q  | w  | END |  r  |  t  |  y  |  u  | PGDN |  PGUP  | PS | HOME | END |  \  |
+  * | Tab    |  q  | w  | END |  r  |  t  |  y  |  V-DWN  | V-UP |  MUTE  | UP | HOME | END | PS |
   * |-----------------------------------------------------------------------------------------+
-  * | Esc     |HOME | s | d |  f  |  g  |  LEFT  |  DOWN  |  UP  |  RIGHT  | PGUP|PGDN | Enter|
+  * | Esc     |HOME | s | d |  RIGHT  |  g  |  LEFT  |  DOWN  |  UP  |  RIGHT  | PGDN|PGUP | Enter|
   * |-----------------------------------------------------------------------------------------+
-  * | Shift      | z | x | c |  v  |  V-UP  |  V-DWN  |  MUTE  |  ,  |INSRT| DEL |    Shift   |
+  * | Shift      |  z  |  x  |  c  |  v  |  LEFT  |  DOWN  |  m  |  ,  |INSRT| DEL |  Shift   |
   * |-----------------------------------------------------------------------------------------+
   * | Ctrl  |  L1   |  Alt  |               space             |  Alt  |  FN1  |  FN2  | Ctrl  |
   * \-----------------------------------------------------------------------------------------/
@@ -66,9 +66,9 @@ enum combos {
   */
  [_FN1_LAYER] = KEYMAP(
     KC_GRV, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DEL,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_END, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PGDN, KC_PGUP, KC_PSCR, KC_HOME, KC_END, KC_TRNS,
-    KC_TRNS, KC_HOME, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_PGUP, KC_PGDN, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_END, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_UP, KC_HOME, KC_END, KC_PSCR,
+    KC_TRNS, KC_HOME, KC_TRNS, KC_TRNS, KC_RGHT, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_PGDN, KC_PGUP, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_TRNS, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN2_LAYER), KC_TRNS
 ),
   /*
@@ -154,5 +154,34 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t layer) {
+    switch(get_highest_layer(layer)) {
+        case _FN1_LAYER:
+            // Set the leds to green
+            annepro2LedSetForegroundColor(0x00, 0xFF, 0x00);
+            break;
+        case _FN2_LAYER:
+            // Set the leds to blue
+            annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
+            break;
+        default:
+            // Reset back to the current profile
+            annepro2LedResetForegroundColor();
+            break;
+    }
     return layer;
+}
+
+// The function to handle the caps lock logic
+bool led_update_user(led_t leds) {
+    if (leds.caps_lock) {
+        // Set the leds to red
+        annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
+    } else {
+        // Reset back to the current profile if there is no layer active
+        if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_GAME_LAYER)) {
+            annepro2LedResetForegroundColor();
+        }
+    }
+
+    return true;
 }
