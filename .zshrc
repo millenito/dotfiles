@@ -248,8 +248,8 @@ alias note='cd "$NOTES"'
 alias kul='cd "$KULIAH"'
 alias scr='cd "$SCRIPTS"'
 alias qmk='cd "$QMK"'
-alias qmk_make='make annepro2/c18'
-alias qmk_flash="sudo ./annepro2_tools annepro2_c18_millenito-annepro2-qmk.bin"
+alias qmk_make='make annepro2/c18 && echo " Press LSHIFT + RSHIFT + B on Anne Pro 2 keyboard to enter IAP mode before flashing"'
+alias qmk_flash="sudo ./annepro2_tools --boot annepro2_c18_millenito-annepro2-qmk.bin"
 
 # localan php53 & php70
 # alias p5='cd "$P5"'
