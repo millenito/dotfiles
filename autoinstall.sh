@@ -3,7 +3,7 @@
 # If using ubuntu or debian
 if type apt >/dev/null 2>&1; then
 	DISTRO="debian"
-	installpkg(){ sudo apt-get install -y "$1"; }
+	installpkg(){ sudo apt-get -y install "$1"; }
 else
 # else using arch or manjaro
 	DISTRO="arch"
@@ -73,7 +73,11 @@ fi
 if [[ ! $(command -v /usr/bin/vim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Vim? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        installpkg gvim ctags || exit 1 # Because gvim includes vim with clipboard support in arch
+        if [[ $DISTRO = 'debian' ]]; then
+            installpkg vim vim-gtk3g universal-ctags || exit 1
+        else
+            installpkg vim gvim ctags || exit 1 # Because gvim includes vim with clipboard support in arch
+        fi
     fi
 fi
 read -p $'\e[1;93mCopy Vim configs? (Y/N)\e[0m: ' confirm
@@ -88,8 +92,8 @@ if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
         if [[ $DISTRO = 'debian' ]]; then
             installpkg ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip || exit 1
-            git clone git@github.com:neovim/neovim.git && cd neovim && make CMAKE_BUILD_TYPE=Release && sudo make install || exit 1
-            installpkg python-neovim python3-neovim || exit 1
+            git clone git@github.com:neovim/neovim.git && cd neovim && git checkout stable && make -j4 && sudo make install || exit 1
+            installpkg python3-neovim || exit 1
         else
             yay -S neovim python-neovim  || exit 1
         fi
@@ -98,13 +102,13 @@ fi
 read -p $'\e[1;93mCopy Nvim configs? (will install nodejs, npm & yarn for coc plugin) (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     if [[ $DISTRO = 'debian' ]]; then
-            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_15.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
+            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_14.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
         else
             [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && installpkg nodejs yarn npm || exit 1
     fi
-    installpkg ctags || exit 1
-    [ -d ~/.config/nvim/ ] && cp ~/.config/nvim/ ~/"${BACKUP}"/ && rm -f ~/.config/nvim/
-    [ -d ~/.config/coc/ ] && cp ~/.config/coc/ ~/"${BACKUP}"/ && rm -f ~/.config/coc/
+    installpkg ctags || installpkg universal-ctags || exit 1
+    [ -d ~/.config/nvim/ ] && cp -R ~/.config/nvim/ ~/"${BACKUP}"/ && rm -rf ~/.config/nvim/
+    [ -d ~/.config/coc/ ] && cp -R ~/.config/coc/ ~/"${BACKUP}"/ && rm -rf ~/.config/coc/
     ln -sfv $(pwd)/.config/nvim/ ~/.config/ && nvim -es -V -u ~/.config/nvim/init.vim -i NONE -c "PlugInstall" -c "qa"
     ln -sfv $(pwd)/.config/coc/ ~/.config/ && npm install --prefix ~/.config/coc/extensions/
     sudo npm i -g bash-language-server
@@ -292,7 +296,11 @@ fi
 if [[ ! $(command -v howdoi 2>&1) ]]; then
     read -p $'\e[1;93mInstall howdoi? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        yay -S howdoi || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            installpkg python3-pip && pip install howdoi || exit 1
+        else
+            yay -S howdoi || exit 1
+        fi
     fi
 fi
 
@@ -313,7 +321,11 @@ fi
 if [[ ! $(command -v lsd 2>&1) ]]; then
     read -p $'\e[1;93mInstall lsd? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        installpkg lsd || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            wget https://github.com/Peltoche/lsd/releases/download/0.20.1/lsd_0.20.1_amd64.deb && sudo dpkg -i lsd_0.20.1_amd64.deb && rm lsd_0.20.1_amd64.deb || exit 1
+        else
+            installpkg lsd || exit 1
+        fi
     fi
 fi
 
