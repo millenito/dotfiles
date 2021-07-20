@@ -90,9 +90,10 @@ fi
 if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
     read -p $'\e[1;93mInstall Nvim? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        [[ ! $(command -v xsel -v 2>&1) || ! $(command -v wl-clipboard -v 2>&1) ]] && echo -e "\e[1;93mInstalling xsel!" && installpkg xsel || exit 1
         if [[ $DISTRO = 'debian' ]]; then
             installpkg ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip || exit 1
-            git clone git@github.com:neovim/neovim.git && cd neovim && git checkout stable && make -j4 && sudo make install || exit 1
+            git clone git@github.com:neovim/neovim.git && cd neovim && git checkout stable && make CMAKE_BUILD_TYPE=Release -j4 && sudo make install || exit 1
             installpkg python3-neovim || exit 1
         else
             yay -S neovim python-neovim  || exit 1
