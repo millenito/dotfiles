@@ -8,6 +8,7 @@ enum anne_pro_layers {
   _FN1_LAYER,
   _FN2_LAYER,
   _GAME_LAYER,
+  _MOUSE_LAYER,
 };
 
 enum combos {
@@ -47,7 +48,7 @@ enum combos {
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
     MT(MOD_LCTL,KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    MT(MOD_LCTL,KC_CAPS), KC_LGUI, KC_LALT, LT(_FN1_LAYER,KC_SPC), KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    MT(MOD_LCTL,KC_CAPS), KC_LGUI, KC_LALT, LT(_FN1_LAYER,KC_SPC), TT(_MOUSE_LAYER), LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
   /*
   * Layer _FN1_LAYER
@@ -94,13 +95,13 @@ enum combos {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN1_LAYER), MO(_FN2_LAYER), KC_TRNS
  ),
  /*
-  * Layer _GAME_LAYER 
+  * Layer _GAME_LAYER (Same as base but with normal space and LCTRL)
   * ,-----------------------------------------------------------------------------------------.
   * | ` |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |    Bksp   |
   * |-----------------------------------------------------------------------------------------+
   * | Tab    |  q  |  w  |  e  |  r  |  t  |  y  |  u  |  i  |  o  |  p  |  [  |  ]  |   \    |
   * |-----------------------------------------------------------------------------------------+
-  * | Ctrl    |  a  |  s  |  d  |  f  |  g  |  h  |  j  |  k  |  l  |  ;  |  '  |    Enter    |
+  * | Ctrl/Esc    |  a  |  s  |  d  |  f  |  g  |  h  |  j  |  k  |  l  |  ;  |  '  |    Enter    |
   * |-----------------------------------------------------------------------------------------+
   * | Shift      |  z  |  x  |  c  |  v  |  b  |  n  |  m  |  ,  |  .  |  /  |    Shift       |
   * |-----------------------------------------------------------------------------------------+
@@ -112,8 +113,29 @@ enum combos {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, MO(_FN1_LAYER), KC_TRNS, KC_SPC, KC_LGUI, KC_TRNS, KC_TRNS, KC_TRNS
+    KC_LCTRL, MO(_FN1_LAYER), KC_TRNS, KC_SPC, KC_LGUI, KC_TRNS, KC_TRNS, KC_TRNS
  ),
+ /*
+  * Layer _MOUSE_LAYER 
+  * ,-----------------------------------------------------------------------------------------.
+  * | ` |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |    Bksp   |
+  * |-----------------------------------------------------------------------------------------+
+  * | Tab    |  q  |  w  |  e  |  r  |  t  | WL-L | WL-D |  WL-U  |  WL-L  |  p  |  [  |  ]  |   \    |
+  * |-----------------------------------------------------------------------------------------+
+  * | Ctrl    |  a  |  ACL0  |  ACL1  |  ACL2  |  g  |  MS-L  |  MS-D  |  MS-U  |  MS-R  |  BTN2  |  '  |    BTN2    |
+  * |-----------------------------------------------------------------------------------------+
+  * | Shift      |  z  |  x  |  c  |  v  |  b  |  n  |  m  |  ,  |  .  |  /  |    Shift       |
+  * |-----------------------------------------------------------------------------------------+
+  * | Ctrl  |  L1   |  Alt  |               BTN1             |  Alt  |  FN1  |  FN2  | Ctrl  |
+  * \-----------------------------------------------------------------------------------------/
+  */
+ [_MOUSE_LAYER] = KEYMAP(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_ACL0, KC_ACL1, KC_ACL2, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_BTN2, KC_TRNS, KC_BTN2,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN3, KC_BTN4, KC_BTN5, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
 
@@ -136,13 +158,14 @@ void keyboard_post_init_user(void) {
     // Here are two common functions that you can use. For more LED functions, refer to the file "qmk_ap2_led.h"
 
     // annepro2-shine disables LEDs by default. Uncomment this function to enable them at startup.
-    // annepro2LedEnable();
+    annepro2LedEnable();
 
     // Additionally, it also chooses the first LED profile by default. Refer to the "profiles" array in main.c in
     // annepro2-shine to see the order. Replace "i" with the index of your preferred profile. (i.e the RED profile is index 0)
     // annepro2LedSetProfile(i);
 }
 
+// Handle combos
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch(combo_index) {
         case GAME_MODE_RCTRL_G:
@@ -153,15 +176,20 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
+// Change leds colors depending on layer
 layer_state_t layer_state_set_user(layer_state_t layer) {
     switch(get_highest_layer(layer)) {
         case _FN1_LAYER:
             // Set the leds to green
             annepro2LedSetForegroundColor(0x00, 0xFF, 0x00);
             break;
-        case _FN2_LAYER:
+        case _GAME_LAYER:
             // Set the leds to blue
             annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
+            break;
+        case _MOUSE_LAYER:
+            // Set the leds to yellow
+            annepro2LedSetForegroundColor(0xFF, 0xFF, 0x00);
             break;
         default:
             // Reset back to the current profile
@@ -178,7 +206,7 @@ bool led_update_user(led_t leds) {
         annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
     } else {
         // Reset back to the current profile if there is no layer active
-        if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_GAME_LAYER)) {
+        if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_GAME_LAYER) && !layer_state_is(_MOUSE_LAYER)) {
             annepro2LedResetForegroundColor();
         }
     }

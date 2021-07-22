@@ -9,3 +9,6 @@
 
 // Define amount of combos to be used
 #define COMBO_COUNT 1 
+
+// Define amount of taps for layer toggles
+#define TAPPING_TOGGLE 2
