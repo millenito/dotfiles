@@ -347,5 +347,13 @@ if [[ ! $(command -v bwmenu 2>&1) ]]; then
     fi
 fi
 
+#### flameshot #########################################################################
+if [[ ! $(command -v flameshot 2>&1) ]]; then
+    read -p $'\e[1;93mInstall flameshot? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        installpkg flameshot || exit 1
+    fi
+fi
+
 echo -e "\e[1;93mPreviously existing config files are moved to $BACKUP"
 echo -e "\e[1;93mAll Done! please reboot your computer or restart Xorg"
