@@ -1,7 +1,7 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
+export EDITOR=$(which nvim)
+export VISUAL=$(which nvim)
 export READER=/usr/bin/zathura
 export BROWSER=/usr/bin/google-chrome-stable
 export TERMINAL=st
@@ -23,8 +23,16 @@ export QMK="$HOME/Downloads/annepro2_qmk/annepro-qmk" # annepro2 keyboard qmk bu
 if type rg > /dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND="rg --files --follow -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
 fi
-if type fd > /dev/null 2>&1; then
-    export FZF_ALT_C_COMMAND="fd --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+
+# use fdfind instead of fd if on ubuntu/debian
+if type apt >/dev/null 2>&1; then
+    if type fdfind > /dev/null 2>&1; then
+        export FZF_ALT_C_COMMAND="fdfind --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+    fi
+else
+    if type fd > /dev/null 2>&1; then
+        export FZF_ALT_C_COMMAND="fd --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+    fi
 fi
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview '(highlight -O ansi -l {} 2> /dev/null || (bat --style=grid --color=always {} || cat {}) || tree -C {}) 2> /dev/null | head -200' --preview-window='right' --bind='f3:execute(bat --style=numbers --color=always {} || less -f {}),ctrl-g:toggle-preview,ctrl-v:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
 export FZF_ALT_C_OPTS="--ansi --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
@@ -51,4 +59,5 @@ export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 export PATH="$HOME/Android/Sdk/emulator:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$SCRIPTS

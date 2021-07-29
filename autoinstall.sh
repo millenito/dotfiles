@@ -254,12 +254,18 @@ if [[ ! $(command -v rg 2>&1) ]]; then
 fi
 
 #### fd ################################################################################
-if [[ ! $(command -v fd 2>&1) ]]; then
-    read -p $'\e[1;93mInstall fd? (Y/N)\e[0m: ' confirm
-    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        if [[ $DISTRO = 'debian' ]]; then
+if [[ $DISTRO = 'debian' ]]; then
+    if [[ ! $(command -v fdfind 2>&1) ]]; then
+        read -p $'\e[1;93mInstall fd? (Y/N)\e[0m: ' confirm
+        if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
             installpkg fd-find || exit 1
-        else
+            ln -s $(which fdfind) ~/.local/bin/fd
+        fi
+    fi
+else
+    if [[ ! $(command -v fd 2>&1) ]]; then
+        read -p $'\e[1;93mInstall fd? (Y/N)\e[0m: ' confirm
+        if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
             installpkg fd || exit 1
         fi
     fi
