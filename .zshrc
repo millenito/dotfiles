@@ -251,14 +251,12 @@ alias qmk='cd "$QMK"'
 alias qmk_make='make annepro2/c18 && echo " Press LSHIFT + RSHIFT + B on Anne Pro 2 keyboard to enter IAP mode before flashing"'
 alias qmk_flash="sudo ./annepro2_tools --boot annepro2_c18_millenito-annepro2-qmk.bin"
 
-# localan php53 & php70
-# alias p5='cd "$P5"'
-# alias p7='cd "$P7"'
-alias p5up='cd "$P5" && vagrant up'
-alias p7up='cd "$P7" && vagrant up'
-alias p5halt='cd "$P5" && vagrant halt'
-alias p7halt='cd "$P7" && vagrant halt'
+# Open ssh configs in editor
+vssh(){
+    $EDITOR ~/.ssh/config
+}
 
+# localan php53 & php70
 p5(){
     cd "${P5}/$1"
 }
@@ -274,19 +272,19 @@ launchl(){
     case "$(pwd)" in
         *"$P5"*)
             CURDIR=$(pwd | sed "s|"${P5}"||g")
-            [ ! $(docker ps | grep php5apache) ] && docker start php5apache
+            [ ! $(docker ps | grep php53_apache) ] && docker start php53_apache
             $BROWSER "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
         *"$P7"*)
             CURDIR=$(pwd | sed "s|"${P7}"||g")
-            [ ! $(docker ps | grep php7apache) ] && docker start php7apache
-            # $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
-            $BROWSER "http://localhost:8080/${CURDIR}" >/dev/null 2>&1 & ;;
+            [ ! $(docker ps | grep php73_apache) ] && docker start php73_apache
+            $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+            # $BROWSER "http://localhost:8080/${CURDIR}" >/dev/null 2>&1 & ;;
     esac
 }
 
 # start docker development server
-alias ds5='docker start php5apache'
-alias ds7='docker start php7apache'
+alias ds5='docker start php53_apache'
+alias ds7='docker start php73_apache'
 
 # use neovim if available
 if type nvim > /dev/null 2>&1; then
@@ -383,6 +381,7 @@ fp()
 # # usage: ex <file>
 ex ()
 {
+    NEWDIR=$(echo "$1" | sed 's/\.[^.]*$//')
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xvjf $1 -c $1  ;;
@@ -393,7 +392,7 @@ ex ()
       *.tar)       tar xvf $1 -c $1    ;;
       *.tbz2)      tar xjf $1 -c $1  ;;
       *.tgz)       tar xvzf $1 -c $1  ;;
-      *.zip)       unzip $1 -d $1     ;;
+      *.zip)       mkdir "$NEWDIR" && unzip $1 -d "$NEWDIR"     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
