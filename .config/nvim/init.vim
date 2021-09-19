@@ -581,7 +581,7 @@ augroup end
 
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
 let g:loaded_python_provider = 0
-let g:loaded_python3_provider = 0
+" let g:loaded_python3_provider = 0
 let g:python_host_prog = ''
 let g:python3_host_prog = ''
 
@@ -1052,7 +1052,7 @@ autocmd! User GoyoLeave Limelight!
 au VimEnter * call Load_Coc()
 function! Load_Coc()
     if exists(':CocCommand')
-        let g:coc_global_extensions = ["coc-yank",
+        let g:coc_global_extensions = [
                     \ "coc-snippets",
                     \ "coc-explorer",
                     \ "coc-prettier",
@@ -1109,6 +1109,9 @@ function! Load_Coc()
 
         " Rename symbol
         nmap <silent> <leader>cR <Plug>(coc-rename)
+
+        " Disable auto pairs coc extension
+        noremap <leader>cp :call CocAction('toggleExtension', 'coc-pairs')<CR>
 
         " format menggunakan lsp dari coc dengan <leader>f+<motion> atau pilih dulu dari visual mode & Format satu file
         xmap <leader>f  <Plug>(coc-format-selected)
