@@ -102,10 +102,8 @@ if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
 fi
 read -p $'\e[1;93mCopy Nvim configs? (will install nodejs, npm & yarn for coc plugin) (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-    if [[ $DISTRO = 'debian' ]]; then
-            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_14.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
-        else
-            [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]] && echo -e "\e[1;93mInstalling nodejs npm & yarn!" && installpkg nodejs yarn npm || exit 1
+    if [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]]; then
+        echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_14.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
     fi
     installpkg ctags || installpkg universal-ctags || exit 1
     [ -d ~/.config/nvim/ ] && cp -R ~/.config/nvim/ ~/"${BACKUP}"/ && rm -rf ~/.config/nvim/
