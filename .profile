@@ -11,7 +11,7 @@ export TERMINAL=st
 # set personal path variables
 export PROJECTS="$HOME/projects"
 export P5="$PROJECTS/localhost/PHP53/" # vagrant localan php5
-export P7="$PROJECTS/localhost/PHP70/" # vagrant localan php7
+export P7="$PROJECTS/localhost/PHP73/" # vagrant localan php7
 
 export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
@@ -61,3 +61,4 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$SCRIPTS
+[ -z ${WSLENV+x} ] || export PATH="${PATH:+"$PATH:"}$SCRIPTS/xclip-xsel-WSL"
