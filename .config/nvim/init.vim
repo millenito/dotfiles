@@ -611,11 +611,11 @@ let g:matchup_matchparen_insert_timeout = 60
 let g:asyncrun_exit = "echo 'finished compiling!'"
 
 " fugitive-vim git keymaps
-noremap <silent> <leader>gB :Gblame<cr>
-noremap <silent> <leader>gs :Gstatus<cr>
+noremap <silent> <leader>gB :Git blame<cr>
+noremap <silent> <leader>gs :Git<cr>
 noremap <silent> <leader>gd :Gdiff<cr>
-noremap <silent> <leader>gc :Gcommit<cr>
-noremap <silent> <leader>gp :Gpush<cr>
+noremap <silent> <leader>gc :Git commit<cr>
+noremap <silent> <leader>gp :Git push<cr>
 " from fzf.vim
 noremap <silent> <leader>gl :Commits!<cr>
 noremap <silent> <leader>g'l :BCommits!<cr>
