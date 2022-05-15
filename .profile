@@ -1,6 +1,6 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export EDITOR=$(which nvim)
+export EDITOR=nvim
 export VISUAL=$(which nvim)
 export READER=/usr/bin/zathura
 export BROWSER=/usr/bin/google-chrome-stable
@@ -16,7 +16,7 @@ export P7="$PROJECTS/localhost/PHP73/" # vagrant localan php7
 export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
 export SCRIPTS="$HOME/scripts"
-export KULIAH="$HOME/Documents/Kuliah/Semester 6"
+export KULIAH="$HOME/Documents/Kuliah/Semester 8"
 export QMK="$HOME/Downloads/annepro2_qmk/annepro-qmk" # annepro2 keyboard qmk build dir
 
 # fzf commands & options
@@ -58,7 +58,8 @@ export PATH="$HOME/Android/Sdk/tools/bin:$PATH"
 export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 export PATH="$HOME/Android/Sdk/emulator:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:/usr/local/gcc_arm/gcc-arm-none-eabi-10.3-2021.10/bin/"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$SCRIPTS
 [ -z ${WSLENV+x} ] || export PATH="${PATH:+"$PATH:"}$SCRIPTS/xclip-xsel-WSL"
+. "$HOME/.cargo/env"
