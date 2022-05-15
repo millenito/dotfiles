@@ -4,10 +4,17 @@
 if type apt >/dev/null 2>&1; then
 	DISTRO="debian"
 	installpkg(){ sudo apt-get -y install "$1"; }
+    installpkg2(){ sudo apt-get -y install "$1"; }
+elif type brew >/dev/null 2>&1; then
+# If using macosx
+	DISTRO="macos"
+	installpkg(){ brew install "$1"; }
+    installpkg2(){ brew install --cask "$1"; }
 else
 # else using arch or manjaro
 	DISTRO="arch"
 	installpkg(){ sudo pacman -S "$1"; }
+    installpkg2(){ sudo pacman -S "$1"; }
 fi
 
 BACKUP="original-dotfiles"
@@ -95,6 +102,8 @@ if [[ ! $(command -v /usr/bin/nvim 2>&1) ]]; then
             installpkg ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip || exit 1
             git clone git@github.com:neovim/neovim.git && cd neovim && git checkout stable && make CMAKE_BUILD_TYPE=Release -j4 && sudo make install || exit 1
             installpkg python3-neovim || exit 1
+        elif [[ $DISTRO = 'macos' ]]; then
+            installpkg neovim
         else
             yay -S neovim python-neovim  || exit 1
         fi
@@ -103,7 +112,11 @@ fi
 read -p $'\e[1;93mCopy Nvim configs? (will install nodejs, npm & yarn for coc plugin) (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     if [[ ! $(command -v node -v 2>&1) && ! $(command -v npm -v 2>&1) && ! $(command -v yarn -v 2>&1) ]]; then
-        echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_14.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
+        if [[ $DISTRO = 'debian' ]]; then
+            echo -e "\e[1;93mInstalling nodejs npm & yarn!" && curl -fsSL https://deb.nodesource.com/setup_14.x | sudo bash - && installpkg nodejs npm && sudo npm install -g yarn || exit 1
+        elif [[ $DISTRO = 'macos' ]]; then
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && source ~/.zshrc && nvm install 16 && nvm use 16
+        fi
     fi
     installpkg ctags || installpkg universal-ctags || exit 1
     [ -d ~/.config/nvim/ ] && cp -R ~/.config/nvim/ ~/"${BACKUP}"/ && rm -rf ~/.config/nvim/
@@ -118,6 +131,8 @@ read -p $'\e[1;93mInstall personal build of St? (Y/N)\e[0m: ' confirm
 if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     if [[ $DISTRO = 'debian' ]]; then
             wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip && mkdir Iosevka && unzip Iosevka.zip -d Iosevka && sudo mv Iosevka /usr/local/share/fonts && rm -rf Iosevka.zip Iosevka
+    elif [[ $DISTRO = 'macos' ]]; then
+        brew tap homebrew/cask-fonts &&  installpkg2 font-iosevka-nerd-font
         else
             yay -S nerd-fonts-iosevka
     fi
@@ -355,7 +370,7 @@ fi
 if [[ ! $(command -v flameshot 2>&1) ]]; then
     read -p $'\e[1;93mInstall flameshot? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
-        installpkg flameshot || exit 1
+        installpkg2 flameshot || exit 1
     fi
 fi
 
