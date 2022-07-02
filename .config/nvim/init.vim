@@ -67,8 +67,10 @@ Plug 'junegunn/fzf.vim'                                                         
 Plug 'moll/vim-bbye'                                                                       " Hapus buffer tanpa menhilangkan window/layout
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
-Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll)
+Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll) saat menekan %
 Plug 'christoomey/vim-tmux-navigator'                                                      " Integrasi split panes dengan pane tmux (C-hjkl antara split di vim dengan split pane tmux)
+Plug 'Konfekt/FastFold'                                                                    " mempercepat vim dengan mengubah cara kerja fold
+Plug 'unblevable/quick-scope'                                                              " Highlight karakter unik pada baris untuk lebih mudah menentukan target untuk f F t T
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim'                                                               " bar dibawah
@@ -85,7 +87,7 @@ Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'mhinz/vim-startify'                                                                  " Start menu saat buka vim tanpa argument
 " Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle'}                                                                  " Memberi warna pada rgb/hex
 Plug 'chrisbra/Colorizer'                                                                  " Memberi warna pada rgb/hex
-Plug 'psliwka/vim-smoothie'                                                                " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
+" Plug 'psliwka/vim-smoothie'                                                                " Smooth scroll saat <C-f>/<C-b> <C-u>/<C-d>
 Plug 'RRethy/vim-illuminate'                                                               " Highlight kata yang sama dengan yg di cursor pada layar
 Plug 'ryanoasis/vim-devicons'
 
@@ -101,6 +103,12 @@ set laststatus=2                                                                
 " set showtabline=2                                                                          " Show tabline for lightline bufferline
 set noshowmode                                                                             " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
 set cmdheight=1
+
+augroup qs_colors
+    autocmd!
+    autocmd ColorScheme * highlight QuickScopePrimary guifg='#f5a06e' gui=underline ctermfg=155 cterm=underline
+    autocmd ColorScheme * highlight QuickScopeSecondary guifg='#e82113' gui=underline ctermfg=81 cterm=underline
+augroup END
 
 " " Ayu colorscheme
 " let ayucolor="dark" " dark/mirage/light
@@ -153,7 +161,7 @@ set encoding=UTF-8
 set hidden                               " Pindah ke buffer lain tanpa perlu save
 " set number                               " Membuat baris nomor di sebelah kiri seperti IDE
 " set relativenumber                       " Membuat baris nomor relatif dari baris cursor
-" set cursorline                           " Highlight baris cursor berada
+set cursorline                           " Highlight baris cursor berada
 set lazyredraw
 set nowrap                               " Agar text panjang tidak terpotong ke baris selanjutnya (untuk coding)
 set title                                " biar keliatan window title nya
@@ -161,16 +169,16 @@ set tabstop=4                            " Mengubah tombol <TAB> ketika dipencet
 set expandtab
 set shiftwidth=4                         " indent 4 spasi
 set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
-set updatetime=200                       " Update time untuk plugin-plugin
+set updatetime=2000                       " Update time untuk plugin-plugin
 " set shell=/usr/bin/zsh 					 " Set shell jadi zsh
 " set winblend=20
 syntax on                                " Memastikan syntax untuk color theme selalu nyala
 " disable relativenumber & cursorline in insert mode / disable all line numbers on focusout
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber  noshowmode "cursorline
-  autocmd BufLeave,winLeave,FocusLost  			    * set number norelativenumber "nocursorline
-  autocmd InsertEnter               				* set norelativenumber number  "nocursorline
+  autocmd BufEnter,winEnter,FocusGained,InsertLeave * set number relativenumber  noshowmode cursorline
+  autocmd BufLeave,winLeave,FocusLost  			    * set number norelativenumber nocursorline
+  autocmd InsertEnter               				* set norelativenumber number  nocursorline
 augroup END
 
 augroup autoreadfile
