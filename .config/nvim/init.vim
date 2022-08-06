@@ -104,9 +104,11 @@ set laststatus=2                                                                
 set noshowmode                                                                             " Menghilangkan tulisan --INSERT-- default karena sudah ada lightline
 set cmdheight=1
 
+" Vim quickscope has to be before colosrscheme configs
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 augroup qs_colors
     autocmd!
-    autocmd ColorScheme * highlight QuickScopePrimary guifg='#f5a06e' gui=underline ctermfg=155 cterm=underline
+    autocmd ColorScheme * highlight QuickScopePrimary guifg='#00C7DF' gui=underline ctermfg=155 cterm=underline
     autocmd ColorScheme * highlight QuickScopeSecondary guifg='#e82113' gui=underline ctermfg=81 cterm=underline
 augroup END
 
