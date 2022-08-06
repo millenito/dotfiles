@@ -192,7 +192,7 @@ case $TERM in
 esac
 
 # Random man page everytime a terminal opens
-man $(find /usr/share/man/man1 -type f | shuf | head -1) | head -25 
+# man $(find /usr/share/man/man1 -type f | shuf | head -1) | head -25
 
 # # Change cursor shape for different vi modes.
 # function zle-keymap-select {
@@ -273,11 +273,13 @@ launchl(){
         *"$P5"*)
             CURDIR=$(pwd | sed "s|"${P5}"||g")
             [ ! $(docker ps | grep php53_apache) ] && docker start php53_apache
-            $BROWSER "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
+            open -a "Google Chrome" "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
+            # $BROWSER "http://localhost:8085/${CURDIR}" >/dev/null 2>&1 & ;;
         *"$P7"*)
             CURDIR=$(pwd | sed "s|"${P7}"||g")
             [ ! $(docker ps | grep php73_apache) ] && docker start php73_apache
-            $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+             open -a "Google Chrome" "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
+            # $BROWSER "http://localhost:8073/${CURDIR}" >/dev/null 2>&1 & ;;
             # $BROWSER "http://localhost:8080/${CURDIR}" >/dev/null 2>&1 & ;;
     esac
 }
@@ -430,3 +432,7 @@ alias vf=fv # Alias kalau salah
 stty -ixon
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
