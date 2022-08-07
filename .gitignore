@@ -12,3 +12,4 @@ tags
 .ignore
 scripts/odisys/
 .config/mpv/watch_later/*
+.config/lvim/plugin/
