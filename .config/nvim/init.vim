@@ -172,6 +172,7 @@ set expandtab
 set shiftwidth=4                         " indent 4 spasi
 set suffixesadd=.tex,.latex,.md,.php,.js " extension yg akan ditambahkan ke target kalo di 'gf gak ketemu
 set updatetime=2000                       " Update time untuk plugin-plugin
+set mouse=a                                " enable mouse
 " set shell=/usr/bin/zsh 					 " Set shell jadi zsh
 " set winblend=20
 syntax on                                " Memastikan syntax untuk color theme selalu nyala
