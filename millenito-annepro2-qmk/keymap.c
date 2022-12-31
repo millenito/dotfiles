@@ -139,8 +139,8 @@ enum combos {
 };
 const uint16_t keymaps_size = sizeof(keymaps);
 
-// M + G to switch to game mode (normal space, move win to RALT, win becomes layer1 hold)
-const uint16_t PROGMEM game_mode_combo[] = {KC_M, KC_G, COMBO_END};
+// . + / to switch to game mode (normal space, move win to RALT, win becomes layer1 hold)
+const uint16_t PROGMEM game_mode_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [GAME_MODE_RCTRL_G] = COMBO_ACTION(game_mode_combo)

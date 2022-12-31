@@ -131,7 +131,7 @@ enum combos {
   */
  [_MOUSE_LAYER] = KEYMAP(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_WH_R, KC_WH_U, KC_WH_D, KC_WH_L, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_ACL2, KC_ACL1, KC_ACL0, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_BTN2, KC_TRNS, KC_BTN2,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN3, KC_BTN4, KC_BTN5, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
@@ -139,8 +139,8 @@ enum combos {
 };
 const uint16_t keymaps_size = sizeof(keymaps);
 
-// M + G to switch to game mode (normal space, move win to RALT, win becomes layer1 hold)
-const uint16_t PROGMEM game_mode_combo[] = {KC_M, KC_G, COMBO_END};
+// . + / to switch to game mode (normal space, move win to RALT, win becomes layer1 hold)
+const uint16_t PROGMEM game_mode_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [GAME_MODE_RCTRL_G] = COMBO_ACTION(game_mode_combo)
