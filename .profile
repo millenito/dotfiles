@@ -10,8 +10,10 @@ export TERMINAL=st
 
 # set personal path variables
 export PROJECTS="$HOME/projects"
-export P5="$PROJECTS/localhost/PHP53/" # vagrant localan php5
-export P7="$PROJECTS/localhost/PHP73/" # vagrant localan php7
+export P5="$PROJECTS/localhost/PHP53/" # localan php5
+export P7="$PROJECTS/localhost/PHP73/" # localan php7
+export P8="$PROJECTS/localhost/PHP81/" # localan php8
+export NJS="$PROJECTS/localhost/nodejs/" # localan nodejs
 
 export DOTFILES="$HOME/dotfiles/" # dotfiles repo
 export NOTES="$HOME/notes" # notes directory
