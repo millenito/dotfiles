@@ -270,7 +270,7 @@ p8(){
 }
 
 njs(){
-    cd "${njs}/$1"
+    cd "${NJS}/$1"
 }
 compdef '_files -W $P5' p5
 compdef '_files -W $P7' p7
