@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-# If using ubuntu or debian
-if type apt >/dev/null 2>&1; then
-	DISTRO="debian"
-	installpkg(){ sudo apt-get -y install "$1"; }
-    installpkg2(){ sudo apt-get -y install "$1"; }
-elif type brew >/dev/null 2>&1; then
+if type brew >/dev/null 2>&1; then
 # If using macosx
 	DISTRO="macos"
 	installpkg(){ brew install "$1"; }
     installpkg2(){ brew install --cask "$1"; }
+# If using ubuntu or debian
+elif type apt >/dev/null 2>&1; then
+	DISTRO="debian"
+	installpkg(){ sudo apt-get -y install "$1"; }
+    installpkg2(){ sudo apt-get -y install "$1"; }
 else
 # else using arch or manjaro
 	DISTRO="arch"
@@ -371,6 +371,14 @@ if [[ ! $(command -v flameshot 2>&1) ]]; then
     read -p $'\e[1;93mInstall flameshot? (Y/N)\e[0m: ' confirm
     if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
         installpkg2 flameshot || exit 1
+    fi
+fi
+
+#### karabiner #########################################################################
+if [[ -d ~/.config/karabiner/ ]]; then
+    read -p $'\e[1;93mCopy karabiner configs? (Y/N)\e[0m: ' confirm
+    if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
+        ln -sfv $(pwd)/.config/karabiner/ ~/.config/
     fi
 fi
 
