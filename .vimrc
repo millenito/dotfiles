@@ -68,9 +68,24 @@ let mapleader = " "
 " <Esc> remove search highlighting
 "noremap <silent> <esc> :nohl<CR>
 
+" x permanent delete
+nnoremap x "_x
+vnoremap x "_x
+nnoremap X "_X
+vnoremap X "_X
+
+" c permanent delete
+nnoremap c "_c
+vnoremap c "_c
+nnoremap C "_C
+vnoremap C "_C
+
 " Fast escape (no delay)
 vnoremap <Esc> <C-c>
 cnoremap <Esc> <C-c>
+
+" qq to record, Q to replay
+nnoremap Q @q
 
 " Y works like D and C
 noremap Y y$
@@ -87,6 +102,18 @@ noremap <C-k> <C-w>k
 noremap <C-j> <C-w>j
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
+
+" pindahkan baris atas/bawah/kiri/kanan
+nnoremap <silent> <A-k> :move-2<cr>
+nnoremap <silent> <A-j> :move+<cr>
+nnoremap <silent> <A-h> <<
+nnoremap <silent> <A-l> >>
+xnoremap <silent> <A-k> :move-2<cr>gv
+xnoremap <silent> <A-j> :move'>+<cr>gv
+xnoremap <silent> <A-h> <gv
+xnoremap <silent> <A-l> >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Insert new line above/below cursor
 nnoremap <silent> ]<cr> :set paste<CR>m`o<Esc>``:set nopaste<CR>
