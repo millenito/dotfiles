@@ -23,17 +23,17 @@ export QMK="$HOME/Downloads/annepro2_qmk/annepro-qmk" # annepro2 keyboard qmk bu
 
 # fzf commands & options
 if type rg > /dev/null 2>&1; then
-    export FZF_DEFAULT_COMMAND="rg --files --follow -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*' --iglob '!*cargo*'"
+    export FZF_DEFAULT_COMMAND="rg --files --follow -g '*' --hidden --iglob '*/database.php' --iglob '!*.git*' --iglob '!*cache*'"
 fi
 
 # use fdfind instead of fd if on ubuntu/debian
 if type apt >/dev/null 2>&1; then
     if type fdfind > /dev/null 2>&1; then
-        export FZF_ALT_C_COMMAND="fdfind --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+        export FZF_ALT_C_COMMAND="fdfind --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.git*' --follow -t d ."
     fi
 else
     if type fd > /dev/null 2>&1; then
-        export FZF_ALT_C_COMMAND="fd --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.cargo*' --exclude '*.git*' --follow -t d ."
+        export FZF_ALT_C_COMMAND="fd --color=always --hidden --exclude '*Cache*' --exclude '*cache*' --exclude '*.git*' --follow -t d ."
     fi
 fi
 export FZF_DEFAULT_OPTS="--no-mouse --height 70% -1 --reverse --multi --inline-info --preview '(highlight -O ansi -l {} 2> /dev/null || (bat --style=grid --color=always {} || cat {}) || tree -C {}) 2> /dev/null | head -200' --preview-window='right' --bind='f3:execute(bat --style=numbers --color=always {} || less -f {}),ctrl-g:toggle-preview,ctrl-v:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy)'"
@@ -56,6 +56,7 @@ export CM_DIR="/tmp/clipmenu"
 
 export ANDROID_PATH="$HOME/Android/Sdk"
 
+export PATH="$HOME/flutter/bin:$PATH"
 export PATH="$HOME/Android/Sdk/tools/bin:$PATH"
 export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 export PATH="$HOME/Android/Sdk/emulator:$PATH"
@@ -64,4 +65,4 @@ export PATH="$PATH:/usr/local/gcc_arm/gcc-arm-none-eabi-10.3-2021.10/bin/"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$SCRIPTS
 [ -z ${WSLENV+x} ] || export PATH="${PATH:+"$PATH:"}$SCRIPTS/xclip-xsel-WSL"
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
