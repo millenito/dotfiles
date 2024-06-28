@@ -37,6 +37,13 @@ Plug 'honza/vim-snippets'                                                       
 Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                                            " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 Plug 'cosminadrianpopescu/vim-sql-workbench', { 'on': 'SWSqlBufferConnect' }
+Plug 'Rican7/php-doc-modded'
+
+" Laravel
+Plug 'tpope/vim-dispatch'             "|
+Plug 'tpope/vim-projectionist'        "|
+Plug 'noahfrederick/vim-composer'     "|
+Plug 'noahfrederick/vim-laravel'
 
 " Markdown & Note taking
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'on': 'MarkdownPreview', 'for': 'markdown' }  " Preview file markdown secara real-time
@@ -258,6 +265,12 @@ nnoremap x "_x
 vnoremap x "_x
 nnoremap X "_X
 vnoremap X "_X
+
+" c permanent delete
+nnoremap c "_c
+vnoremap c "_c
+nnoremap C "_C
+vnoremap C "_C
 
 " kalo mau keluar suka tahan shift kelamaan
 command! WQ wq
@@ -1106,15 +1119,20 @@ function! Load_Coc()
         autocmd CursorHold * silent call CocActionAsync('highlight')
 
         " <Tab>/Shift+<Tab> & Ctrl+j/Ctrl+k untuk cycle atas bawah completion | enter untuk pilih completion | Ctrl+spasi untuk refresh kembali completion
-        inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+        " inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
         inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-        " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-        if has('patch8.1.1068')
-            " Use `complete_info` if your (Neo)Vim version supports it.
-            inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-        else
-            imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-        endif
+        inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        " if has('patch8.1.1068')
+        "     " Use `complete_info` if your (Neo)Vim version supports it.
+        "     " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        "     inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+        "                 \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        " else
+        "     " imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        "     inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+        "                 \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+        " endif
         inoremap <silent><expr> <c-space> coc#refresh()
 
         " loncat diagnostic coc
@@ -1162,10 +1180,10 @@ function! Load_Coc()
             endif
         endfunction
 
-        function! s:check_back_space() abort
-            let col = col('.') - 1
-            return !col || getline('.')[col - 1]  =~ '\s'
-        endfunction
+        " function! s:check_back_space() abort
+        "     let col = col('.') - 1
+        "     return !col || getline('.')[col - 1]  =~ '\s'
+        " endfunction
 
         " Coc-Flutter
         au Filetype dart command! Flutter CocList --input=flutter commands
@@ -1207,6 +1225,11 @@ endif
 
 let g:git_messenger_include_diff = "current"
 let g:git_messenger_always_into_popup = v:true
+
+" php-doc
+if !empty(glob(pluginsDir . '/php-doc-modded'))
+    nmap <Leader>dc :call PhpDocSingle()<CR>
+endif
 
 function! Setup_git_messenger_popup() abort
 
