@@ -38,6 +38,8 @@ Plug 'bonsaiben/bootstrap-snippets'                                             
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                                            " autocomplete/error checkong/lint/formatter menggunakan languageServerProtocol langsung (lsp) seperti vscode
 Plug 'cosminadrianpopescu/vim-sql-workbench', { 'on': 'SWSqlBufferConnect' }
 Plug 'Rican7/php-doc-modded'
+Plug 'eshion/vim-sftp-sync' " Sftp like vscode
+Plug 'github/copilot.vim'
 
 " Laravel
 Plug 'tpope/vim-dispatch'             "|
@@ -615,8 +617,8 @@ augroup end
 let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
 let g:loaded_python_provider = 0
 " let g:loaded_python3_provider = 0
-let g:python_host_prog = ''
-let g:python3_host_prog = ''
+" let g:python_host_prog = ''
+" let g:python3_host_prog = ''
 
 " # Plugins
 
