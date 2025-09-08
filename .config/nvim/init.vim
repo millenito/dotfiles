@@ -32,6 +32,7 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'diepm/vim-rest-console', { 'for': 'rest' }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpen'] }                         " Bar/panel untuk menampilkan deklarasi function,class,property,method,tags dari file
 Plug 'sheerun/vim-polyglot'                                                                " Language pack for syntax checking,
+Plug 'grafana/vim-alloy'                                                                   " Grafana Alloy syntax highlighting
 Plug 'blueyed/smarty.vim'                                                                  " support untuk fipetype smarty (.tpl) bisa pindah antar tag dengan %
 Plug 'honza/vim-snippets'                                                                  " kumpulan snippets berbagai bahasa
 Plug 'bonsaiben/bootstrap-snippets'                                                        " kumpulan snippet html & bootstrap html yang akan dipakai coc-snippets
@@ -340,6 +341,9 @@ cnoremap <C-v> <C-r>+
 noremap <C-s> :update<CR>
 vnoremap <C-s> <Esc>:update<CR>
 inoremap <C-s> <Esc>:update<CR>
+
+" Copy current file's full path to clipboard
+nnoremap <Leader><C-g> :let @+ = expand('%:p')<CR>:echo "Copied: " . @+<CR>
 
 " WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
@@ -1050,7 +1054,7 @@ let g:yoinkMoveCursorToEndOfPaste = 1
 
 " vim-subversive
 nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
+nmap ss <plug>(SubversiveSubstituteLine):normal ==<CR>
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
 " vim-subversive in visual mode
@@ -1243,6 +1247,7 @@ autocmd FileType gitmessengerpopup call Setup_git_messenger_popup()
 
 " Bookmark buat plugin vim-startify
 let g:startify_bookmarks = [ {'v': '$DOTFILES/.config/nvim/init.vim'},
+            \ {'c': '/Users/lordmaxiemilenito/Library/Application Support/Claude/claude_desktop_config.json'},
 			   \ {'x': '$DOTFILES/.Xresources'},
 			   \ {'i': '$DOTFILES/.i3/config'},
 			   \ {'n': '$NOTES/index.md'},

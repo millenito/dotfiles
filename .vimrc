@@ -16,6 +16,7 @@ syntax on                                                          " Enable synt
 set title                                                          " Proper window title
 set encoding=utf8                                                  " Enable utf8 support
 "set mouse=a                                                        " Enable mouse support
+set mouse=""                                                       " disable mouse support to use tmux yank mode
 set visualbell t_vb=" "                                            " No visual bell
 
 set autoindent                                                     " Indent according to previous line.
