@@ -1,0 +1,127 @@
+alt - return : osascript ~/.config/skhd/iterm.scpt
+
+# move to space
+alt - 1 : yabai -m space --focus 1
+alt - 2 : yabai -m space --focus 2
+alt - 3 : yabai -m space --focus 3
+alt - 4 : yabai -m space --focus 4
+alt - 5 : yabai -m space --focus 5
+alt - 6 : yabai -m space --focus 6
+alt - 7 : yabai -m space --focus 7
+alt - 8 : yabai -m space --focus 8
+
+# Navigation if no window exists then move to monitor
+alt - h : yabai -m window --focus west || yabai -m display --focus west
+alt - j : yabai -m window --focus south || yabai -m display --focus south
+alt - k : yabai -m window --focus north || yabai -m display --focus north
+alt - l : yabai -m window --focus east || yabai -m display --focus east
+
+alt + shift - h : yabai -m window --swap west || $(yabai -m window --display west; yabai -m display --focus west)
+alt + shift - j : yabai -m window --swap south || $(yabai -m window --display south; yabai -m display --focus south)
+alt + shift - k : yabai -m window --swap north || $(yabai -m window --display north; yabai -m display --focus north)
+alt + shift - l : yabai -m window --swap east || $(yabai -m window --display east; yabai -m display --focus east)
+
+# move window to next & previous space
+alt + shift - n : yabai -m window --space next && yabai -m space --focus next
+alt + shift - p : yabai -m window --space prev && yabai -m space --focus prev
+
+# move window to specific space by number
+alt + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
+alt + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2
+alt + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3
+alt + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4
+alt + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5
+alt + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6
+alt + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6
+alt + shift - 7 : yabai -m window --space 7; yabai -m space --focus 7
+alt + shift - 8 : yabai -m window --space 8; yabai -m space --focus 8
+
+# resize window
+#alt - left : yabai -m window --resize left:-50:0; \
+#          yabai -m window --resize right:-50:0
+#alt - down : yabai -m window --resize bottom:0:50; \
+#          yabai -m window --resize top:0:50
+#alt - up : yabai -m window --resize top:0:-50; \
+#          yabai -m window --resize bottom:0:-50
+#alt - right : yabai -m window --resize right:50:0; \
+#                  yabai -m window --resize left:50:0
+
+# close window just like in i3wm
+#alt - q: skhd --key "cmd - w"
+
+# move desktops (alt + tab / alt + shift +tab)
+alt - tab : yabai -m space --focus next || yabai -m space --focus first
+alt + shift - tab : yabai -m space --focus prev || yabai -m space --focus last
+
+# Focus space focused before the current one (so you can alternate)
+alt - escape : yabai -m space --focus recent
+
+# show desktop
+alt - d : yabai -m space --toggle show-desktop
+
+# create new desktop and focus
+alt - n : yabai -m space --create && \
+	index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+	yabai -m space --focus "${index}"
+
+# create new desktop and move currently focus window to new desktop
+alt + ctrl - n : yabai -m space --create && \
+	index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+	yabai -m window --space "${index}" && \
+	yabai -m space --focus "${index}"
+
+# delete current desktop
+alt - backspace : yabai -m space --destroy && yabai -m space --focus last
+
+# delete all unused desktop and move all window to first desktop
+alt + ctrl - backspace :
+	index="$(yabai -m query --spaces --display | jq 'map(select(."has-focus" == true))[0].index')" && \
+	yabai -m space --destroy && \
+	yabai -m space --focus "${index}" || yabai -m space --focus "$(($index - 1))" \
+	&& yabai -m query --spaces --display | \
+	jq -re 'map(select(."is-native-fullscreen" == false)) | length > 1' \
+	&& yabai -m query --spaces | \
+	jq -re 'map(select(."windows" == []).index) | reverse | .[] ' | \
+	xargs -I % sh -c 'yabai -m space % --destroy'
+
+# Float / Unfloat window
+alt + ctrl - f : \
+    yabai -m window --toggle float --grid 4:4:1:1:2:2; \
+    yabai -m window --toggle border
+
+# remember float setting
+#alt + ctrl - f : app=$(yabai -m query --windows --window mouse | jq -r '.app' | tr ' ' '_');\
+#                 yabai -m window --toggle float &&\
+#                 yabai -m signal --remove autofloat_$app || yabai -m signal --add event=window_created app=$app label=autofloat_$app action="yabai -m window $YABAI_WINDOW_ID --toggle float"
+
+# Make window native fullscreen
+alt - f         : yabai -m window --toggle zoom-fullscreen
+shift + alt - f : yabai -m window --toggle native-fullscreen
+
+# Equalize size of windows
+alt - e : yabai -m space --balance
+
+# focus apps with hyper (set on karabiner)
+# b = browser
+# d = dbeaver
+# t = terminal (iterm)
+# w = whatsapp
+# c = dingtalk
+ctrl + alt + cmd + shift - b : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Google Chrome")) | .[0].id')"
+ctrl + alt + cmd + shift - d : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "DBeaver Community")) | .[0].id')"
+ctrl + alt + cmd + shift - t : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "iTerm2")) | .[0].id')"
+ctrl + alt + cmd + shift - w : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "WhatsApp")) | .[0].id')"
+
+# stop/start/restart Yabai & skhd
+shift + lctrl + alt - r : \
+          /usr/bin/env osascript <<< \
+          "display notification \"Restarting Yabai\" with title \"Yabai\""; \
+          yabai --restart-service && skhd --restart-service
+shift + lctrl + alt - q : \
+          /usr/bin/env osascript <<< \
+          "display notification \"Stopping Yabai\" with title \"Yabai\""; \
+          yabai --stop-service
+shift + lctrl + alt - s : \
+          /usr/bin/env osascript <<< \
+          "display notification \"Stopping Yabai\" with title \"Yabai\""; \
+          yabai --start-service
