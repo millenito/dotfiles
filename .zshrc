@@ -369,13 +369,15 @@ fgl() {
                        xargs -I@ sh -c 'git show --color=always @'"
       )
     if [[ -n $commits ]]; then
-        local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
-        git show $hashes
+        #local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
+        local hash=$(echo "$commits" | grep -o '[a-f0-9]\{7,\}' | head -1 | xargs)
+        git show "$hash"
+        echo "Showing commit: $hash"
     fi
 }
 
 # Fuzzy script (cari script dengan fzf dan buka dengan editor)
-fs() { du -aL $SCRIPTS "${PROJECTS}/learning/shell-script" | awk '{print $2}' | fzf | xargs -r $EDITOR ; }
+# fs() { du -aL $SCRIPTS "${PROJECTS}/learning/shell-script" | awk '{print $2}' | fzf | xargs -r $EDITOR ; }
 
 # Fuzzy projects (cd ke folder projects2 dan buka session tmux baru bernama localhost)
 fp() 
@@ -386,6 +388,15 @@ fp()
         cd $(find -L $PROJECTS -type d | fzf)
     fi
     [ -n $(type tmux > /dev/null 2>&1) ] && [ -z "$TMUX" ] && tmn projects
+}
+
+fs () {
+    local server
+    server=$(grep -E '^Host ' ~/.ssh/config | awk '{print $2}' | fzf)
+    if [[ -n $server ]]; then
+        echo "$server"
+        ssh $server
+    fi
 }
 
 # # ex - archive extractor
@@ -434,6 +445,11 @@ compushall()
 	echo "Pushing to remote.."
 	git push
 }
+
+ai() {
+    claude -p "$*"
+}
+
 alias fhi='__fzf_history__' # list history dengan fzf (key: Ctrl+r)
 alias vf=fv # Alias kalau salah
 
@@ -445,3 +461,15 @@ stty -ixon
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Added by Windsurf
+export PATH="/Users/lordmaxiemilenito/.codeium/windsurf/bin:$PATH"
+
+# Zoxide - smart cd replacement
+# https://github.com/ajeetdsouza/zoxide
+ if command -v zoxide > /dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+   # Replace cd with z, keep regular cd as rcd
+    alias rcd='command cd'
+    alias cd='z'
+ fi
