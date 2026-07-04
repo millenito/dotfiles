@@ -81,6 +81,7 @@ Plug 'andymass/vim-matchup'                                                     
 Plug 'christoomey/vim-tmux-navigator'                                                      " Integrasi split panes dengan pane tmux (C-hjkl antara split di vim dengan split pane tmux)
 Plug 'Konfekt/FastFold'                                                                    " mempercepat vim dengan mengubah cara kerja fold
 Plug 'unblevable/quick-scope'                                                              " Highlight karakter unik pada baris untuk lebih mudah menentukan target untuk f F t T
+Plug 'wakatime/vim-wakatime'                                                               " Track coding time (https://wakatime.com/neovim)
 
 " Colors & Looks
 Plug 'itchyny/lightline.vim'                                                               " bar dibawah
