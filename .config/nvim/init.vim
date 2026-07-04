@@ -78,7 +78,7 @@ Plug 'moll/vim-bbye'                                                            
 Plug 'svermeulen/vim-yoink'                                                                " Cycle history yank dengan <alt-p
 Plug 'svermeulen/vim-subversive'                                                           " Langsung ganti satu text object dengan register default dengan (s)
 Plug 'andymass/vim-matchup'                                                                " fitur tambahan untuk hal2 berpasangan (begin:end, if:endif, if:elseif:else, block function, tags html, dll) saat menekan %
-Plug 'christoomey/vim-tmux-navigator'                                                      " Integrasi split panes dengan pane tmux (C-hjkl antara split di vim dengan split pane tmux)
+" Plug 'christoomey/vim-tmux-navigator'                                                    " DIGANTI vim-herdr-navigation (lihat herdr-navigation.vim di akhir file). Jalankan :PlugClean untuk hapus.
 Plug 'Konfekt/FastFold'                                                                    " mempercepat vim dengan mengubah cara kerja fold
 Plug 'unblevable/quick-scope'                                                              " Highlight karakter unik pada baris untuk lebih mudah menentukan target untuk f F t T
 Plug 'wakatime/vim-wakatime'                                                               " Track coding time (https://wakatime.com/neovim)
@@ -372,12 +372,14 @@ noremap _ zA
 
 " # Splits
 " pindah antar window dengan Ctrl+hjkl
-if !exists(':TmuxNavigatorProcessList')
-    noremap <C-k> <C-w>k
-    noremap <C-j> <C-w>j
-    noremap <C-h> <C-w>h
-    noremap <C-l> <C-w>l
-endif
+" C-hjkl navigasi split ditangani oleh herdr-navigation.vim (di akhir file):
+" pindah antar split vim, lalu handoff ke pane herdr saat di ujung.
+" if !exists(':TmuxNavigatorProcessList')
+"     noremap <C-k> <C-w>k
+"     noremap <C-j> <C-w>j
+"     noremap <C-h> <C-w>h
+"     noremap <C-l> <C-w>l
+" endif
 noremap <C-w>f <C-w>\|<C-w>_ |" zoom maximize split pane dengan cara di resize sampe mentok (untuk normalin lagi <C-w>0)
 set splitbelow "split dari :sp muncul di bawah
 set splitright "split dari :vsp muncul di kanan
@@ -821,17 +823,8 @@ function! Load_Dirvish_Netrw()
         augroup END
 
         function! s:netrw_maps() abort
-            if !exists(':TmuxNavigatorProcessList')
-                nmap <buffer> <C-k> <C-w>k
-                nmap <buffer> <C-j> <C-w>j
-                nmap <buffer> <C-h> <C-w>h
-                nmap <buffer> <C-l> <C-w>l
-            else
-                nmap <buffer> <silent> <C-h> :TmuxNavigateLeft<cr>
-                nmap <buffer> <silent> <C-j> :TmuxNavigateDown<cr>
-                nmap <buffer> <silent> <C-k> :TmuxNavigateUp<cr>
-                nmap <buffer> <silent> <C-L> :TmuxNavigateRight<cr>
-            endif
+            " C-hjkl di netrw dibiarkan pakai map global herdr-navigation.vim
+            " (jangan set buffer-local map di sini supaya handoff ke pane herdr jalan).
             nmap <buffer> gr <Plug>NetrwRefresh
             nmap <buffer> gh <Plug>NetrwHideEdit
 
@@ -1350,3 +1343,8 @@ augroup sw_maps
         execute "SWSqlBufferConnect " . buffname | r ~/database.sql
     endfunction
 augroup END
+
+" ---- vim-herdr-navigation ----
+" C-hjkl: pindah antar split vim, handoff ke pane herdr saat di ujung.
+" Aktif hanya di dalam pane herdr (guard $HERDR_PANE_ID di file-nya).
+execute 'source ' . expand('<sfile>:p:h') . '/herdr-navigation.vim'
