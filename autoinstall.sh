@@ -124,6 +124,12 @@ if [[ $confirm = 'Y' || $confirm = 'y' || $confirm = "" ]]; then
     ln -sfv $(pwd)/.config/nvim/ ~/.config/ && nvim -es -V -u ~/.config/nvim/init.vim -i NONE -c "PlugInstall" -c "qa"
     ln -sfv $(pwd)/.config/coc/ ~/.config/ && npm install --prefix ~/.config/coc/extensions/
     sudo npm i -g bash-language-server
+    # pynvim venv for coc/UltiSnips python3 provider (init.vim points g:python3_host_prog here)
+    if [[ ! -x ~/.venvs/nvim/bin/python3 ]]; then
+        echo -e "\e[1;93mCreating pynvim venv (~/.venvs/nvim) for the python3 provider"
+        [[ $DISTRO = 'debian' ]] && installpkg python3-venv
+        python3 -m venv ~/.venvs/nvim && ~/.venvs/nvim/bin/pip install --quiet --upgrade pip pynvim || exit 1
+    fi
 fi
 
 #### St (Terminal) ######################################################################
