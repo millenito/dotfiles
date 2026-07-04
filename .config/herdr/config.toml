@@ -1,0 +1,17 @@
+onboarding = false
+
+[ui]
+agent_panel_scope = "current"
+
+show_agent_labels_on_pane_borders = true
+[theme]
+name = "dracula"
+
+[ui.toast]
+delivery = "terminal"
+
+[ui.sound]
+enabled = false
+
+[keys]
+prefix = "alt+space"
