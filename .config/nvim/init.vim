@@ -286,8 +286,8 @@ command! Qa qa
 " Close vim
 nmap <C-q> :q<cr>
 
-" Toggle paste mode
-set pastetoggle=<F2>
+" Toggle paste mode (opsi pastetoggle dihapus di Neovim 0.11+; pakai map F2 sebagai gantinya)
+nnoremap <F2> :set invpaste paste?<CR>
 
 " qq to record, Q to replay
 nnoremap Q @q
@@ -625,7 +625,8 @@ let php_sql_query=1 " Syntax highlighting pada string query sql dalam php
 let g:loaded_python_provider = 0
 " let g:loaded_python3_provider = 0
 " let g:python_host_prog = ''
-" let g:python3_host_prog = ''
+" venv khusus neovim dengan pynvim terinstall (untuk coc/UltiSnips python3 provider)
+let g:python3_host_prog = expand('~/.venvs/nvim/bin/python3')
 
 " # Plugins
 
@@ -992,10 +993,17 @@ if !empty(glob(pluginsDir . '/fzf.vim'))
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     imap <c-x><c-l> <plug>(fzf-complete-line)
 
-    " fzf mapping (<C-_> = Ctrl /)
+    " fzf mapping untuk Ctrl+/ (fuzzy grep). Ctrl+/ ambigu (kirim byte 0x1F), tiap
+    " layer nerjemahin beda:
+    "   <C-_>  = terminal lama (0x1F legacy)
+    "   <C-/>  = Neovim 0.11+ kitty keyboard protocol
+    "   <C-->  = iTerm2 -> herdr: herdr decode 0x1F jadi Ctrl+- lalu re-encode
+    " Map ketiganya biar Ctrl+/ jalan di semua kombinasi terminal/multiplexer.
     noremap <silent> <C-p> :Files<cr>
     noremap <silent> <leader><C-p> :Files <C-r>=expand("%:h")<CR>/<CR>
     noremap <silent> <C-_> :Rg<cr>
+    noremap <silent> <C-/> :Rg<cr>
+    noremap <silent> <C--> :Rg<cr>
     noremap <silent> <C-Space> :Buffers<cr>
     noremap <silent> <leader>l :BLines<cr>
     noremap <silent> <leader>L :Lines<cr>
