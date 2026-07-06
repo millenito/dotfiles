@@ -4,11 +4,12 @@ onboarding = false
 agent_panel_scope = "current"
 
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
 [theme]
 name = "dracula"
 
 [ui.toast]
-delivery = "terminal"
+delivery = "system"
 
 [ui.sound]
 enabled = false
@@ -20,7 +21,7 @@ prefix = "alt+space"
 # splits / pane (direct alt bindings need iTerm2 "Left Option = Esc+")
 split_horizontal   = ["prefix+s", "alt+s"]
 split_vertical     = ["prefix+v", "alt+v"]
-close_pane         = "alt+x"
+close_pane         = ["prefix+x","alt+x"]
 # tabs
 new_tab            = "prefix+t"
 rename_tab         = "prefix+r"
@@ -33,10 +34,14 @@ rename_workspace   = "prefix+shift+r"
 close_workspace    = "prefix+shift+w"
 workspace_picker   = "prefix+g"
 goto               = "prefix+space"
+next_workspace     = "alt+tab"        # no prefix (option+tab)
+previous_workspace = "alt+shift+tab"  # no prefix (option+shift+tab)
+# agents (no prefix: option+1..9 focuses agent rows by index)
+focus_agent        = "alt+1..9"
 # misc
 resize_mode        = "prefix+shift+z"
-reload_config      = "prefix+f11"
-settings           = "prefix+f12"
+reload_config      = "prefix+f12"
+settings           = "prefix+shift+f12"
 # unbound (freed keys now used by tab actions above)
 cycle_pane_next     = ""
 cycle_pane_previous = ""
