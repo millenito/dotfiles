@@ -29,7 +29,7 @@ close_tab          = "prefix+w"
 next_tab           = "alt+tab"          # no prefix (option+tab) — needs iTerm2 "Report modifiers using CSI u"
 previous_tab       = "alt+shift+tab"    # no prefix (option+shift+tab)
 # workspaces
-new_workspace      = "prefix+n"
+new_workspace      = "prefix+shift+t"
 rename_workspace   = "prefix+shift+r"
 close_workspace    = "prefix+shift+w"
 workspace_picker   = "prefix+g"
@@ -38,6 +38,8 @@ next_workspace     = "prefix+tab"
 previous_workspace = "prefix+shift+tab"
 # agents (no prefix: option+1..9 focuses agent rows by index)
 focus_agent        = "alt+1..9"
+next_agent         = "prefix+n"         # cycle to next agent
+previous_agent     = "prefix+p"         # cycle to previous agent
 # misc
 resize_mode        = "prefix+shift+z"
 reload_config      = "prefix+f12"
